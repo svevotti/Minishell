@@ -1,4 +1,4 @@
-Some useful link for projects
+-Some useful link for projects
 1. https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a10598218
 
 Link about functions
