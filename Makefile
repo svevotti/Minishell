@@ -1,20 +1,48 @@
-CC = cc
-FLAGS = -Werror -Wextra -Wall
-NAME = minishell
-MINISHELL_FILES = main.c ft_split.c
-MINISHELL_OBJ = $(MINISHELL_FILES:.c=.o)
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/10/20 14:49:17 by jbeck             #+#    #+#              #
+#    Updated: 2024/02/08 12:38:17 by jbeck            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-all: $(NAME)
+NAME	:= minishell
 
-$(NAME): $(MINISHELL_OBJ)
-		$(CC) $(FLAGS) $(MINISHELL_OBJ) -o $(NAME) -lreadline
+CFLAGS	:= -Wextra -Wall -Werror -g -I ./includes/
+
+LIBFT	:= ./libft
+
+LKLIBFT	:= -L $(LIBFT) -lft
+
+LIBS	:= $(LKLIBFT) -lreadline
+
+SRCS	:=	./src/main.c \
+			
+OBJS	:= ${SRCS:.c=.o}
+
+all: libft $(NAME)
+
+libft:
+	@make -C $(LIBFT)
 
 %.o: %.c
-	$(CC) -c $^
+	@$(CC) $(CFLAGS) -o $@ -c $<
+
+$(NAME): $(OBJS)
+	@$(CC) $(OBJS) $(LIBS) -o $(NAME) && printf "Compiling: $(NAME)\n"
 
 clean:
-		rm -f $(MINISHELL_OBJ)
+	rm -rf $(OBJS)
+	make -C $(LIBFT) clean
+
 fclean: clean
-		rm -f $(NAME)
+	rm -rf $(NAME)
+	make -C $(LIBFT) fclean	
+	
 re: fclean all
-.PHONY: clean fclean re all
+
+.PHONY: all clean fclean re libft
