@@ -6,7 +6,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-int	find_size(char *str);
+int		find_size(char *str);
+char	*find_name_var(char *str);
 
 
 

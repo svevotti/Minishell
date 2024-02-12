@@ -24,6 +24,8 @@ char	*find_name_var(char *str)
 	i = 0;
 	len = ft_strlen1(str);
 	name_var = (char *)malloc(sizeof(char)*(len + 1));
+	if (name_var == NULL)
+		return (NULL);
 	while (i < len)
 	{
 		if (ft_isalpha(*str) == 1)
@@ -54,13 +56,9 @@ int	find_size(char *str)
 		if (*str == 39)
 		{
 			if (quote_flag == 0)
-			{
 				quote_flag = 1;
-			}
 			else
-			{
 				quote_flag = 0;
-			}
 			str++;
 		}
 		else if ((*str == '$' && quote_flag == 0))
@@ -73,8 +71,8 @@ int	find_size(char *str)
 			str += len_name_var;
 			total_len += len_var;
 		}
-		if (*str != 34)
-			total_len = total_len + 1;
+		// if (*str != 34)
+		total_len = total_len + 1;
 		str++;
 	}
 	return (total_len);
