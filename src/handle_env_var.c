@@ -53,27 +53,29 @@ int	find_size(char *str)
 	quote_flag = 0;
 	while (*str != '\0')
 	{
-		if (*str == 39)
+		
+		if ((*str == '$' && quote_flag == 0))
 		{
-			if (quote_flag == 0)
-				quote_flag = 1;
-			else
-				quote_flag = 0;
-			str++;
-		}
-		else if ((*str == '$' && quote_flag == 0))
-		{
-			str++;
-			name_var = find_name_var(str);
+			name_var = find_name_var(str + 1);
 			len_name_var = ft_strlen(name_var);
 			value_var = getenv(name_var);
 			len_var = ft_strlen(value_var);
-			str += len_name_var;
+			str += len_name_var + 1;
 			total_len += len_var;
 		}
-		// if (*str != 34)
-		total_len = total_len + 1;
-		str++;
+		else
+		{
+			if (*str == 39)
+			{
+				if (quote_flag == 0)
+					quote_flag = 1;
+				else
+					quote_flag = 0;
+				// total_len += 1;
+			}
+			total_len += 1;
+			str++;
+		}
 	}
 	return (total_len);
 }
