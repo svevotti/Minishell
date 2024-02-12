@@ -12,7 +12,7 @@
 
 NAME	:= minishell
 
-CFLAGS	:= -Wextra -Wall -Werror -g -I ./includes/
+CFLAGS	:= -Wextra -Wall -g -I ./includes/ #-Werror
 
 LIBFT	:= ./libft
 
@@ -20,7 +20,7 @@ LKLIBFT	:= -L $(LIBFT) -lft
 
 LIBS	:= $(LKLIBFT) -lreadline
 
-SRCS	:=	./src/main.c \
+SRCS	:=	./src/main.c ./src/handle_env_var.c
 			
 OBJS	:= ${SRCS:.c=.o}
 
