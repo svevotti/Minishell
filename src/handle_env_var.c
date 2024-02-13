@@ -71,7 +71,6 @@ int	find_size(char *str)
 					quote_flag = 1;
 				else
 					quote_flag = 0;
-				// total_len += 1;
 			}
 			total_len += 1;
 			str++;
