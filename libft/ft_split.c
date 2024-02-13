@@ -62,15 +62,6 @@ static void	ft_freesplit(char **split)
 	free(split);
 }
 
-// int is_in_set(char c, char *set) {
-// 	while(*set != "\0") {
-// 		if (c == *set)
-// 			return 1;
-// 		set++;
-// 	}
-// 	return 0;
-// }
-
 static void	ft_fillsplit(char const *s, char c, char **split, int *ptr)
 {
 	int		i;
