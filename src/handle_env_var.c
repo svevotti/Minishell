@@ -78,3 +78,54 @@ int	find_size(char *str)
 	}
 	return (total_len);
 }
+
+char *print_env_var(char *str, int str_size)
+{
+	char *new_string;
+	int	i;
+	int	j;
+	int	flag_single_quote;
+	char	*name_var;
+	char	*value_var;
+	int		len_var;
+	int		tot_size;
+
+	new_string = (char *)malloc(sizeof(char) * (str_size + 1));
+	if (new_string == NULL)
+		return (NULL);
+	i = 0;
+	j = 0;
+	flag_single_quote = 0;
+	len_var = 0;
+	tot_size = 0;
+	int k;
+	while (str[i] != '\0')
+	{
+		if (str[i] == 39)
+		{
+			if (flag_single_quote == 0)
+				flag_single_quote = 1;
+			else
+				flag_single_quote = 0;
+		}
+		else if (str[i] == '$' && flag_single_quote == 0)
+		{
+			k = 0;
+			i++;
+			name_var = find_name_var(str + i);
+			value_var = getenv(name_var);
+			len_var = ft_strlen(value_var);
+			while (k < len_var)
+			{
+				new_string[j] = value_var[k];
+				j++;
+				k++;	
+			}
+			i += ft_strlen(name_var);
+		}
+		new_string[j] = str[i];
+		j++;
+		i++;
+	}
+	return (new_string);
+}
