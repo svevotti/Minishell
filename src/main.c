@@ -23,7 +23,7 @@ int main(void)
 		line = readline("Minishell >> ");
 		if (line == NULL)
 			return (1);
-		if (ft_strncmp(line, "clear", 5) == 0)
+		if (ft_strncmp(line, "exit", 4) == 0)
 		{
 			free(line);
 			exit(1);
