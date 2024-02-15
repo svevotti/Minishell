@@ -17,7 +17,9 @@ int main(void)
 	char		*input_string;
 	int			size_input_string;
 	char		*string_to_print;
+	// t_data		*data;
 
+	// trans_env(data, )
 	while (1)
 	{
 		line = readline("Minishell >> ");
