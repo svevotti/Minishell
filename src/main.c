@@ -1,15 +1,15 @@
 #include "../include/minishell.h"
 
-// void print_array(char **str)
-// {
-// 	int i = 0;
+void print_array(char **str)
+{
+	int i = 0;
 	
-// 	while (str[i] != NULL)
-// 	{
-// 		printf("%s\n", str[i]);
-// 		i++;
-// 	}
-// }
+	while (str[i] != NULL)
+	{
+		printf("%s\n", str[i]);
+		i++;
+	}
+}
 
 int check_whitespaces_front(char *str)
 {
@@ -56,6 +56,7 @@ int	find_size_array(char *str)
 	size = ft_strlen(str);
 	if (check_whitespaces_back(str) != 0)
 		size = check_whitespaces_back(str);
+	//what if no input?
 	count = 1;
 	j = 0;
 	delimiters = ft_strdup(" \n\t");
@@ -83,6 +84,34 @@ int	find_size_array(char *str)
 	return (count);
 }
 
+int find_string_size(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == 39)
+		{
+			while (str[i] != 39)
+				i++;
+		}
+		else if(str[i] == 34)
+		{
+			while(str[i] != 39)
+				i++;
+		}
+		j = 0;
+		while (delimiters[j] != '\0')
+		{
+			if (delimiters[j] == str[i])
+				count++;
+			j++;
+		}
+		i++;
+		
+	}
+}
 char	*split_function(char *str)
 {
 	char	**string_split;
@@ -93,9 +122,14 @@ char	*split_function(char *str)
 	string_split = (char **)malloc(sizeof(char *) * (size_array + 1));
 	while (string_split[i] != '\0' && i < size_array)
 	{
-		while (str[j] != '\0')
-	}
+			size_string = find_string_size(str);
+			string_split[i] = (char *)malloc(sizeof(char) * (size_string + 1));
+			while ()
+		
 
+		i++;
+	}
+	print_array(string_split);
 	exit(1);
 
 	return(NULL);
