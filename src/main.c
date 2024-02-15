@@ -18,10 +18,8 @@ int check_whitespaces_front(char *str)
 	int	j;
 
 	i = 0;
-	printf("str %s\n", str);
 	while (str[i] != '\0')
 	{	
-		printf("i %d\n", i);
 		if (ft_isalpha(str[i]) == 1)
 			break;
 		i++;
@@ -84,55 +82,80 @@ int	find_size_array(char *str)
 	return (count);
 }
 
-int find_string_size(char *str)
+int find_string_size(char *str, int *l)
 {
 	int i;
+	char *delimiters;
+	int	j;
+	int	flag;
+	int m;
 
+	
+	flag = 0;
 	i = 0;
+	delimiters = ft_strdup(" \n\t");
 	while (str[i] != '\0')
 	{
-		if (str[i] == 39)
-		{
-			while (str[i] != 39)
-				i++;
-		}
-		else if(str[i] == 34)
-		{
-			while(str[i] != 39)
-				i++;
-		}
 		j = 0;
 		while (delimiters[j] != '\0')
 		{
 			if (delimiters[j] == str[i])
-				count++;
+			{
+				*l = 1;
+				m = i;
+				while(ft_isalpha(str[m]) == 0)
+				{
+					*l = *l + 1;
+					m++;
+				}
+				*l = *l - 1;
+				return (i);
+			}
 			j++;
 		}
 		i++;
-		
 	}
+	return (i);
 }
-char	*split_function(char *str)
+
+char	**split_function(char *str)
 {
 	char	**string_split;
 	int		size_array;
+	int		i;
+	int		size_string;
+	int		count_spaces;
+	int		k;
+	int		l;
+	int		count;
+	char 	*single_str;
 
+	i = 0;
+	l = 0;
+	size_string = 0;
 	size_array = find_size_array(str);
-	printf("number of words %d\n", size_array);
 	string_split = (char **)malloc(sizeof(char *) * (size_array + 1));
-	while (string_split[i] != '\0' && i < size_array)
+	while (i < size_array)
 	{
-			size_string = find_string_size(str);
-			string_split[i] = (char *)malloc(sizeof(char) * (size_string + 1));
-			while ()
-		
-
+		k = 0;
+		count_spaces = 0;
+		size_string = find_string_size(str, &count_spaces);
+		single_str = (char *)malloc(sizeof(char) * (size_string + 1));
+		count = 0;
+		while (count < size_string)
+		{
+			single_str[k] = str[l];
+			l++;
+			k++;
+			count++;
+		}
+		single_str[k] = '\0';
+		//printf("single str %s fir size %d\n", single_str, size_string);
+		l = size_string + count_spaces;
 		i++;
 	}
-	print_array(string_split);
-	exit(1);
-
-	return(NULL);
+	string_split[i] = NULL;
+	return(string_split);
 }
 
 int main(void)
@@ -158,9 +181,12 @@ int main(void)
 		// size_input_string = find_size(input_string);
 		// string_to_print = print_env_var(input_string, size_input_string);
 		split_input = split_function(line);
-		printf("%s\n", string_to_print);
+		printf("%s\n", split_input[0]);
+		printf("%s\n", split_input[1]);
+		printf("%s\n", split_input[2]);
+		//printf("%s\n", string_to_print);
 		free(line);
-		free(string_to_print);
+		//free(string_to_print);
 	}
 
 	return (0);
