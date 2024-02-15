@@ -11,33 +11,91 @@
 // 	}
 // }
 
-int	find_size_array(char *str, char *delimiter)
+int check_whitespaces_front(char *str)
 {
-	int count;
-	int	i;
+	int i;
+	char	*delimiters;
+	int	j;
 
-	count = 0;
 	i = 0;
-	while (*str != '\0')
+	printf("str %s\n", str);
+	while (str[i] != '\0')
+	{	
+		printf("i %d\n", i);
+		if (ft_isalpha(str[i]) == 1)
+			break;
+		i++;
+	}
+	return (i);
+}
+
+int check_whitespaces_back(char *str)
+{
+	int i;
+
+	i = ft_strlen(str) - 1;
+	while (i > 0)
 	{
-		while (delimiter[i] != '\0')
+		if (ft_isalpha(str[i]) == 1)
+			return (i + 1);
+		i--;
+	}
+	return (i);
+}
+
+int	find_size_array(char *str)
+{
+	int	i;
+	int size;
+	int count;
+	int j;
+	char *delimiters;
+
+	//getting rid of extra spaces in front or back
+	i = check_whitespaces_front(str);
+	size = ft_strlen(str);
+	if (check_whitespaces_back(str) != 0)
+		size = check_whitespaces_back(str);
+	count = 1;
+	j = 0;
+	delimiters = ft_strdup(" \n\t");
+	while (str[i] != '\0' && i < size)
+	{
+		if (str[i] == 39)
 		{
-			if (*str == delimiter[i])
-				count++;
-			i++;
+			while (str[i] != 39)
+				i++;
 		}
-		str++;
+		else if(str[i] == 34)
+		{
+			while(str[i] != 39)
+				i++;
+		}
+		j = 0;
+		while (delimiters[j] != '\0')
+		{
+			if (delimiters[j] == str[i])
+				count++;
+			j++;
+		}
+		i++;
 	}
 	return (count);
 }
 
-char	*split_function(char *str, char *delimiter)
+char	*split_function(char *str)
 {
 	char	**string_split;
 	int		size_array;
 
-	size_array = find_size_array(str, delimiter);
+	size_array = find_size_array(str);
 	printf("number of words %d\n", size_array);
+	string_split = (char **)malloc(sizeof(char *) * (size_array + 1));
+	while (string_split[i] != '\0' && i < size_array)
+	{
+		while (str[j] != '\0')
+	}
+
 	exit(1);
 
 	return(NULL);
@@ -65,7 +123,7 @@ int main(void)
 		// input_string = line;
 		// size_input_string = find_size(input_string);
 		// string_to_print = print_env_var(input_string, size_input_string);
-		split_input = split_function(string_to_print, " \n\t");
+		split_input = split_function(line);
 		printf("%s\n", string_to_print);
 		free(line);
 		free(string_to_print);
