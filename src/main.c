@@ -31,7 +31,7 @@ int main(void)
 		add_history(line);
 		input_string = line;
 		size_input_string = find_size(input_string);
-		string_to_print = print_env_var(input_string, size_input_string);
+		string_to_print = print_variable(input_string, size_input_string);
 		printf("%s\n", string_to_print);
 		free(line);
 		free(string_to_print);

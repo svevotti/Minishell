@@ -20,7 +20,7 @@ LKLIBFT	:= -L $(LIBFT) -lft
 
 LIBS	:= $(LKLIBFT) -lreadline
 
-SRCS	:=	./src/main.c ./src/handle_env_var.c
+SRCS	:=	./src/main.c ./src/handle_input.c
 			
 OBJS	:= ${SRCS:.c=.o}
 

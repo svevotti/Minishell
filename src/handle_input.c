@@ -79,7 +79,7 @@ int	find_size(char *str)
 	return (total_len);
 }
 
-char *print_env_var(char *str, int str_size)
+char *print_variable(char *str, int str_size)
 {
 	char *new_string;
 	int	i;
