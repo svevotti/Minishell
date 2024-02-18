@@ -56,83 +56,37 @@ int	find_size_array(char *str)
 	return (count);
 }
 
-int find_string_size(char *str)
+int find_len(char *str)
 {
 	int count;
-	int word;
+	int	single_quote;
+	int	double_quotes;
 
 	while (*str == ' ' || *str == '\n' || *str == '\t')
 		str++;
 	count = 0;
-	word = 1;
+	single_quote = 0;
+	double_quotes = 0;
+	int i = 0;
 	while (*str != '\0')
 	{
-		word = 1;
-		while (word == 1)
-		{
-			word = 0;
-			if (*str != 39 && *str != 34 && *str != ' ' && *str != '\n' && *str != '\t' && *str != '\0')
-			{
-				word = 1;
-				while (*str != 39 && *str != 34 && *str != ' ' && *str != '\n' && *str != '\t' && *str != '\0')
-				{
-					count++;
-					str++;
-				}
-			}
-			else if (*str == 39)
-			{
-				word = 1;
-				str++;
-				while (*str != 39)
-				{
-					if (*str == ' ' || *str == '\n' || *str == '\t')
-					{
-						while (*str == ' ' || *str == '\n' || *str == '\t')
-							str++;
-					}
-					else
-					{
-						count++;
-						str++;
-					}
-				}
-				str++;
-			}
-			else if (*str == 34)
-			{
-				word = 1;
-				str++;
-				while (*str != 34)
-				{
-					if (*str == ' ' || *str == '\n' || *str == '\t')
-					{
-						while (*str == ' ' || *str == '\n' || *str == '\t')
-							str++;
-					}
-					else
-					{
-						count++;
-						str++;
-					}
-				}
-				str++;
-			}
-		}
-		if (*str == ' ' || *str == '\n' || *str == '\t')
+		if ((*str == ' ' || *str == '\n' || *str == '\t') && single_quote == 0 && double_quotes == 0)
 			break ;
-	}
-	return (count);
-}
-
-int check_number_quotes(char *str)
-{
-	int count;
-
-	count = 0;
-	while (*str != '\0')
-	{
-		if (*str == 39 || *str == 34)
+		if (*str == 39)
+		{
+			if (single_quote == 0)
+				single_quote = 1;
+			else
+				single_quote = 0;
+		}
+		else if (*str == 34)
+		{
+			if (double_quotes == 0)
+				double_quotes = 1;
+			else
+				double_quotes = 0;
+		}
+		else
 			count++;
 		str++;
 	}
@@ -150,48 +104,43 @@ char	**split_function(char *str)
 	int		l;
 	int		count;
 	char 	*single_str;
-	int		flag;
-	int		max_quotes;
+	int		str_len;
+	char	*temp;
 
 	i = 0;
 	l = 0;
 	size_string = 0;
 	size_array = find_size_array(str);
-	printf("size array %d\n", size_array);
 	string_split = (char **)malloc(sizeof(char *) * (size_array + 1));
 	while (i < size_array)
 	{
-		size_string = find_string_size(str);
+		size_string = find_len(str);
 		printf("size string %d\n", size_string);
 		single_str = (char *)malloc(sizeof(char) * (size_string + 1));
 		count = 0;
-		k = 0;
-		flag = 0;
+		temp = single_str;
 		while (count < size_string)
 		{
-			max_quotes = check_number_quotes(str);
-			if (str[l] == 39 || str[l] == 34)
+			if (*str == 39 || *str == 34)
+				str++;
+			else if (*str == ' ' || *str == '\n' || *str == '\t')
 			{
-				if (flag == max_quotes)
-					break ;
-				l++;
-			}
-			else if (str[l] == ' ' || str[l] == '\n' || str[l] == '\t')
-			{
-				while (str[l] == ' ' || str[l] == '\n' || str[l] == '\t')
-					l++;
+				while (*str == ' ' || *str == '\n' || *str == '\t')
+					str++;
 			}
 			else 
 			{
-				single_str[k] = str[l];
-				k++;
-				l++;
+				*temp = *str;
+				temp++;
+				str++;
 				count++;
 			}
 		}
-		single_str[k] = '\0';
-		string_split[i] = ft_strdup(single_str);
-		free(single_str);
+		*temp = '\0';
+		string_split[i] = single_str;
+		str++;
+		while (*str == ' ' || *str == '\n' || *str == '\t')
+			str++;
 		i++;
 	}
 	string_split[i] = NULL;
