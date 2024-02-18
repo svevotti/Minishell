@@ -115,7 +115,6 @@ char	**split_function(char *str)
 	while (i < size_array)
 	{
 		size_string = find_len(str);
-		printf("size string %d\n", size_string);
 		single_str = (char *)malloc(sizeof(char) * (size_string + 1));
 		count = 0;
 		temp = single_str;
