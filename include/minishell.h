@@ -10,7 +10,8 @@ struct s_env;
 
 typedef struct s_env
 {
-	char			*str;
+	char			*key;
+	char			*value;
 	struct s_env	*next;
 }t_env;
 
@@ -24,7 +25,7 @@ typedef struct s_data
 //handle env var
 int		find_size(char *str);
 char	*find_name_var(char *str);
-char    *print_var(char *str, int str_size);
+char    *print_var(char *str, int str_size, t_data *data);
 
 //trans_env
 void	trans_env(t_data *data, char **envp);

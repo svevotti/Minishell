@@ -15,7 +15,7 @@
 // {
 // 	while (ptr)
 // 	{
-// 		printf("%s\n", ptr->str);
+// 		printf("%s ~ %s\n", ptr->key, ptr->value);
 // 		ptr = ptr->next;
 // 	}
 // }
@@ -32,6 +32,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	trans_env(&data, envp);
 	// printenv(data.env);
+	// exit(1);
 	while (1)
 	{
 		line = readline("Minishell >> ");
@@ -45,7 +46,7 @@ int main(int argc, char **argv, char **envp)
 		add_history(line);
 		input_string = line;
 		size_input_string = find_size(input_string);
-		string_to_print = print_var(input_string, size_input_string);
+		string_to_print = print_var(input_string, size_input_string, &data);
 		printf("%s\n", string_to_print);
 		free(line);
 		free(string_to_print);
