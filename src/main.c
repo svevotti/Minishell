@@ -162,13 +162,12 @@ int main(int argc, char **argv, char **envp)
 	int			size_input_string;
 	char		*string_to_print;
 	t_data		data;
-  char     *split_input;
+  	char     *split_input;
 
 	(void)argc;
 	(void)argv;
+	printf("main line 169 here\n");
 	trans_env(&data, envp);
-	// printenv(data.env);
-	// exit(1);
 	while (1)
 	{
 		line = readline("Minishell >> ");
@@ -180,12 +179,14 @@ int main(int argc, char **argv, char **envp)
 			exit(1);
 		}
 		add_history(line);
-		// input_string = line;
-		// size_input_string = find_size(input_string);
-		// string_to_print = print_env_var(input_string, size_input_string);
-		split_input = split_function(line);
-		print_array(split_input);
-		// printf("%s\n", string_to_print);
+		input_string = line;
+		size_input_string = find_size(input_string);
+		printf("main line 183 here\n");
+		string_to_print = print_var(input_string, size_input_string, &data);
+		printf("main line 185 here\n");
+		// split_input = split_function(line);
+		// print_array(split_input);
+		printf("%s\n", string_to_print);
 		free(line);
 		//free(string_to_print);
 	}
