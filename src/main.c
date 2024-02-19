@@ -110,6 +110,8 @@ char	**split_function(char *str)
 	string_split = (char **)malloc(sizeof(char *) * (size_array + 1));
 	while (i < size_array)
 	{
+		while (*str == ' ' || *str == '\n' || *str == '\t')
+			str++;
 		size_string = find_len(str);
 		single_str = (char *)malloc(sizeof(char) * (size_string + 1));
 		count = 0;
@@ -129,8 +131,6 @@ char	**split_function(char *str)
 		*temp = '\0';
 		string_split[i] = single_str;
 		str++;
-		while (*str == ' ' || *str == '\n' || *str == '\t')
-			str++;
 		i++;
 	}
 	string_split[i] = NULL;
