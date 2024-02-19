@@ -157,6 +157,7 @@ int main(int argc, char **argv, char **envp)
 	int			size_input_string;
 	char		*string_to_print;
 	t_data		data;
+	char		*input;
   	// char     **split_input;
 
 	(void)argc;
@@ -175,8 +176,10 @@ int main(int argc, char **argv, char **envp)
 			exit(1);
 		}
 		add_history(line);
-		size_input_string = find_size(line);
-		string_to_print = print_var(line, size_input_string, &data);
+		input = line;
+		size_input_string = find_size(input);
+		//printf("main line 179 size string %d\n", size_input_string);
+		string_to_print = print_var(input, size_input_string, &data);
 		// split_input = split_function(line);
 		// print_array(split_input);
 		printf("%s\n", string_to_print);

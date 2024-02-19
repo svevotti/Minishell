@@ -125,7 +125,6 @@ char *print_var(char *str, int str_size, t_data *data)
 			k = 0;
 			i++;
 			name_var = find_name_var(str + i);
-			//value_var = getenv(name_var);
 			value_var = get_env_value(data->env, name_var);
 			len_var = ft_strlen(value_var);
 			while (k < len_var)
