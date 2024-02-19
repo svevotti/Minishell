@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   trans_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 10:39:36 by joschka           #+#    #+#             */
-/*   Updated: 2024/02/13 11:10:06 by joschka          ###   ########.fr       */
+/*   Updated: 2024/02/19 10:52:51 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	free_array(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
 
 t_env	*new_node(char *str)
 {
@@ -21,9 +34,11 @@ t_env	*new_node(char *str)
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
-	node->key = item[0];
-	node->value = item[1];
+	node->str = ft_strdup(str);
+	node->key = ft_strdup(item[0]);
+	node->value = ft_strdup(item[1]);
 	node->next = NULL;
+	free_array(item);
 	return (node);
 }
 
@@ -51,6 +66,7 @@ void	free_env(t_env *head)
 	while (head)
 	{
 		tmp = head->next;
+		free(head->str);
 		free(head->key);
 		free(head->value);
 		free(head);
