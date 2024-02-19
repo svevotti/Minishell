@@ -119,7 +119,10 @@ char *expand_input(char *str, int str_size, t_data *data)
 				flag_single_quote = 1;
 			else
 				flag_single_quote = 0;
+			i++;
 		}
+		else if (str[i] == 34)
+			i++;
 		else if (str[i] == '$' && flag_single_quote == 0)
 		{
 			k = 0;
@@ -135,8 +138,6 @@ char *expand_input(char *str, int str_size, t_data *data)
 			}
 			i += ft_strlen(name_var);
 		}
-		if (str[i] == 34 || str[i] == 39)
-			i++;
 		else
 		{
 			new_string[j] = str[i];
