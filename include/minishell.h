@@ -26,7 +26,7 @@ typedef struct s_data
 //handle env var
 int		find_size(char *str);
 char	*find_name_var(char *str);
-char	*print_var(char *str, int str_size, t_data *data);
+char	*expand_input(char *str, int str_size, t_data *data);
 
 //trans_env
 void	trans_env(t_data *data, char **envp);

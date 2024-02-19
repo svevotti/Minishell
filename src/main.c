@@ -1,15 +1,15 @@
 #include "../include/minishell.h"
 
-// void print_array(char **str)
-// {
-// 	int i = 0;
+void print_array(char **str)
+{
+	int i = 0;
 	
-// 	while (str[i] != NULL)
-// 	{
-// 		printf("%s\n", str[i]);
-// 		i++;
-// 	}
-// }
+	while (str[i] != NULL)
+	{
+		printf("%s\n", str[i]);
+		i++;
+	}
+}
 
 int	find_size_array(char *str)
 {
@@ -118,11 +118,6 @@ char	**split_function(char *str)
 		{
 			if (*str == 39 || *str == 34)
 				str++;
-			else if (*str == ' ' || *str == '\n' || *str == '\t')
-			{
-				while (*str == ' ' || *str == '\n' || *str == '\t')
-					str++;
-			}
 			else 
 			{
 				*temp = *str;
@@ -155,16 +150,13 @@ int main(int argc, char **argv, char **envp)
 {
 	char static *line;
 	int			size_input_string;
-	char		*string_to_print;
+	char		*expanded_input;
 	t_data		data;
-	char		*input;
-  	// char     **split_input;
+  	char     **split_input;
 
 	(void)argc;
 	(void)argv;
 	trans_env(&data, envp);
-	// printenv(data.env);
-	// exit(1);
 	while (1)
 	{
 		line = readline("Minishell >> ");
@@ -176,16 +168,12 @@ int main(int argc, char **argv, char **envp)
 			exit(1);
 		}
 		add_history(line);
-		input = line;
-		size_input_string = find_size(input);
-		//printf("main line 179 size string %d\n", size_input_string);
-		string_to_print = print_var(input, size_input_string, &data);
-		// split_input = split_function(line);
-		// print_array(split_input);
-		printf("%s\n", string_to_print);
+		size_input_string = find_size(line);
+		expanded_input = expand_input(line, size_input_string, &data);
+		split_input = split_function(expanded_input);
+		print_array(split_input);
+		// printf("%s\n", string_to_print);
 		free(line);
-		//free(string_to_print);
 	}
-
 	return (0);
 }

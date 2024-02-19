@@ -93,7 +93,7 @@ char *get_env_value(t_env *head, char *key)
 	return (NULL);
 }
 
-char *print_var(char *str, int str_size, t_data *data)
+char *expand_input(char *str, int str_size, t_data *data)
 {
 	char *new_string;
 	int	i;
