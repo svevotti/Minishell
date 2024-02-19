@@ -67,6 +67,7 @@ int find_len(char *str)
 	count = 0;
 	single_quote = 0;
 	double_quotes = 0;
+	int i = 0;
 	while (*str != '\0')
 	{
 		if ((*str == ' ' || *str == '\n' || *str == '\t') && single_quote == 0 && double_quotes == 0)
@@ -98,9 +99,12 @@ char	**split_function(char *str)
 	int		size_array;
 	int		i;
 	int		size_string;
+	int		count_spaces;
+	int		k;
 	int		l;
 	int		count;
 	char 	*single_str;
+	int		str_len;
 	char	*temp;
 
 	i = 0;
@@ -154,10 +158,11 @@ char	**split_function(char *str)
 int main(int argc, char **argv, char **envp)
 {
 	char static *line;
+	char		*input_string;
 	int			size_input_string;
 	char		*string_to_print;
 	t_data		data;
-  	// char     **split_input;
+  char     *split_input;
 
 	(void)argc;
 	(void)argv;
@@ -175,11 +180,12 @@ int main(int argc, char **argv, char **envp)
 			exit(1);
 		}
 		add_history(line);
-		size_input_string = find_size(line);
-		string_to_print = print_var(line, size_input_string, &data);
-		// split_input = split_function(line);
-		// print_array(split_input);
-		printf("%s\n", string_to_print);
+		// input_string = line;
+		// size_input_string = find_size(input_string);
+		// string_to_print = print_env_var(input_string, size_input_string);
+		split_input = split_function(line);
+		print_array(split_input);
+		// printf("%s\n", string_to_print);
 		free(line);
 		//free(string_to_print);
 	}
