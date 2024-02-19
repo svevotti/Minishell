@@ -79,7 +79,18 @@ int	find_size(char *str)
 	return (total_len);
 }
 
-char *print_env_var(char *str, int str_size)
+char *get_env_value(t_env *head, char *key)
+{
+	while (head != NULL)
+	{
+		if (ft_strncmp(head->key, key, ft_strlen(key)) == 0)
+			return (head->value);
+		head = head->next;
+	}
+	return (NULL);
+}
+
+char *print_var(char *str, int str_size, t_data *data)
 {
 	char *new_string;
 	int	i;
@@ -88,7 +99,7 @@ char *print_env_var(char *str, int str_size)
 	char	*name_var;
 	char	*value_var;
 	int		len_var;
-	int		tot_size;
+	int k;
 
 	new_string = (char *)malloc(sizeof(char) * (str_size + 1));
 	if (new_string == NULL)
@@ -97,8 +108,6 @@ char *print_env_var(char *str, int str_size)
 	j = 0;
 	flag_single_quote = 0;
 	len_var = 0;
-	tot_size = 0;
-	int k;
 	while (str[i] != '\0')
 	{
 		if (str[i] == 39)
@@ -113,7 +122,8 @@ char *print_env_var(char *str, int str_size)
 			k = 0;
 			i++;
 			name_var = find_name_var(str + i);
-			value_var = getenv(name_var);
+			//value_var = getenv(name_var);
+			value_var = get_env_value(data->env, name_var);
 			len_var = ft_strlen(value_var);
 			while (k < len_var)
 			{

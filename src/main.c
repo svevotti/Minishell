@@ -146,14 +146,29 @@ char	**split_function(char *str)
 	return(string_split);
 }
 
-int main(void)
+// void	printenv(t_env *ptr)
+// {
+// 	while (ptr)
+// 	{
+// 		printf("%s ~ %s\n", ptr->key, ptr->value);
+// 		ptr = ptr->next;
+// 	}
+// }
+
+int main(int argc, char **argv, char **envp)
 {
 	char static *line;
 	char		*input_string;
 	int			size_input_string;
 	char		*string_to_print;
-	char		**split_input;
+	t_data		data;
+  char     *split_input;
 
+	(void)argc;
+	(void)argv;
+	trans_env(&data, envp);
+	// printenv(data.env);
+	// exit(1);
 	while (1)
 	{
 		line = readline("Minishell >> ");
