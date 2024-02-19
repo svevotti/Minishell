@@ -71,10 +71,13 @@ int	find_size(char *str)
 					quote_flag = 1;
 				else
 					quote_flag = 0;
+				total_len -= 1;
 			}
 			total_len += 1;
 			str++;
 		}
+		if (*str == 34)
+			total_len -= 2;
 	}
 	return (total_len);
 }
@@ -133,9 +136,14 @@ char *print_var(char *str, int str_size, t_data *data)
 			}
 			i += ft_strlen(name_var);
 		}
-		new_string[j] = str[i];
-		j++;
-		i++;
+		if (str[i] == 34 || str[i] == 39)
+			i++;
+		else
+		{
+			new_string[j] = str[i];
+			j++;
+			i++;
+		}
 	}
 	return (new_string);
 }
