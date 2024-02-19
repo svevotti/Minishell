@@ -1,15 +1,15 @@
 #include "../include/minishell.h"
 
-void print_array(char **str)
-{
-	int i = 0;
+// void print_array(char **str)
+// {
+// 	int i = 0;
 	
-	while (str[i] != NULL)
-	{
-		printf("%s\n", str[i]);
-		i++;
-	}
-}
+// 	while (str[i] != NULL)
+// 	{
+// 		printf("%s\n", str[i]);
+// 		i++;
+// 	}
+// }
 
 int	find_size_array(char *str)
 {
