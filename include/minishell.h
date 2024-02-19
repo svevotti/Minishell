@@ -20,7 +20,7 @@ typedef struct s_env
 typedef struct s_data
 {
 	t_env	*env;
-	char	**cmd;
+	char	**input;
 }t_data;
 
 //handle env var
