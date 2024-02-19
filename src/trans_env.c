@@ -36,18 +36,14 @@ char	**custom_split(char *str, char delimiter)
 	char	*value;
 	char	*temp;
 
-	//printf("trans env line 49 str %s\n", str);
 	split_env = (char **)malloc(sizeof(char *) * 3);
 	key_size = find_key_size(str, delimiter);
-	//printf("trans env line 52 key size %d\n", key_size);
 	key = (char *)malloc(sizeof(char) * (key_size + 1));
-	//printf("trans first char for value %c\n", str[key_size]);
 	value_size = ft_strlen(str + key_size + 1);
 	value = (char *)malloc(sizeof(char) * (value_size + 1));
 	temp = key;
 	while (*str != '\0')
 	{
-		//printf("trans line 58 %s\n", str);
 		if (*str == delimiter)
 		{
 			str++;
@@ -59,7 +55,6 @@ char	**custom_split(char *str, char delimiter)
 		str++;
 	}
 	*temp = '\0';
-	//printf("trans env line 68 key %s\n", key);
 	temp = value;
 	while (*str != '\0')
 	{
@@ -68,11 +63,12 @@ char	**custom_split(char *str, char delimiter)
 		str++;
 	}
 	*temp = '\0';
-	//printf("tr//ans env line 82 value %s\n", value);
 	split_env[0] = ft_strdup(key);
-	split_env[1] = ft_strdup(value);
+	if (value == NULL)
+		split_env[1] = NULL;
+	else
+		split_env[1] = ft_strdup(value);
 	split_env[2] = NULL;
-	//exit(1);
 	return (split_env);
 }
 
@@ -94,9 +90,7 @@ t_env	*new_node(char *str)
 	t_env	*node;
 	char	**item;
 	
-	//item = ft_split(str, '=');
 	item = custom_split(str, '=');
-	//print_array(item);
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
