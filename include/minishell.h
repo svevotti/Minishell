@@ -33,6 +33,9 @@ char	*get_env_value(t_env *head, char *key);
 void	trans_env(t_data *data, char **envp);
 void	free_env(t_env *head);
 
+//split_input
+char	**split_function(char *str);
+
 #endif
 
 
