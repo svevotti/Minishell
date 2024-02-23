@@ -1,4 +1,5 @@
 #include "../include/minishell.h"
+#include <dirent.h>
 
 void print_array(char **str)
 {
@@ -98,13 +99,11 @@ char	**split_function(char *str)
 	int		size_array;
 	int		i;
 	int		size_string;
-	int		l;
 	int		count;
 	char 	*single_str;
 	char	*temp;
 
 	i = 0;
-	l = 0;
 	size_string = 0;
 	size_array = find_size_array(str);
 	string_split = (char **)malloc(sizeof(char *) * (size_array + 1));
@@ -146,6 +145,42 @@ char	**split_function(char *str)
 // 	}
 // }
 
+char	*get_path_exec(char *str, char *path_value)
+{
+	char			**path_folders;
+	DIR				*folder;
+  	struct dirent	*dir;
+	int				i;
+	int				count;
+
+	path_folders = ft_split(path_value, ':');
+	i = 0;
+	while (path_folders[i] != NULL)
+		i++;
+	count = i;
+	i = 0;
+	while (i < count)
+	{
+		folder = opendir(path_folders[i]);
+		if (folder == NULL)
+			i++;
+		else
+		{
+			while ((dir = readdir(folder)) != NULL)
+			{
+				if (strncmp(str, dir->d_name, ft_strlen(str)) == 0)
+				{
+					closedir(folder);
+					return (path_folders[i]);
+				}
+			}
+			closedir(folder);
+			i++;
+		}
+	}
+	return ("does not exitst");
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	char static *line;
@@ -153,10 +188,12 @@ int main(int argc, char **argv, char **envp)
 	char		*expanded_input;
 	t_data		data;
   	char     **split_input;
-
+	char	*path_execve;
+	char 	*path;
 	(void)argc;
 	(void)argv;
 	trans_env(&data, envp);
+	path = get_env_value(data.env, "PATH");
 	while (1)
 	{
 		line = readline("Minishell >> ");
@@ -172,7 +209,8 @@ int main(int argc, char **argv, char **envp)
 		expanded_input = expand_input(line, size_input_string, &data);
 		split_input = split_function(expanded_input);
 		print_array(split_input);
-		// printf("%s\n", string_to_print);
+		path_execve = get_path_exec(line, path);
+		printf("%s\n", path_execve);
 		free(line);
 	}
 	return (0);
