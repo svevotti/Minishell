@@ -62,22 +62,64 @@ char	*create_path_info(char *path, char *cmd)
 	return (full_path);
 }
 
-void execute_cmd(char **input, t_env *env)
+char *get_cmd(char *str)
+{
+	int	i;
+	int	size;
+	char	*cmd;
+
+	i = ft_strlen(str);
+	size = 0;
+	while (i > 0)
+	{
+		if (str[i] == '/')
+			break ;
+		size++;
+		i--;
+	}
+	cmd = (char *)malloc(sizeof(char) * (size + 1));
+	ft_strlcpy(cmd, str + i + 1, size + 1);
+	return (cmd);
+}
+
+void execute_cmd(char **input, t_env *env, char **envp)
 {
 	char *cmd_path;
 	char *env_var_value;
 	struct stat stats;
 	char	*cat_path;
+	char	**argvs;
+	char	*str;
+	char	*cmd;
+	int		flag;
 
+	flag = 0;
 	env_var_value = get_env_value(env, "PATH");
-	cmd_path = get_path_exec(input[0], env_var_value);
+	str = input[0];
+	if (*str == '/' || *str == '.')
+	{
+		cmd_path = input[0];
+		cmd = get_cmd(cmd_path);
+		input[0] = cmd;
+		argvs = input;
+		flag = 1;
+	}
+	else
+	{
+		cmd_path = get_path_exec(input[0], env_var_value);
+		cmd = input[0];
+		argvs = input;
+	}
 	if (cmd_path != NULL)
 	{
-		cat_path = create_path_info(cmd_path, input[0]);
+		if (flag == 0)
+			cat_path = create_path_info(cmd_path, cmd);
+		else
+			cat_path = str;
 		if (stat(cat_path, &stats) == 0)
 		{
 			if (stats.st_mode & X_OK)
-        		printf("execute\n");
+				execve(cat_path, argvs, envp);
 			else
 				printf("error\n");
 		}
@@ -85,6 +127,37 @@ void execute_cmd(char **input, t_env *env)
 	else	
 		printf("error\n");
 }
+
+// void	read_path(char **input, char **envp)
+// {
+// 	char *path;
+
+// 	if (input[0] == NULL)
+// 	{
+// 		printf("error\n");
+// 		return;
+// 	}
+// 	path = ft_strdup(input[0]);
+// 	char *temp;
+// 	temp = path;
+// 	while(*temp != '\0')
+// 	{
+// 		if (*temp == '/')
+// 		{
+// 			printf("absolute path\n");
+// 			return;
+// 		}
+// 		else if (*temp == '.')
+// 		{
+// 			printf("relative path\n");
+// 			return;
+
+// 		}
+// 		temp++;
+// 	}
+// 	//make it work with execve
+// 	printf("not a folder\n");
+// }
 
 int main(int argc, char **argv, char **envp)
 {
@@ -111,7 +184,8 @@ int main(int argc, char **argv, char **envp)
 		size_input_string = find_size(line);
 		expanded_input = expand_input(line, size_input_string, &data);
 		split_input = split_function(expanded_input);
-		execute_cmd(split_input, data.env);
+		execute_cmd(split_input, data.env, envp);
+		// read_path(split_input, data.env);
 		// print_array(split_input);
 		//printf("%s\n", path_execve);
 		free(line);
