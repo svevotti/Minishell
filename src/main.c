@@ -36,7 +36,7 @@ char	*get_path_exec(char *str, char *path_value)
 		{
 			while ((dir = readdir(folder)) != NULL)
 			{
-				if (strncmp(str, dir->d_name, ft_strlen(str)) == 0)
+				if (strncmp(str, dir->d_name, ft_strlen(dir->d_name)) == 0)
 				{
 					closedir(folder);
 					return (path_folders[i]);
@@ -71,15 +71,15 @@ void execute_cmd(char **input, t_env *env)
 
 	env_var_value = get_env_value(env, "PATH");
 	cmd_path = get_path_exec(input[0], env_var_value);
-	cat_path = create_path_info(cmd_path, input[0]);
 	if (cmd_path != NULL)
 	{
-		if (stat(cmd_path, &stats) == 0)
+		cat_path = create_path_info(cmd_path, input[0]);
+		if (stat(cat_path, &stats) == 0)
 		{
 			if (stats.st_mode & X_OK)
         		printf("execute\n");
 			else
-				printf("not exectuable\n");
+				printf("error\n");
 		}
 	}
 	else	
