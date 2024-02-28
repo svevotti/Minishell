@@ -124,8 +124,11 @@ void execute_cmd(char **input, t_env *env, char **envp)
 				printf("error\n");
 		}
 	}
-	else	
-		printf("error\n");
+	else
+	{
+		env->exit_status = 127;	
+		printf("error, not a command\n");
+	}
 }
 
 // void	read_path(char **input, char **envp)
@@ -166,25 +169,36 @@ int main(int argc, char **argv, char **envp)
 	char		*expanded_input;
 	t_data		data;
   	char     **split_input;
+	pid_t	id;
+	int		status;
+	int		exit_s;
 
 	(void)argc;
 	(void)argv;
 	trans_env(&data, envp);
+	data.env->exit_status = 0;
 	while (1)
 	{
 		line = readline("Minishell >> ");
 		if (line == NULL)
 			return (1);
-		if (ft_strncmp(line, "exit", 4) == 0)
-		{
-			free(line);
-			exit(1);
-		}
 		add_history(line);
-		size_input_string = find_size(line);
-		expanded_input = expand_input(line, size_input_string, &data);
+		expanded_input = expand_input(line, &data);
 		split_input = split_function(expanded_input);
-		execute_cmd(split_input, data.env, envp);
+		print_array(split_input);
+		exit(1);
+		id = fork();
+		if (id == 0)
+			execute_cmd(split_input, data.env, envp);
+		else if (id < 0)
+			printf("error id\n");
+		else
+		{
+			wait(&status);
+			int status_code = WEXITSTATUS(status);
+			data.env->exit_status = status_code;
+		}
+		printf("exit status was %d\n", data.env->exit_status);
 		// read_path(split_input, data.env);
 		// print_array(split_input);
 		//printf("%s\n", path_execve);
@@ -192,3 +206,22 @@ int main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+
+// pid_t parent = getpid();
+// pid_t pid = fork();
+
+// if (pid == -1)
+// {
+//     // error, failed to fork()
+// } 
+// else if (pid > 0)
+// {
+//     int status;
+//     waitpid(pid, &status, 0);
+// }
+// else 
+// {
+//     // we are the child
+//     execve(...);
+//     _exit(EXIT_FAILURE);   // exec never returns
+// }

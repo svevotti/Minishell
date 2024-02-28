@@ -93,7 +93,7 @@ char *get_env_value(t_env *head, char *key)
 	return (NULL);
 }
 
-char *expand_input(char *str, int str_size, t_data *data)
+char *expand_input(char *str, t_data *data)
 {
 	char *new_string;
 	int	i;
@@ -103,7 +103,9 @@ char *expand_input(char *str, int str_size, t_data *data)
 	char	*value_var;
 	int		len_var;
 	int k;
+	int str_size;
 
+	str_size = find_size(str);
 	new_string = (char *)malloc(sizeof(char) * (str_size + 1));
 	if (new_string == NULL)
 		return (NULL);
