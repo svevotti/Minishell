@@ -38,7 +38,7 @@ char	*find_name_var(char *str)
 	return (name_var);
 }
 
-int	find_size(char *str)
+int	find_size(char *str, t_env *env)
 {
 	char	*name_var;
 	int		total_len;
@@ -46,20 +46,36 @@ int	find_size(char *str)
 	int		len_var;
 	int		quote_flag;
 	int		len_name_var;
+	int 	exit_status;
+	char	*exit_status_str;
 	
 	total_len = 0;
 	len_name_var = 0;
 	len_var = 0;
 	quote_flag = 0;
+	char *temp;
 	while (*str != '\0')
 	{
 		
 		if ((*str == '$' && quote_flag == 0))
 		{
-			name_var = find_name_var(str + 1);
-			len_name_var = ft_strlen(name_var);
-			value_var = getenv(name_var);
-			len_var = ft_strlen(value_var);
+			temp = str + 1;
+			if ( *temp == '?')
+			{
+				exit_status = env->exit_status;
+				name_var = (char *)malloc(sizeof(char) * (1 + 1));
+				strlcpy(name_var, "?", 2);
+				len_name_var = ft_strlen(name_var);
+				value_var = ft_itoa(exit_status);
+				len_var = ft_strlen(value_var);
+			}
+			else
+			{
+				name_var = find_name_var(str + 1);
+				len_name_var = ft_strlen(name_var);
+				value_var = getenv(name_var);
+				len_var = ft_strlen(value_var);
+			}
 			str += len_name_var + 1;
 			total_len += len_var;
 		}
@@ -105,7 +121,7 @@ char *expand_input(char *str, t_data *data)
 	int k;
 	int str_size;
 
-	str_size = find_size(str);
+	str_size = find_size(str, data->env);
 	new_string = (char *)malloc(sizeof(char) * (str_size + 1));
 	if (new_string == NULL)
 		return (NULL);
@@ -129,15 +145,27 @@ char *expand_input(char *str, t_data *data)
 		{
 			k = 0;
 			i++;
-			name_var = find_name_var(str + i);
-			value_var = get_env_value(data->env, name_var);
-			len_var = ft_strlen(value_var);
-			while (k < len_var)
+			if (str[i] == '?')
 			{
-				new_string[j] = value_var[k];
-				j++;
-				k++;	
+				int exit_status = data->env->exit_status;
+				name_var = (char *)malloc(sizeof(char) * (1 + 1));
+				strlcpy(name_var, "?", 2);
+				value_var = ft_itoa(exit_status);
+				len_var = ft_strlen(value_var);
+
 			}
+			else
+			{
+				name_var = find_name_var(str + i);
+				value_var = get_env_value(data->env, name_var);
+				len_var = ft_strlen(value_var);
+			}
+				while (k < len_var)
+				{
+					new_string[j] = value_var[k];
+					j++;
+					k++;	
+				}
 			i += ft_strlen(name_var);
 		}
 		else

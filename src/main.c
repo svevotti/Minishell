@@ -126,41 +126,10 @@ void execute_cmd(char **input, t_env *env, char **envp)
 	}
 	else
 	{
-		env->exit_status = 127;	
+		env->exit_status = 127;
 		printf("error, not a command\n");
 	}
 }
-
-// void	read_path(char **input, char **envp)
-// {
-// 	char *path;
-
-// 	if (input[0] == NULL)
-// 	{
-// 		printf("error\n");
-// 		return;
-// 	}
-// 	path = ft_strdup(input[0]);
-// 	char *temp;
-// 	temp = path;
-// 	while(*temp != '\0')
-// 	{
-// 		if (*temp == '/')
-// 		{
-// 			printf("absolute path\n");
-// 			return;
-// 		}
-// 		else if (*temp == '.')
-// 		{
-// 			printf("relative path\n");
-// 			return;
-
-// 		}
-// 		temp++;
-// 	}
-// 	//make it work with execve
-// 	printf("not a folder\n");
-// }
 
 int main(int argc, char **argv, char **envp)
 {
@@ -169,7 +138,7 @@ int main(int argc, char **argv, char **envp)
 	char		*expanded_input;
 	t_data		data;
   	char     **split_input;
-	pid_t	id;
+	pid_t	id_child;
 	int		status;
 	int		exit_s;
 
@@ -185,12 +154,10 @@ int main(int argc, char **argv, char **envp)
 		add_history(line);
 		expanded_input = expand_input(line, &data);
 		split_input = split_function(expanded_input);
-		print_array(split_input);
-		exit(1);
-		id = fork();
-		if (id == 0)
+		id_child = fork();
+		if (id_child == 0)
 			execute_cmd(split_input, data.env, envp);
-		else if (id < 0)
+		else if (id_child < 0)
 			printf("error id\n");
 		else
 		{
@@ -198,10 +165,6 @@ int main(int argc, char **argv, char **envp)
 			int status_code = WEXITSTATUS(status);
 			data.env->exit_status = status_code;
 		}
-		printf("exit status was %d\n", data.env->exit_status);
-		// read_path(split_input, data.env);
-		// print_array(split_input);
-		//printf("%s\n", path_execve);
 		free(line);
 	}
 	return (0);
