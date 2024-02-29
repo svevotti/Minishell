@@ -12,7 +12,7 @@
 
 NAME	:= minishell
 
-CFLAGS	:= -Wextra -Wall -g -I ./includes/ #-Werror
+CFLAGS	:= -Wextra -Wall -Werror -g -I ./includes/
 
 LIBFT	:= ./libft
 
@@ -24,7 +24,8 @@ SRCS	:=	./src/main.c \
 			./src/handle_env_var.c \
 			./src/trans_env.c \
 			./src/split_input.c \
-			./src/check_first_argv.c
+			./src/check_first_argv.c \
+			./src/free_functions.c
 			
 OBJS	:= ${SRCS:.c=.o}
 

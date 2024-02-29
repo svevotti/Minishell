@@ -40,6 +40,21 @@ char	**split_function(char *str);
 //check first argv
 void	execute_cmd(char **input, t_env *env, char **envp);
 
+//free functions
+int		free_strings(char *str1, char *str2, char **str3);
+void	free_input(char **input);
+
+
+// void print_array(char **str)
+// {
+// 	int i = 0;
+// 	while (str[i] != NULL)
+// 	{
+// 		printf("%s\n", str[i]);
+// 		i++;
+// 	}
+// }
+
 #endif
 
 
