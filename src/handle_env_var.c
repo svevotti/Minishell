@@ -47,7 +47,6 @@ int	find_size(char *str, t_env *env)
 	int		quote_flag;
 	int		len_name_var;
 	int 	exit_status;
-	char	*exit_status_str;
 	
 	total_len = 0;
 	len_name_var = 0;
@@ -160,12 +159,12 @@ char *expand_input(char *str, t_data *data)
 				value_var = get_env_value(data->env, name_var);
 				len_var = ft_strlen(value_var);
 			}
-				while (k < len_var)
-				{
-					new_string[j] = value_var[k];
-					j++;
-					k++;	
-				}
+			while (k < len_var)
+			{
+				new_string[j] = value_var[k];
+				j++;
+				k++;	
+			}
 			i += ft_strlen(name_var);
 		}
 		else
@@ -174,6 +173,7 @@ char *expand_input(char *str, t_data *data)
 			j++;
 			i++;
 		}
+		new_string[j] = '\0';
 	}
 	return (new_string);
 }

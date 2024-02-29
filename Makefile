@@ -23,7 +23,8 @@ LIBS	:= $(LKLIBFT) -lreadline
 SRCS	:=	./src/main.c \
 			./src/handle_env_var.c \
 			./src/trans_env.c \
-			./src/split_input.c
+			./src/split_input.c \
+			./src/check_first_argv.c
 			
 OBJS	:= ${SRCS:.c=.o}
 

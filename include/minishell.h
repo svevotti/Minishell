@@ -37,6 +37,9 @@ void	free_env(t_env *head);
 //split_input
 char	**split_function(char *str);
 
+//check first argv
+void	execute_cmd(char **input, t_env *env, char **envp);
+
 #endif
 
 
