@@ -18,12 +18,14 @@ int	get_len_var(char *str, int *len_name_var, t_env *env)
 	char	*value_var;
 	int		len_var;
 
-	exit_status = 0;
+	//exit_status = 0;
 	len_var = check_double_quotes(str);
 	if (*str == '?')
 	{
 		exit_status = env->exit_status;
 		value_var = ft_itoa(exit_status);
+		if (value_var == NULL)
+			return (-1);
 		len_var = ft_strlen(value_var);
 		*len_name_var = 1;
 	}
@@ -39,13 +41,13 @@ int	get_len_var(char *str, int *len_name_var, t_env *env)
 	return (len_var);
 }
 
-void	get_quote_flag(int *quote_flag, int *total_len)
+int	get_quote_flag(int *quote_flag)
 {
 	if (*quote_flag == 0)
 		*quote_flag = 1;
 	else
 		*quote_flag = 0;
-	*total_len = *total_len - 1;
+	return (1);
 }
 
 int	find_size(char *str, t_env *env)
@@ -69,7 +71,7 @@ int	find_size(char *str, t_env *env)
 		else
 		{
 			if (*str == 39)
-				get_quote_flag(&quote_flag, &total_len);
+				total_len = total_len - get_quote_flag(&quote_flag);
 			total_len += 1;
 			str++;
 		}

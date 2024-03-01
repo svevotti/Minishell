@@ -69,31 +69,22 @@ char	*expand_input(char *str, t_data *data)
 	new_string = (char *)malloc(sizeof(char) * (str_size + 1));
 	if (new_string == NULL)
 		return (NULL);
-	i = 0;
-	j = 0;
 	flag_single_quote = 0;
 	len_var = 0;
+	i = 0;
+	j = 0;
 	while (str[i] != '\0')
 	{
 		if (str[i] == 39)
-		{
-			if (flag_single_quote == 0)
-				flag_single_quote = 1;
-			else
-				flag_single_quote = 0;
-			i++;
-		}
+			i = i + get_quote_flag(&flag_single_quote);
 		else if (str[i] == 34)
 			i++;
 		else if (str[i] == '$' && flag_single_quote == 0)
 		{
-			k = 0;
 			i++;
 			if (str[i] == '?')
 			{
 				exit_status = data->env->exit_status;
-				name_var = (char *)malloc(sizeof(char) * (1 + 1));
-				strlcpy(name_var, "?", 2);
 				value_var = ft_itoa(exit_status);
 				len_var = ft_strlen(value_var);
 			}
@@ -103,6 +94,7 @@ char	*expand_input(char *str, t_data *data)
 				value_var = get_env_value(data->env, name_var);
 				len_var = ft_strlen(value_var);
 			}
+			k = 0;
 			while (k < len_var)
 			{
 				new_string[j] = value_var[k];
