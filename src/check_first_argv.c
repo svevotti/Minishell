@@ -88,8 +88,8 @@ void execute_cmd(char **input, t_env *env, char **envp)
 	str = input[0];
 	if (*str == '/' || *str == '.')
 	{
-		cmd_path = input[0];
-		cmd = get_cmd(cmd_path);
+		cmd = get_cmd(input[0]);
+		cmd_path = get_path_exec(cmd, env_var_value);
 		input[0] = cmd;
 		argvs = input;
 		flag = 1;
