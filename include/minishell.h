@@ -30,6 +30,9 @@ char	*find_name_var(char *str);
 char	*expand_input(char *str, t_data *data);
 char	*get_env_value(t_env *head, char *key);
 
+//find size env var
+int		find_size(char *str, t_env *env);
+
 //trans_env
 void	trans_env(t_data *data, char **envp);
 void	free_env(t_env *head);
