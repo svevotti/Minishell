@@ -53,15 +53,11 @@ char	*get_env_value(t_env *head, char *key)
 char	*expand_input(char *str, t_data *data)
 {
 	char	*new_string;
-	int		i;
-	int		j;
+	char	*temp;
 	int		flag_single_quote;
 	char	*name_var;
 	char	*value_var;
-	int		len_var;
-	int		k;
 	int		str_size;
-	int		exit_status;
 
 	str_size = find_size(str, data->env);
 	if (str_size == -1)
@@ -69,47 +65,31 @@ char	*expand_input(char *str, t_data *data)
 	new_string = (char *)malloc(sizeof(char) * (str_size + 1));
 	if (new_string == NULL)
 		return (NULL);
+	temp = new_string;
 	flag_single_quote = 0;
-	len_var = 0;
-	i = 0;
-	j = 0;
-	while (str[i] != '\0')
+	while (*str != '\0')
 	{
-		if (str[i] == 39)
-			i = i + get_quote_flag(&flag_single_quote);
-		else if (str[i] == 34)
-			i++;
-		else if (str[i] == '$' && flag_single_quote == 0)
+		if (*str == '$' && flag_single_quote == 0)
 		{
-			i++;
-			if (str[i] == '?')
-			{
-				exit_status = data->env->exit_status;
-				value_var = ft_itoa(exit_status);
-				len_var = ft_strlen(value_var);
-			}
+			str++;
+			if (*str == '?')
+				value_var = ft_itoa(data->env->exit_status;);
 			else
 			{
-				name_var = find_name_var(str + i);
+				name_var = find_name_var(str);
 				value_var = get_env_value(data->env, name_var);
-				len_var = ft_strlen(value_var);
 			}
-			k = 0;
-			while (k < len_var)
-			{
-				new_string[j] = value_var[k];
-				j++;
-				k++;
-			}
-			i += ft_strlen(name_var);
+			while (*value_var != '\0')
+				*temp++ = *value_var++;
+			str += ft_strlen(name_var);
 		}
 		else
 		{
-			new_string[j] = str[i];
-			j++;
-			i++;
+			if (*str == 39)
+				flag_single_quote = flag_single_quote == 1 ? 0 : 1;
+			*temp++ = *str++;
 		}
-		new_string[j] = '\0';
 	}
+	*temp = '\0';
 	return (new_string);
 }
