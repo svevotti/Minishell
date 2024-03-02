@@ -6,7 +6,7 @@
 /*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 10:39:36 by joschka           #+#    #+#             */
-/*   Updated: 2024/02/13 11:10:06 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/01 16:43:19 by joschka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,51 @@
 
 t_env	*new_node(char *str)
 {
-	t_env	*head;
+	t_env	*node;
+	char	**item;
 
-	head = malloc(sizeof(t_env));
-	if (!head)
+	item = ft_split(str, '=');
+	node = malloc(sizeof(t_env));
+	if (!node)
 		return (NULL);
-	head->str = str;
-	head->next = NULL;
-	return (head);
+	node->str = ft_strdup(str);
+	node->key = ft_strdup(item[0]);
+	node->value = ft_strdup(item[1]);
+	node->next = NULL;
+	free_array(item);
+	return (node);
 }
 
-void	free_env(t_env *head)
+void	add_env_node(t_env **head, t_env *new)
 {
-	t_env	*tmp;
+	t_env	*current;
 
-	while (head)
+	if (!new)
+		return ;
+	if (*head == NULL)
+		*head = new;
+	else
 	{
-		tmp = head->next;
-		free(head->str);
-		free(head);
-		head = tmp;
+		current = *head;
+		while (current->next != NULL)
+			current = current->next;
+		current->next = new;
 	}
 }
 
 void	trans_env(t_data *data, char **envp)
 {
 	t_env	*head;
-	char	*str;
+	t_env	*new;
 	int		i;
 
-	str = ft_strdup(envp[0]);
-	head = new_node(str);
-	data->env = head;
-	i = 1;
+	i = 0;
+	head = NULL;
 	while (envp[i])
 	{
-		str = ft_strdup(envp[i]);
-		head->next = new_node(str);
-		head = head->next;
+		new = new_node(envp[i]);
+		add_env_node(&head, new);
 		i++;
 	}
+	data->env = head;
 }
