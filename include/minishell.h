@@ -47,4 +47,8 @@ void	execute_cmd(char **input, t_env *env, char **envp);
 int		free_strings(char *str1, char *str2, char **str3);
 void	free_input(char **input);
 
+//utils env var
+char	*find_name_var(char *str);
+int		get_single_quote_flag(int flag);
+
 #endif

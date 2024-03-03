@@ -26,7 +26,8 @@ SRCS	:=	./src/main.c \
 			./src/split_input.c \
 			./src/check_first_argv.c \
 			./src/free_functions.c \
-			./src/find_size_env_var.c
+			./src/find_size_env_var.c \
+			./src/utils_env_var.c
 			
 OBJS	:= ${SRCS:.c=.o}
 
