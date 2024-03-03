@@ -22,6 +22,7 @@ typedef struct s_data
 {
 	t_env	*env;
 	char	**input;
+	int		flag;
 }t_data;
 
 //handle env var

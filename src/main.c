@@ -22,8 +22,12 @@ int	main(int argc, char **argv, char **envp)
 		split_input = get_split_input(line, &data);
 		if (split_input == NULL)
 		{
-			free(line);
-			return (1);
+			if (data.flag == 1)
+			{
+				free(line);
+				return (1);
+			}
+			printf("\n");
 		}
 		if (child_process(split_input, data.env, envp) < 0)
 		{
@@ -43,7 +47,8 @@ char	**get_split_input(char *str, t_data *data)
 	expanded_input = expand_input(str, data);
 	if (expanded_input == NULL)
 	{
-		free_strings(str, NULL, NULL);
+		if (data->flag == 1)
+			free_strings(str, NULL, NULL);
 		return (NULL);
 	}
 	split_input = split_function(expanded_input);
@@ -84,4 +89,5 @@ void	initialize_env(char **argv, char argc, t_data *data, char **envp)
 	(void)argv;
 	trans_env(data, envp);
 	data->env->exit_status = 0;
+	data->flag = 0;
 }

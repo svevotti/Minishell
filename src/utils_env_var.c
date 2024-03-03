@@ -7,6 +7,18 @@ int	get_single_quote_flag(int flag)
 	return (0);
 }
 
+int	check_name_variable(char c)
+{
+
+	if (ft_isalpha(c) == 1)
+		return (1);
+	if (ft_isdigit(c) == 1)
+		return (1);
+	if (strncmp(&c, "_", 1) == 0)
+		return (1);
+	return (0);
+}
+
 int	ft_strlen1(char *str)
 {
 	int	len;
@@ -14,7 +26,7 @@ int	ft_strlen1(char *str)
 	len = 0;
 	while (*str != '\0')
 	{
-		if (ft_isalpha(*str) == 1)
+		if (check_name_variable(*str) == 1)
 			len++;
 		else
 			break ;
@@ -36,7 +48,7 @@ char	*find_name_var(char *str)
 		return (NULL);
 	while (i < len)
 	{
-		if (ft_isalpha(str[i]) == 1)
+		if (check_name_variable(str[i]) == 1)
 			name_var[i] = str[i];
 		else
 			break ;

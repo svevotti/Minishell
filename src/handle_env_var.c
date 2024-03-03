@@ -67,6 +67,8 @@ char	*expand_input(char *str, t_data *data)
 		if (*str == '$' && flag_single_quote == 0)
 		{
 			value_var = get_value(++str, data->env, &len_word);
+			if (value_var == NULL)
+				return (NULL);
 			while (*value_var != '\0')
 				*temp++ = *value_var++;
 			str += len_word;
