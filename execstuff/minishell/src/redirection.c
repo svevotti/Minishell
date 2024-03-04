@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:17:16 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/01 16:43:10 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/04 13:43:08 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	open_outfile(t_proc *proc, int type)
 	if (proc->fd_out == -1)
 	{
 		proc->fd_out = 0;
-		ft_error(0, proc->outfile, 0);
+		ft_error(proc->outfile, 0);
 		return (1);
 	}
 	return (0);
@@ -60,7 +60,7 @@ int	open_file(t_proc *proc, int type)
 		if (proc->fd_in == -1)
 		{
 			proc->fd_in = 0;
-			ft_error(0, proc->infile, 0);
+			ft_error(proc->infile, 0);
 			return (1);
 		}
 	}
@@ -108,5 +108,6 @@ int	prepare_redirection(t_proc *proc, char **input, int i)
 	{
 		ret = get_heredoc(proc, input[i]);
 	}
+	proc->exec = ret;
 	return (ret);
 }

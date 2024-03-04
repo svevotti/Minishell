@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:40:16 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/01 18:08:11 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/04 13:26:19 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ int	run_executor(t_data *data)
 	}
 	else
 		wait(&status);
-	if (WIFEXITED(status))
-		exitcode = WEXITSTATUS(status);
+	exitcode = WEXITSTATUS(status);
 	return (exitcode);
 }
 
@@ -50,8 +49,9 @@ int	minishell(t_data *data)
 	int	exitcode;
 
 	data->procs = NULL;
-	if (parse_cmds(data))
-		return (1);
+	// if (parse_cmds(data))
+	// 	return (1);
+	parse_cmds(data);
 	if (is_builtin(data->procs->content) && !data->procs->next)
 	{
 		redirect(data->procs->content);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 10:45:55 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/02 13:44:16 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/04 15:03:26 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_proc
 	int		pipe_out;
 	char	*infile;
 	char	*outfile;
+	int		exec;
 }t_proc;
 
 typedef struct s_data
@@ -68,7 +69,7 @@ typedef struct s_heredoc
 }t_heredoc;
 
 // builtin
-int		exec_builtin(t_proc *proc);
+int		exec_builtin(t_proc *proc, t_data *data);
 int		is_builtin(t_proc *proc);
 int		ft_echo(char **cmd);
 int		get_arr_size(char **arr);
@@ -107,7 +108,7 @@ void	exec_linux(t_data *data, t_proc *proc, t_env *env);
 char	*get_path(char *cmd, t_env *env);
 
 // error
-void	ft_error(int errnum, char *arg, int flag);
+void	ft_error(char *arg, int flag);
 void	ft_print_error(char *s, int fd);
 
 //redirection
