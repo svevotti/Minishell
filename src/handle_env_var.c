@@ -76,7 +76,7 @@ char	*expand_input(char *str, t_data *data)
 		else
 		{
 			if (*str == 39)
-				flag_single_quote = get_single_quote_flag(flag_single_quote);
+				flag_single_quote = get_quote_flag(flag_single_quote);
 			*temp++ = *str++;
 		}
 	}

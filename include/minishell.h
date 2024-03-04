@@ -33,7 +33,7 @@ char	*get_env_value(t_env *head, char *key);
 
 //find size env var
 int		find_size(char *str, t_env *env);
-int	get_quote_flag(int	*quote_flag);
+
 //trans_env
 void	trans_env(t_data *data, char **envp);
 void	free_env(t_env *head);
@@ -50,6 +50,15 @@ void	free_input(char **input);
 
 //utils env var
 char	*find_name_var(char *str);
-int		get_single_quote_flag(int flag);
+int		get_quote_flag(int flag);
+
+void	print_array(char **str);
+
+//size split input
+int		find_len(char *str);
+int		find_size_array(char *str);
+
+//utils trans env
+// char	**custom_split(char *str, char delimiter);
 
 #endif

@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-int	get_single_quote_flag(int flag)
+int	get_quote_flag(int flag)
 {
 	if (flag == 0)
 		return (1);
@@ -9,7 +9,6 @@ int	get_single_quote_flag(int flag)
 
 int	check_name_variable(char c)
 {
-
 	if (ft_isalpha(c) == 1)
 		return (1);
 	if (ft_isdigit(c) == 1)
