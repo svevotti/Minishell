@@ -12,7 +12,7 @@
 
 NAME	:= minishell
 
-CFLAGS	:= -Wextra -Wall -g -I ./includes/ #-Werror
+CFLAGS	:= -Wextra -Wall -Werror -g -I ./includes/
 
 LIBFT	:= ./libft
 
@@ -22,7 +22,15 @@ LIBS	:= $(LKLIBFT) -lreadline
 
 SRCS	:=	./src/main.c \
 			./src/handle_env_var.c \
-			./src/trans_env.c
+			./src/trans_env.c \
+			./src/split_input.c \
+			./src/check_first_argv.c \
+			./src/free_functions.c \
+			./src/find_size_env_var.c \
+			./src/utils_env_var.c \
+			./src/print_array.c \
+			./src/size_split_input.c \
+			./src/utilis_trans_env.c
 			
 OBJS	:= ${SRCS:.c=.o}
 

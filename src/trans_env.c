@@ -29,8 +29,8 @@ t_env	*new_node(char *str)
 {
 	t_env	*node;
 	char	**item;
-	
-	item = ft_split(str, '=');
+
+	item = get_item(str, '=');
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
@@ -53,7 +53,7 @@ void	add_env_node(t_env **head, t_env *new)
 	else
 	{
 		current = *head;
-		while(current->next != NULL)
+		while (current->next != NULL)
 			current = current->next;
 		current->next = new;
 	}
