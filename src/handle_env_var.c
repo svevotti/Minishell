@@ -18,7 +18,7 @@ char	*get_value(char *str, t_env *env, int *len_word)
 
 	if (*str == '?')
 	{
-		value_var = ft_itoa(env->exit_status);
+		value_var = "0";
 		if (value_var == NULL)
 			return (NULL);
 		*len_word = 1;

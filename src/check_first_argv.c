@@ -116,7 +116,7 @@ void execute_cmd(char **input, t_env *env, char **envp)
 	}
 	else
 	{
-		env->exit_status = 127;
+		// env->exit_status = 127;
 		printf("error, not a command\n");
 	}
 }

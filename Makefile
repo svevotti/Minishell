@@ -6,7 +6,7 @@
 #    By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/20 14:49:17 by jbeck             #+#    #+#              #
-#    Updated: 2024/02/08 12:38:17 by jbeck            ###   ########.fr        #
+#    Updated: 2024/03/04 15:40:35 by jbeck            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,17 @@ SRCS	:=	./src/main.c \
 			./src/utils_env_var.c \
 			./src/print_array.c \
 			./src/size_split_input.c \
-			./src/utilis_trans_env.c
+			./src/utilis_trans_env.c \
+			./src/exec.c \
+			./src/parse_cmds.c \
+			./src/executor.c \
+			./src/builtin.c \
+			./src/redirection.c \
+			./src/heredoc.c \
+			./src/error.c \
+			./src/minishell.c \
+			./src/free.c \
+			./src/tools.c \
 			
 OBJS	:= ${SRCS:.c=.o}
 

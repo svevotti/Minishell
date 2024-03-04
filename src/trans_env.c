@@ -6,24 +6,11 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 10:39:36 by joschka           #+#    #+#             */
-/*   Updated: 2024/02/19 10:52:51 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/04 16:01:32 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	free_array(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
 
 t_env	*new_node(char *str)
 {
@@ -56,21 +43,6 @@ void	add_env_node(t_env **head, t_env *new)
 		while (current->next != NULL)
 			current = current->next;
 		current->next = new;
-	}
-}
-
-void	free_env(t_env *head)
-{
-	t_env	*tmp;
-
-	while (head)
-	{
-		tmp = head->next;
-		free(head->str);
-		free(head->key);
-		free(head->value);
-		free(head);
-		head = tmp;
 	}
 }
 
