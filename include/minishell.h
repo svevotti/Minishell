@@ -11,6 +11,7 @@
 # include <sys/wait.h>
 
 # define ECHO 1
+# define ENV 2
 
 # define TRUNC_OUTFILE 1
 # define APPEND_OUTFILE 2
@@ -39,6 +40,7 @@ typedef struct s_proc
 	int		pipe_out;
 	char	*infile;
 	char	*outfile;
+	int		exec;
 }t_proc;
 
 typedef struct s_data
@@ -92,7 +94,7 @@ int		find_size_array(char *str);
 char	**get_item(char *str, char delimiter);
 
 // builtin
-int		exec_builtin(t_proc *proc);
+int		exec_builtin(t_proc *proc, t_data *data);
 int		is_builtin(t_proc *proc);
 int		ft_echo(char **cmd);
 int		get_arr_size(char **arr);
@@ -131,7 +133,7 @@ void	exec_linux(t_data *data, t_proc *proc, t_env *env);
 char	*get_path(char *cmd, t_env *env);
 
 // error
-void	ft_error(int errnum, char *arg, int flag);
+void	ft_error(char *arg, int flag);
 void	ft_print_error(char *s, int fd);
 
 //redirection
