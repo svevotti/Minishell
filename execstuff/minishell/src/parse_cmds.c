@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:21:35 by jbeck             #+#    #+#             */
-/*   Updated: 2024/03/01 16:43:07 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/04 13:42:54 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_proc	*init_cmd(int id)
 	cmd->pipe_out = -1;
 	cmd->infile = NULL;
 	cmd->outfile = NULL;
+	cmd->exec = 0;
 	return (cmd);
 }
 

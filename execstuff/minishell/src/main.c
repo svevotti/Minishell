@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 10:39:46 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/02 13:49:45 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/04 14:35:47 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// to do : handle some (pipe and fork everywhere?)errors (cmd not found error),
-// builtins, ?indirect paths?
+// to do : increment SHLVL, 
+// builtins, export exitcode
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 	int		exitcode;
 
-	if (argc)
+	if (argc > 1)
 		data.input = ft_split(argv[1], ' ');
 	trans_env(&data, envp);
 	exitcode = minishell(&data);
