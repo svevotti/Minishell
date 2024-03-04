@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 17:38:03 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/04 16:49:44 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/04 17:04:12 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_env(t_env *env)
 {
 	while (env)
 	{
-		ft_printf("%s\n", env->str);
+		ft_printf("test: %s\n", env->str);
 		env = env->next;
 	}
 }

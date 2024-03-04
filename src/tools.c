@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:52:26 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/04 14:19:53 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/04 17:06:15 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	is_builtin(t_proc *proc)
 {
 	if (!ft_strcmp(proc->cmd[0], "echo"))
 		return (ECHO);
+	if (!ft_strcmp(proc->cmd[0], "env"))
+		return (ENV);
 	else
 		return (0);
 }
