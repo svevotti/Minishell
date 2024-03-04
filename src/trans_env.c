@@ -12,66 +12,6 @@
 
 #include "../include/minishell.h"
 
-int	find_key_size(char *str, char delimiter)
-{
-	int count;
-
-	count = 0;
-	while (*str != '\0')
-	{
-		if (*str == delimiter)
-			break ;
-		count++;
-		str++;
-	}
-	return (count);
-}
-
-char	**custom_split(char *str, char delimiter)
-{
-	char	**split_env;
-	int		key_size;
-	int		value_size;
-	char	*key;
-	char	*value;
-	char	*temp;
-
-	split_env = (char **)malloc(sizeof(char *) * 3);
-	key_size = find_key_size(str, delimiter);
-	key = (char *)malloc(sizeof(char) * (key_size + 1));
-	value_size = ft_strlen(str + key_size + 1);
-	value = (char *)malloc(sizeof(char) * (value_size + 1));
-	temp = key;
-	while (*str != '\0')
-	{
-		if (*str == delimiter)
-		{
-			str++;
-			temp++;
-			break;
-		}
-		*temp = *str;
-		temp++;
-		str++;
-	}
-	*temp = '\0';
-	temp = value;
-	while (*str != '\0')
-	{
-		*temp = *str;
-		temp++;
-		str++;
-	}
-	*temp = '\0';
-	split_env[0] = ft_strdup(key);
-	if (value == NULL)
-		split_env[1] = NULL;
-	else
-		split_env[1] = ft_strdup(value);
-	split_env[2] = NULL;
-	return (split_env);
-}
-
 void	free_array(char **arr)
 {
 	int	i;
@@ -89,8 +29,8 @@ t_env	*new_node(char *str)
 {
 	t_env	*node;
 	char	**item;
-	
-	item = custom_split(str, '=');
+
+	item = get_item(str, '=');
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
@@ -113,7 +53,7 @@ void	add_env_node(t_env **head, t_env *new)
 	else
 	{
 		current = *head;
-		while(current->next != NULL)
+		while (current->next != NULL)
 			current = current->next;
 		current->next = new;
 	}

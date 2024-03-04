@@ -30,6 +30,7 @@ SRCS	:=	./src/main.c \
 			./src/utils_env_var.c \
 			./src/print_array.c \
 			./src/size_split_input.c \
+			./src/utilis_trans_env.c
 			
 OBJS	:= ${SRCS:.c=.o}
 

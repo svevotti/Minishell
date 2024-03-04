@@ -59,6 +59,6 @@ int		find_len(char *str);
 int		find_size_array(char *str);
 
 //utils trans env
-// char	**custom_split(char *str, char delimiter);
+char	**get_item(char *str, char delimiter);
 
 #endif
