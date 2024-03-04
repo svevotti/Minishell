@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 17:38:03 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/01 16:42:33 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/04 15:15:38 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,19 @@ int	ft_echo(char **cmd)
 	return (0);
 }
 
-int	exec_builtin(t_proc *proc) // + t_data *data for env and stuff
+// void	ft_env(t_env *env)
+// {
+	// 
+// }
+
+int	exec_builtin(t_proc *proc, t_data *data) // + t_data *data for env and stuff
 {
 	int	exitstatus;
 
 	exitstatus = 0;
 	if (is_builtin(proc) == ECHO)
 		exitstatus = ft_echo(proc->cmd);
+	// if (is_builtin(proc) == ENV)
+	// 	ft_env(data->env);
 	return (exitstatus);
 }

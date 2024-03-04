@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 10:40:05 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/01 16:42:43 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/04 15:02:24 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,6 @@ char	*get_path(char *cmd, t_env *env)
 	return (NULL);
 }
 
-int	env_listsize(t_env *lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
-}
-
 char	**env_to_array(t_env *env)
 {
 	char	**envarray;
@@ -73,23 +60,36 @@ char	**env_to_array(t_env *env)
 	return (envarray);
 }
 
+void	for_norm_again(t_data *data, t_proc *proc)
+{
+	usleep(50000);
+	ft_error(proc->cmd[0], 1);
+	free_data(data);
+	exit(127);
+}
+
 void	exec_linux(t_data *data, t_proc *proc, t_env *env)
 {
 	char	**envarray;
+	int		ret;
 
+	if (proc->exec)
+	{
+		ret = proc->exec;
+		free_data(data);
+		exit(ret);
+	}
 	if (!proc->cmd || !proc->cmd[0])
 	{
 		free_data(data);
 		exit(0);
 	}
-	proc->path = get_path(proc->cmd[0], env);
+	if (access(proc->cmd[0], X_OK) == 0)
+		proc->path = ft_strdup(proc->cmd[0]);
+	else
+		proc->path = get_path(proc->cmd[0], env);
 	if (!proc->path)
-	{
-		usleep(50000);
-		ft_print_error(": command not found\n", 2);
-		free_data(data);
-		exit(127);
-	}
+		for_norm_again(data, proc);
 	envarray = env_to_array(env);
 	execve(proc->path, proc->cmd, envarray);
 	free_array(envarray);
@@ -114,7 +114,7 @@ int	exec_cmd(t_data *data, t_proc *proc, t_env *env)
 	{
 		if (is_builtin(proc))
 		{
-			statuscode = exec_builtin(proc);
+			statuscode = exec_builtin(proc, data);
 			free_data(data);
 			exit(statuscode);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:52:26 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/01 16:43:14 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/04 14:19:53 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,18 @@ int	get_arr_size(char **arr)
 		return (0);
 	while (arr[i])
 		i++;
+	return (i);
+}
+
+int	env_listsize(t_env *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		i++;
+	}
 	return (i);
 }
