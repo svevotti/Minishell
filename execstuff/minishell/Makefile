@@ -6,7 +6,7 @@
 #    By: joschka <joschka@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/20 14:49:17 by jbeck             #+#    #+#              #
-#    Updated: 2024/02/12 16:58:06 by joschka          ###   ########.fr        #
+#    Updated: 2024/03/01 16:44:39 by joschka          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,17 @@ LIBS	:= $(LKLIBFT) -lreadline
 
 SRCS	:=	./src/main.c \
 			./src/trans_env.c \
-			./src/execute.c \
-			
+			./src/exec.c \
+			./src/parse_cmds.c \
+			./src/executor.c \
+			./src/builtin.c \
+			./src/redirection.c \
+			./src/heredoc.c \
+			./src/error.c \
+			./src/minishell.c \
+			./src/free.c \
+			./src/tools.c \
+
 OBJS	:= ${SRCS:.c=.o}
 
 all: libft $(NAME)

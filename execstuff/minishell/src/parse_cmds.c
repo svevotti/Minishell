@@ -1,0 +1,117 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_cmds.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/19 12:21:35 by jbeck             #+#    #+#             */
+/*   Updated: 2024/03/01 16:43:07 by joschka          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/minishell.h"
+
+t_proc	*init_cmd(int id)
+{
+	t_proc	*cmd;
+
+	cmd = malloc(sizeof(t_proc));
+	if (!cmd)
+		return (NULL);
+	cmd->id = id;
+	cmd->path = NULL;
+	cmd->cmdlist = NULL;
+	cmd->cmd = NULL;
+	cmd->fd_in = 0;
+	cmd->fd_out = 0;
+	cmd->pipe_in = -1;
+	cmd->pipe_out = -1;
+	cmd->infile = NULL;
+	cmd->outfile = NULL;
+	return (cmd);
+}
+
+void	list_to_array(t_proc *proc)
+{
+	int		len;
+	int		i;
+	t_list	*run;
+
+	i = 0;
+	len = ft_lstsize(proc->cmdlist);
+	proc->cmd = malloc((len + 1) * sizeof(char *));
+	run = proc->cmdlist;
+	while (run)
+	{
+		proc->cmd[i] = ft_strdup(run->content);
+		i++;
+		run = run->next;
+	}
+	proc->cmd[i] = NULL;
+}
+
+void	create_cmd_list(t_data *data)
+{
+	int		i;
+	int		id;
+
+	i = 0;
+	id = 1;
+	data->procs = ft_lstnew(init_cmd(id));
+	while (data->input[i])
+	{
+		if (data->input[i][0] == '|')
+		{
+			id++;
+			ft_lstadd_back(&data->procs, ft_lstnew(init_cmd(id)));
+		}
+		i++;
+	}
+}
+
+int	fill_cmd_nodes(t_list *procs, t_data *data)
+{
+	int	i;
+	int	ret;
+
+	ret = 0;
+	i = 0;
+	while (data->input[i])
+	{
+		if (is_redirection(data->input[i]))
+		{
+			ret = prepare_redirection(procs->content, data->input, i);
+			i += 2;
+		}
+		else if (!ft_strcmp(data->input[i], "|"))
+		{
+			i++;
+			procs = procs->next;
+		}
+		else
+		{
+			ft_lstadd_back(&((t_proc *)procs->content)->cmdlist,
+				ft_lstnew(data->input[i]));
+			i++;
+		}
+	}
+	return (ret);
+}
+
+int	parse_cmds(t_data *data)
+{
+	t_list	*run;
+	int		ret;
+
+	ret = 0;
+	create_cmd_list(data);
+	ret = fill_cmd_nodes(data->procs, data);
+	run = data->procs;
+	while (run)
+	{
+		list_to_array(run->content);
+		run = run->next;
+	}
+	return (ret);
+}

@@ -1,29 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 10:40:05 by joschka           #+#    #+#             */
-/*   Updated: 2024/02/13 13:08:14 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/01 16:42:43 by joschka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	free_array(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
 
 char	*get_path(char *cmd, t_env *env)
 {
@@ -54,7 +41,7 @@ char	*get_path(char *cmd, t_env *env)
 	return (NULL);
 }
 
-int	ft_listsize(t_env *lst)
+int	env_listsize(t_env *lst)
 {
 	int	i;
 
@@ -67,7 +54,6 @@ int	ft_listsize(t_env *lst)
 	return (i);
 }
 
-
 char	**env_to_array(t_env *env)
 {
 	char	**envarray;
@@ -75,7 +61,7 @@ char	**env_to_array(t_env *env)
 	int		i;
 
 	i = 0;
-	len = ft_listsize(env);
+	len = env_listsize(env);
 	envarray = malloc((len + 1) * sizeof(char *));
 	while (env)
 	{
@@ -87,24 +73,55 @@ char	**env_to_array(t_env *env)
 	return (envarray);
 }
 
-void	exec_cmd(t_data *data)
+void	exec_linux(t_data *data, t_proc *proc, t_env *env)
 {
-	char	*path;
-	char 	**envarray;
+	char	**envarray;
 
-	if (access(data->cmd[0], X_OK) == 0)
-		path = data->cmd[0];
-	else
+	if (!proc->cmd || !proc->cmd[0])
 	{
-		path = get_path(data->cmd[0], data->env);
-		if (!path)
-		{
-			printf("path error\n");
-			return ;
-		}
+		free_data(data);
+		exit(0);
 	}
-	envarray = env_to_array(data->env);
-	execve(path, data->cmd, envarray);
+	proc->path = get_path(proc->cmd[0], env);
+	if (!proc->path)
+	{
+		usleep(50000);
+		ft_print_error(": command not found\n", 2);
+		free_data(data);
+		exit(127);
+	}
+	envarray = env_to_array(env);
+	execve(proc->path, proc->cmd, envarray);
 	free_array(envarray);
-	printf("execve error\n");
+	free_data(data);
+	exit(1);
+}
+
+int	exec_cmd(t_data *data, t_proc *proc, t_env *env)
+{
+	pid_t	pid;
+	int		wstatus;
+	int		statuscode;
+
+	statuscode = -1;
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		return (statuscode);
+	}
+	if (pid == 0)
+	{
+		if (is_builtin(proc))
+		{
+			statuscode = exec_builtin(proc);
+			free_data(data);
+			exit(statuscode);
+		}
+		exec_linux(data, proc, env);
+	}
+	waitpid(pid, &wstatus, 0);
+	if (WIFEXITED(wstatus))
+		statuscode = WEXITSTATUS(wstatus);
+	return (statuscode);
 }
