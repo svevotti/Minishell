@@ -7,9 +7,10 @@ int	get_len_var(char *str, int *len_name_var, t_env *env)
 	int		len_var;
 
 	len_var = 0;
+	(void)env;
 	if (*str == '?')
 	{
-		value_var = ft_itoa(env->exit_status);
+		value_var = "0";
 		if (value_var == NULL)
 			return (-1);
 		len_var = ft_strlen(value_var);

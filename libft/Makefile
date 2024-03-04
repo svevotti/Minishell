@@ -6,7 +6,7 @@
 #    By: joschka <joschka@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 14:39:14 by jbeck             #+#    #+#              #
-#    Updated: 2023/12/08 08:50:32 by joschka          ###   ########.fr        #
+#    Updated: 2024/02/21 11:32:19 by joschka          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,6 +75,7 @@ SRC =	ft_atoi.c \
 		ft_strncmp.c \
 		ft_subsplit.c \
 		ft_subsplit_utils.c \
+		ft_strcmp.c \
 
 OBJ = $(SRC:.c=.o)
 
