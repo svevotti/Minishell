@@ -1,6 +1,7 @@
 #include "../include/minishell.h"
 #include <dirent.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 
 void	initialize_env(char **argv, char argc, t_data *data, char **envp);
 char	**get_split_input(char *str, t_data *data);

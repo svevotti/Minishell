@@ -1,5 +1,4 @@
 #include "../include/minishell.h"
-
 int	find_key_size(char *str, char delimiter)
 {
 	int	count;
@@ -8,7 +7,7 @@ int	find_key_size(char *str, char delimiter)
 	while (*str != '\0')
 	{
 		if (*str == delimiter)
-			break ;
+			return (count);
 		count++;
 		str++;
 	}
@@ -21,15 +20,16 @@ char	*get_key_str(char *str, char delimiter)
 	char	*key;
 	char	*temp;
 
-	key_size = find_key_size(str, delimiter);
+	key_size = find_key_size(str, delimiter) + 1;
 	key = (char *)malloc(sizeof(char) * (key_size + 1));
+	if (key == NULL)
+		return (NULL);
 	temp = key;
 	while (*str != '\0')
 	{
 		if (*str == delimiter)
 		{
 			str++;
-			temp++;
 			break ;
 		}
 		*temp = *str;
@@ -48,7 +48,8 @@ char	*get_value_str(char *str)
 
 	value_size = ft_strlen(str);
 	value = (char *)malloc(sizeof(char) * (value_size + 1));
-	temp = value;
+	if (value == NULL)
+		return (NULL);
 	temp = value;
 	while (*str != '\0')
 	{
@@ -67,13 +68,15 @@ char	**get_item(char *str, char delimiter)
 	char	*value;
 
 	split_env = (char **)malloc(sizeof(char *) * 3);
+	if (split_env == NULL)
+		return (NULL);
 	key = get_key_str(str, delimiter);
 	if (key == NULL)
 		return (NULL);
 	str = str + ft_strlen(key) + 1;
 	value = get_value_str(str);
-	if (value == NULL)
-		return (NULL);
+	// if (value == NULL)
+	// 	return (NULL);
 	split_env[0] = ft_strdup(key);
 	if (value == NULL)
 		split_env[1] = NULL;
