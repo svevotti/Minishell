@@ -20,6 +20,8 @@ int	main(int argc, char **argv, char **envp)
 			return (1);
 		add_history(line);
 		split_input = get_split_input(line, &data);
+		//store split in struct t_data
+		//call minishell
 		if (split_input == NULL)
 		{
 			if (data.flag == 1)
