@@ -168,34 +168,46 @@ char	*count_words_pipes(char *str, int *word)
 	return (str);
 }
 
-int	find_size_pipes(char *str)
+int count_pipes(char *str)
 {
-	int	count;
-	int	word;
-
+	int count;
+	
 	count = 0;
-	word = 1;
 	while (*str != '\0')
 	{
-		count++;
-		word = 1;
-		printf("str %s\n", str);
-		while (word == 1)
-		{
-			word = 0;
-			if (*str != '|')
-			{
-				word = 1;
-				while (*str != '|')
-					str++;
-			}
-			str++;
-		}
 		if (*str == '|')
 			count++;
-		//str++;
+		str++;
 	}
-	printf("count %d\n", count);
+	return (count);
+}
+int	find_size_pipes(char *str)
+{
+	int count;
+	int	flag;
+
+	flag = 0;
+	count = 0;
+	// count = count_pipes(str);
+	printf("pipes %d\n", count);
+	while (*str != '\0')
+	{
+		if (flag == 0)
+			count++;
+		if (*str == '|')
+		{
+			count++;
+			while (*str != '|')
+				str++;
+			str++;
+		}
+		else
+		{
+			flag = 1;
+			str++;
+		}
+	}
+
 	return (count);
 }
 char	**split_by_pipes(char *str)
