@@ -220,7 +220,7 @@ int	check_syntax(char *str)
 		return (DOUBLE_REDIRECTION_INPUT);
 	else if (strncmp(cmd, "<", ft_strlen(str)) == 0)
 		return (REDIRECTION_OUTPUT);
-	else if (strncmp(cmd, ">>", ft_strlen(str)) == 0)
+	else if (strncmp(cmd, "<<", ft_strlen(str)) == 0)
 		return (DOUBLE_REDIRECTION_OUTPUT);
 	else if (strncmp(cmd, "|", ft_strlen(str)) == 0)
 		return (PIPE);
@@ -235,11 +235,15 @@ void sighandler(int signum) {
 void	print_error_token(int check)
 {
 	if (check == PIPE)
-		printf("bash: syntax error near unexpected token `|\n");
+		printf("bash: syntax error near unexpected token `|'\n");
 	else if (check == ERROR_REDIRECTION_INPUT)
-		printf("bash: syntax error near unexpected token `>\n");
+		printf("bash: syntax error near unexpected token `>'\n");
 	else if (check == ERROR_REDIRECTION_OUTPUT)
-		printf("bash: syntax error near unexpected token `<\n");
+		printf("bash: syntax error near unexpected token `<'\n");
+	else if (check == REDIRECTION_INPUT || check == DOUBLE_REDIRECTION_INPUT)
+		printf("bash: syntax error near unexpected token `newline'\n");
+	else if (check == REDIRECTION_OUTPUT || check == DOUBLE_REDIRECTION_OUTPUT)
+		printf("bash: syntax error near unexpected token `newline'\n");
 }
 int	main(int argc, char **argv, char **envp)
 {
@@ -262,6 +266,17 @@ int	main(int argc, char **argv, char **envp)
 		if (check == PIPE || check == ERROR_REDIRECTION_INPUT || check == ERROR_REDIRECTION_OUTPUT)
 		{
 			flag = 1;
+			print_error_token(check);
+		}
+		else if ((check == REDIRECTION_INPUT || check == REDIRECTION_OUTPUT) && ft_strlen(line) == 1)
+		{
+			flag = 1;
+			print_error_token(check);
+		}
+		else if ((check == DOUBLE_REDIRECTION_INPUT || check == DOUBLE_REDIRECTION_OUTPUT) && ft_strlen(line) == 2)
+		{
+			flag = 1;
+			printf("here\n");
 			print_error_token(check);
 		}
 		if (flag == 0) {
