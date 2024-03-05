@@ -13,9 +13,15 @@
 #define ERROR_REDIRECTION_INPUT 6
 #define ERROR_REDIRECTION_OUTPUT 7
 
+
 void	initialize_env(char **argv, char argc, t_data *data, char **envp);
 char	**get_split_input(char *str, t_data *data);
 int		child_process(char **input, t_env *env, char **envp);
+
+void sighandler(int signum) {
+   printf("Caught signal %d, coming out...\n", signum);
+   exit(1);
+}
 
 char	*find_cmd(char *str)
 {
@@ -108,11 +114,6 @@ int	check_syntax(char *str)
 	return (0);
 }
 
-void sighandler(int signum) {
-   printf("Caught signal %d, coming out...\n", signum);
-   exit(1);
-}
-
 void	print_error_token(int check)
 {
 	if (check == PIPE)
@@ -126,6 +127,32 @@ void	print_error_token(int check)
 	else if (check == REDIRECTION_OUTPUT || check == DOUBLE_REDIRECTION_OUTPUT)
 		printf("bash: syntax error near unexpected token `newline'\n");
 }
+
+int	get_flag_exec(char *str)
+{
+	int check;
+	int flag = 0;
+
+	flag = 0;
+	check = check_syntax(str);
+	if (check == PIPE || check == ERROR_REDIRECTION_INPUT || check == ERROR_REDIRECTION_OUTPUT)
+	{
+		flag = 1;
+		print_error_token(check);
+	}
+	else if ((check == REDIRECTION_INPUT || check == REDIRECTION_OUTPUT) && ft_strlen(str) == 1)
+	{
+		flag = 1;
+		print_error_token(check);
+	}
+	else if ((check == DOUBLE_REDIRECTION_INPUT || check == DOUBLE_REDIRECTION_OUTPUT) && ft_strlen(str) == 2)
+	{
+		flag = 1;
+		print_error_token(check);
+	}
+	return (flag)
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
@@ -143,26 +170,9 @@ int	main(int argc, char **argv, char **envp)
 		if (line == NULL)
 			return (1);
 		add_history(line);
-		check = check_syntax(line);
-		if (check == PIPE || check == ERROR_REDIRECTION_INPUT || check == ERROR_REDIRECTION_OUTPUT)
-		{
-			flag = 1;
-			print_error_token(check);
-		}
-		else if ((check == REDIRECTION_INPUT || check == REDIRECTION_OUTPUT) && ft_strlen(line) == 1)
-		{
-			flag = 1;
-			print_error_token(check);
-		}
-		else if ((check == DOUBLE_REDIRECTION_INPUT || check == DOUBLE_REDIRECTION_OUTPUT) && ft_strlen(line) == 2)
-		{
-			flag = 1;
-			printf("here\n");
-			print_error_token(check);
-		}
+		flag = get_flag_exec(line);
 		if (flag == 0) {
 			data.input = get_split_input(line, &data);
-			// free(line);
 			if (data.input)
 			{
 				exitcode = minishell(&data);
