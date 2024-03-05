@@ -150,7 +150,63 @@ int	get_flag_exec(char *str)
 		flag = 1;
 		print_error_token(check);
 	}
-	return (flag)
+	return (flag);
+}
+
+char	*count_words_pipes(char *str, int *word)
+{
+	if (*str != '|')
+	{
+		*word = 1;
+		while (*str != '|')
+		{
+			if (*str == '|')
+				break ;
+			str++;
+		}
+	}
+	return (str);
+}
+
+int	find_size_pipes(char *str)
+{
+	int	count;
+	int	word;
+
+	count = 0;
+	word = 1;
+	while (*str != '\0')
+	{
+		count++;
+		word = 1;
+		printf("str %s\n", str);
+		while (word == 1)
+		{
+			word = 0;
+			if (*str != '|')
+			{
+				word = 1;
+				while (*str != '|')
+					str++;
+			}
+			str++;
+		}
+		if (*str == '|')
+			count++;
+		//str++;
+	}
+	printf("count %d\n", count);
+	return (count);
+}
+char	**split_by_pipes(char *str)
+{
+	// char	**split;
+	int		size_array;
+
+	// printf("str %s\n", str);
+	size_array = find_size_pipes(str);
+	printf("size array with pipes %d\n", size_array);
+	return (NULL);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -158,8 +214,9 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_data	data;
 	int		exitcode;
-	int		check;
 	int		flag;
+	char	*expanded_input;
+	char	**split_input;
 
 	initialize_env(argv, argc, &data, envp);
 	signal(SIGINT, sighandler);
@@ -170,7 +227,15 @@ int	main(int argc, char **argv, char **envp)
 		if (line == NULL)
 			return (1);
 		add_history(line);
-		flag = get_flag_exec(line);
+		expanded_input = expand_input(line, &data);
+		if (expanded_input == NULL)
+			return (1);
+		split_input = split_by_pipes(line);
+		if (split_input == NULL)
+			return (1);
+		print_array(split_input);
+		flag = 1;
+		//flag = get_flag_exec(line);
 		if (flag == 0) {
 			data.input = get_split_input(line, &data);
 			if (data.input)
