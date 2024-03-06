@@ -2,13 +2,19 @@
 
 char	*get_env_value(t_env *head, char *key)
 {
+	char	*value;
+
 	while (head != NULL)
 	{
 		if (ft_strncmp(head->key, key, ft_strlen(key)) == 0)
 			return (head->value);
 		head = head->next;
 	}
-	return (NULL);
+	value = (char *)malloc(sizeof(char) + 1);
+	if (value == NULL)
+		return (NULL);
+	ft_strlcpy(value, "\0", 1);
+	return (value);
 }
 
 char	*get_value(char *str, t_env *env, int *len_word)
@@ -27,17 +33,13 @@ char	*get_value(char *str, t_env *env, int *len_word)
 	{
 		name_var = find_name_var(str);
 		if (name_var == NULL)
-		{
-			*len_word = 1;
-			value_var = (char *)malloc(sizeof(char) * 1);
-			if (value_var == NULL)
-				return (NULL);
-			ft_strlcpy(value_var, "\0", 2);
-		}
+			return (NULL);
 		else
 		{
 			*len_word = ft_strlen(name_var);
 			value_var = get_env_value(env, name_var);
+			if (value_var == NULL)
+				return (NULL);
 		}
 	}
 	return (value_var);

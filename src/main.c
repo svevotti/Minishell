@@ -232,7 +232,6 @@ char	**get_split_input(char *str, t_data *data)
 	split_input = split_function(expanded_input);
 	if (split_input == NULL)
 	{
-		printf("here2\n");
 		free_strings(str, expanded_input, NULL);
 		return (NULL);
 	}
