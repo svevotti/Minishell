@@ -27,9 +27,18 @@ char	*get_value(char *str, t_env *env, int *len_word)
 	{
 		name_var = find_name_var(str);
 		if (name_var == NULL)
-			return (NULL);
-		*len_word = ft_strlen(name_var);
-		value_var = get_env_value(env, name_var);
+		{
+			len_word = 1;
+			value_var = (char *)malloc(sizeof(char) * 1);
+			if (value_var == NULL)
+				return (NULL);
+			strlcpy(value_var, "\0", 2);
+		}
+		else
+		{
+			*len_word = ft_strlen(name_var);
+			value_var = get_env_value(env, name_var);
+		}
 	}
 	return (value_var);
 }
