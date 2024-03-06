@@ -5,13 +5,17 @@
 #include <signal.h>
 
 
-#define REDIRECTION_INPUT 1
-#define DOUBLE_REDIRECTION_INPUT 2
-#define REDIRECTION_OUTPUT 3
-#define DOUBLE_REDIRECTION_OUTPUT 4
-#define	PIPE 5
-#define ERROR_REDIRECTION_INPUT 6
-#define ERROR_REDIRECTION_OUTPUT 7
+#define	ERROR_1PIPE 1
+#define ERROR_2PLUSPIPE 2
+#define ERROR_1REDIRECTION_INPUT 3
+#define ERROR_2REDIRECTION_INPUT 4
+#define ERROR_3REDIRECTION_INPUT 5
+#define ERROR_4PLUSREDIRECTION_INPUT 6
+#define ERROR_1REDIRECTION_OUTPUT 7
+#define ERROR_2REDIRECTION_OUTPUT 8
+#define ERROR_3REDIRECTION_OUTPUT 9
+#define ERROR_4REDIRECTION_OUTPUT 10
+#define ERROR_5PLUSREDIRECTION_OUTPUT 11
 
 
 void	initialize_env(char **argv, char argc, t_data *data, char **envp);
@@ -74,58 +78,83 @@ int	check_syntax(char *str)
 	cmd = find_cmd(str);
 	temp = cmd;
 	int count = 0;
+	if (*temp == '|')
+	{
+		while (*temp == '|')
+			{
+				count++;
+				temp++;
+			}
+	}
 	if (*temp == '>')
 	{
-		while (*temp != '\0')
+		while (*temp == '>')
 		{
-			if (*temp != '>')
-				break ;
+			printf("here\n");
 			count++;
 			temp++;
 		}
 	}
 	else if (*temp == '<')
 	{
-		while (*temp != '\0')
+		while (*temp != '<')
 		{
-			if (*temp != '<')
-				break ;
 			count++;
 			temp++;
 		}
 	}
-	if (count > 2)
+	if (*cmd == '|')
 	{
-		if (*cmd == '>')
-			return (ERROR_REDIRECTION_INPUT);
-		else if (*cmd == '<')
-			return (ERROR_REDIRECTION_OUTPUT);
+		if (count == 1)
+			return (ERROR_1PIPE);
+		else
+			return (ERROR_2PLUSPIPE);
 	}
-	if (strncmp(cmd, ">", ft_strlen(str)) == 0)
-		return (REDIRECTION_INPUT);
-	else if (strncmp(cmd, ">>", ft_strlen(str)) == 0)
-		return (DOUBLE_REDIRECTION_INPUT);
-	else if (strncmp(cmd, "<", ft_strlen(str)) == 0)
-		return (REDIRECTION_OUTPUT);
-	else if (strncmp(cmd, "<<", ft_strlen(str)) == 0)
-		return (DOUBLE_REDIRECTION_OUTPUT);
-	else if (strncmp(cmd, "|", ft_strlen(str)) == 0)
-		return (PIPE);
+	else if (*cmd == '>')
+	{
+		if (count == 1 && ft_strlen(str) == 1)
+			return (ERROR_1REDIRECTION_INPUT);
+		else if (count == 2 && ft_strlen(str) == 2)
+			return (ERROR_2REDIRECTION_INPUT);
+		else if (count == 3)
+			return (ERROR_3REDIRECTION_INPUT);
+		else if (count > 3)
+			return (ERROR_4PLUSREDIRECTION_INPUT);
+	}
+	else if (*cmd == '<')
+	{
+		if (count == 1 && ft_strlen(str) == 1)
+			return (ERROR_1REDIRECTION_OUTPUT);
+		else if (count == 2 && ft_strlen(str) == 2)
+			return (ERROR_2REDIRECTION_OUTPUT);
+		else if (count == 3)
+			return (ERROR_3REDIRECTION_OUTPUT);
+		else if (count == 4)
+			return (ERROR_4REDIRECTION_OUTPUT);
+		else if (count > 4)
+			return (ERROR_5PLUSREDIRECTION_OUTPUT);
+	}
 	return (0);
 }
 
 void	print_error_token(int check)
 {
-	if (check == PIPE)
+	if (check == ERROR_1PIPE)
 		printf("bash: syntax error near unexpected token `|'\n");
-	else if (check == ERROR_REDIRECTION_INPUT)
+	else if (check == ERROR_2PLUSPIPE)
+		printf("bash: syntax error near unexpected token `||'\n");
+	else if (check == ERROR_1REDIRECTION_INPUT || check == ERROR_2REDIRECTION_INPUT)
+		printf("bash: syntax error near unexpected token `newline'\n");
+	else if (check == ERROR_3REDIRECTION_INPUT)
 		printf("bash: syntax error near unexpected token `>'\n");
-	else if (check == ERROR_REDIRECTION_OUTPUT)
+	else if (check == ERROR_4PLUSREDIRECTION_INPUT)
+		printf("bash: syntax error near unexpected token `>>'\n");
+	else if (check == ERROR_1REDIRECTION_OUTPUT || check == ERROR_2REDIRECTION_OUTPUT || check == ERROR_3REDIRECTION_OUTPUT)
+		printf("bash: syntax error near unexpected token `newline'\n");
+	else if (check == ERROR_4REDIRECTION_OUTPUT)
 		printf("bash: syntax error near unexpected token `<'\n");
-	else if (check == REDIRECTION_INPUT || check == DOUBLE_REDIRECTION_INPUT)
-		printf("bash: syntax error near unexpected token `newline'\n");
-	else if (check == REDIRECTION_OUTPUT || check == DOUBLE_REDIRECTION_OUTPUT)
-		printf("bash: syntax error near unexpected token `newline'\n");
+	else if (check == ERROR_5PLUSREDIRECTION_OUTPUT)
+		printf("bash: syntax error near unexpected token `<<'\n");
 }
 
 int	get_flag_exec(char *str)
@@ -135,51 +164,12 @@ int	get_flag_exec(char *str)
 
 	flag = 0;
 	check = check_syntax(str);
-	if (check == PIPE || check == ERROR_REDIRECTION_INPUT || check == ERROR_REDIRECTION_OUTPUT)
-	{
-		flag = 1;
-		print_error_token(check);
-	}
-	else if ((check == REDIRECTION_INPUT || check == REDIRECTION_OUTPUT) && ft_strlen(str) == 1)
-	{
-		flag = 1;
-		print_error_token(check);
-	}
-	else if ((check == DOUBLE_REDIRECTION_INPUT || check == DOUBLE_REDIRECTION_OUTPUT) && ft_strlen(str) == 2)
+	if (check != 0)
 	{
 		flag = 1;
 		print_error_token(check);
 	}
 	return (flag);
-}
-
-char	*count_words_pipes(char *str, int *word)
-{
-	if (*str != '|')
-	{
-		*word = 1;
-		while (*str != '|')
-		{
-			if (*str == '|')
-				break ;
-			str++;
-		}
-	}
-	return (str);
-}
-
-int count_pipes(char *str)
-{
-	int count;
-	
-	count = 0;
-	while (*str != '\0')
-	{
-		if (*str == '|')
-			count++;
-		str++;
-	}
-	return (count);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -201,10 +191,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(line);
 		split_input = get_split_input(line, &data);
 		if (split_input == NULL)
-		{
-			printf("here\n");
 			return (1);
-		}
 		flag = get_flag_exec(line);
 		if (flag == 0) {
 			data.input = get_split_input(line, &data);
@@ -221,10 +208,81 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
+int	find_len_input(char **input)
+{
+	int	count;
+
+	count = 0;
+	while (*input != NULL)
+	{
+		count++;
+		input++;
+	}
+	return (count);
+}
+
+int	get_tokens(char *str)
+{
+	int	count;
+	char *temp;
+
+	count = 0;
+	while (*str != '\0')
+	{
+		if (*str == '|')
+		{
+			temp = str;
+			temp++;
+			if (*temp == '|')
+				count--;
+			count++;
+		}
+		str++;
+	}
+	return (count);
+}
+
+int	count_tokens(char **input, int size)
+{
+	int count;
+	int	i;
+	
+	i = 0;
+	count = 0;
+	while (i < size)
+	{
+		if (ft_strlen(input[i]) > 1)
+			count = get_tokens(input[i]) + count;
+		i++;
+	}
+	return (count);
+}
+
+char	**add_tokens(char **input)
+{
+	char	**new_input;
+	int		size_new_input;
+	int		num_tokens;
+	int		size_input;
+
+	size_input = find_len_input(input);
+	num_tokens = count_tokens(input, size_input);
+	size_new_input = size_input + num_tokens;
+	new_input = (char **)malloc(sizeof(char *) * (size_new_input) + 1);
+	if (new_input == NULL)
+		return (NULL);
+	printf("size new input %d from input %d and tokens %D\n", size_new_input, size_input, num_tokens);
+
+
+
+
+	return (NULL);
+}
 char	**get_split_input(char *str, t_data *data)
 {
 	char		*expanded_input;
 	char		**split_input;
+	// char		**split_by_tokens;
 
 	expanded_input = expand_input(str, data);
 	if (expanded_input == NULL)
@@ -235,6 +293,13 @@ char	**get_split_input(char *str, t_data *data)
 		free_strings(str, expanded_input, NULL);
 		return (NULL);
 	}
+	// split_by_tokens = add_tokens(split_input);
+	// exit(1);
+	// if(split_by_tokens == NULL)
+	// {
+	// 	free_strings(str, expanded_input, split_input);
+	// 	return (NULL);
+	// }
 	return (split_input);
 }
 
