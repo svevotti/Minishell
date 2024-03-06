@@ -181,69 +181,6 @@ int count_pipes(char *str)
 	}
 	return (count);
 }
-int	find_size_pipes(char *str)
-{
-	int count;
-	int	flag;
-
-	flag = 0;
-	count = 0;
-	// count = count_pipes(str);
-	printf("pipes %d\n", count);
-	while (*str != '\0')
-	{
-		if (flag == 0)
-			count++;
-		if (*str == '|')
-		{
-			count++;
-			while (*str != '|')
-				str++;
-			str++;
-		}
-		else
-		{
-			flag = 1;
-			str++;
-		}
-	}
-
-	return (count);
-}
-char	***split_by_pipes(char *str)
-{
-	// char	**split;
-	// int		size_array;
-
-	char *temp;
-	temp = str;
-	//flag pipe at the beginning or end
-	//echo | grep
-	int number_processes = 0;
-	int word = 1;
-	while (*temp != '\0')
-	{
-		number_processes++;
-		word = 1;
-		while (word == 1)
-		{
-			if (*temp == '|')
-			{
-				temp++;
-				while (*temp != '|')
-				{
-					if (*temp == '\0')
-						break ;
-					temp++;
-				}
-			}
-			word = 0;
-		}
-		temp++;
-	}
-	printf("number_processes %d\n", number_processes);
-	return (NULL);
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -251,8 +188,7 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 	int		exitcode;
 	int		flag;
-	char	*expanded_input;
-	char	***split_input;
+	char	**split_input;
 
 	initialize_env(argv, argc, &data, envp);
 	signal(SIGINT, sighandler);
@@ -263,15 +199,13 @@ int	main(int argc, char **argv, char **envp)
 		if (line == NULL)
 			return (1);
 		add_history(line);
-		expanded_input = expand_input(line, &data);
-		if (expanded_input == NULL)
-			return (1);
-		split_input = split_by_pipes(line);
+		split_input = get_split_input(line, &data);
 		if (split_input == NULL)
+		{
+			printf("here\n");
 			return (1);
-		//print_array(split_input);
-		flag = 1;
-		//flag = get_flag_exec(line);
+		}
+		flag = get_flag_exec(line);
 		if (flag == 0) {
 			data.input = get_split_input(line, &data);
 			if (data.input)
@@ -298,6 +232,7 @@ char	**get_split_input(char *str, t_data *data)
 	split_input = split_function(expanded_input);
 	if (split_input == NULL)
 	{
+		printf("here2\n");
 		free_strings(str, expanded_input, NULL);
 		return (NULL);
 	}
