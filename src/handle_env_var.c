@@ -28,11 +28,11 @@ char	*get_value(char *str, t_env *env, int *len_word)
 		name_var = find_name_var(str);
 		if (name_var == NULL)
 		{
-			len_word = 1;
+			*len_word = 1;
 			value_var = (char *)malloc(sizeof(char) * 1);
 			if (value_var == NULL)
 				return (NULL);
-			strlcpy(value_var, "\0", 2);
+			ft_strlcpy(value_var, "\0", 2);
 		}
 		else
 		{

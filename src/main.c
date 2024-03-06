@@ -210,14 +210,38 @@ int	find_size_pipes(char *str)
 
 	return (count);
 }
-char	**split_by_pipes(char *str)
+char	***split_by_pipes(char *str)
 {
 	// char	**split;
-	int		size_array;
+	// int		size_array;
 
-	// printf("str %s\n", str);
-	size_array = find_size_pipes(str);
-	printf("size array with pipes %d\n", size_array);
+	char *temp;
+	temp = str;
+	//flag pipe at the beginning or end
+	//echo | grep
+	int number_processes = 0;
+	int word = 1;
+	while (*temp != '\0')
+	{
+		number_processes++;
+		word = 1;
+		while (word == 1)
+		{
+			if (*temp == '|')
+			{
+				temp++;
+				while (*temp != '|')
+				{
+					if (*temp == '\0')
+						break ;
+					temp++;
+				}
+			}
+			word = 0;
+		}
+		temp++;
+	}
+	printf("number_processes %d\n", number_processes);
 	return (NULL);
 }
 
@@ -228,7 +252,7 @@ int	main(int argc, char **argv, char **envp)
 	int		exitcode;
 	int		flag;
 	char	*expanded_input;
-	char	**split_input;
+	char	***split_input;
 
 	initialize_env(argv, argc, &data, envp);
 	signal(SIGINT, sighandler);
@@ -245,7 +269,7 @@ int	main(int argc, char **argv, char **envp)
 		split_input = split_by_pipes(line);
 		if (split_input == NULL)
 			return (1);
-		print_array(split_input);
+		//print_array(split_input);
 		flag = 1;
 		//flag = get_flag_exec(line);
 		if (flag == 0) {
