@@ -278,14 +278,104 @@ char	**add_tokens(char **input)
 
 	return (NULL);
 }
+
+#define	ERROR_1ARGV -1
+#define	ERROR_OR -2
+
+int	get_num_pipes(char *input)
+{
+	int	count;
+	int	flag;
+	char	*temp;
+
+	flag = 0;
+	count = 0;
+	while (*input != '\0')
+	{
+		if (*input == '|')
+		{
+			if (flag == 0)
+			{
+				temp = input;
+				temp++;
+				if (*temp != '|')
+					return (ERROR_1ARGV);
+				else
+					return (ERROR_OR);
+			}
+			else
+			{
+				temp = input;
+				temp++;
+				if (*temp == '|')
+					return (ERROR_OR);
+				count++;
+			}
+		}
+		flag = 1;
+		input++;
+	}
+	return (count);
+}
+
+int	check_pipe_end(char *str)
+{
+	int	flag;
+	int	size;
+
+	size = ft_strlen(str);
+	str += size - 1;
+	flag = 0;
+	while (*str == ' ' || *str == '\n' || *str == '\t')
+			str--;
+	
+	while (size > 0)
+	{
+		if (*str == '|')
+			flag = 1;
+		str--;
+		size--;
+	}
+	return (flag);
+}
+
+char	**split_by_pipes(char *input)
+{
+	int	number_processes;
+	int	flag_pipe_end;
+	char	**get_processes;
+
+	number_processes = get_num_pipes(input);
+	if (number_processes < 0)
+	{
+		// print_error(number_processes);
+		// free(input);
+		return (NULL);
+	}
+	else
+		number_processes++;
+	flag_pipe_end = check_pipe_end(input);
+	get_processes = (char **)malloc(sizeof(char *) * (number_processes + 1));
+	if (get_processes == NULL)
+	{
+		free(input);
+		return (NULL);
+	}
+
+	// exit(1);
+	return (NULL);
+}
 char	**get_split_input(char *str, t_data *data)
 {
 	char		*expanded_input;
 	char		**split_input;
-	// char		**split_by_tokens;
+	char		**split_input_pipes;
 
 	expanded_input = expand_input(str, data);
 	if (expanded_input == NULL)
+		return (NULL);
+	split_input_pipes = split_by_pipes(expanded_input);
+	if (split_input_pipes == NULL)
 		return (NULL);
 	split_input = split_function(expanded_input);
 	if (split_input == NULL)
