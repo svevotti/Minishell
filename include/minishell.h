@@ -65,6 +65,7 @@ char	*get_env_value(t_env *head, char *key);
 
 //find size env var
 int		find_size(char *str, t_env *env);
+int		find_len(char *str);
 
 //trans_env
 void	trans_env(t_data *data, char **envp);
@@ -92,6 +93,9 @@ int		find_size_array(char *str);
 
 //utils trans env
 char	**get_item(char *str, char delimiter);
+
+//split by pipes
+char	**split_by_pipe(char *input);
 
 // builtin
 int		exec_builtin(t_proc *proc, t_data *data);

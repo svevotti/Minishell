@@ -90,7 +90,6 @@ int	check_syntax(char *str)
 	{
 		while (*temp == '>')
 		{
-			printf("here\n");
 			count++;
 			temp++;
 		}
@@ -171,20 +170,85 @@ int	get_flag_exec(char *str)
 	}
 	return (flag);
 }
+#define ERROR -1
+#define FREE -1
+
+int	check_first_argv(char *str)
+{
+	int count;
+
+	count = 0;
+	while (*str != '\0')
+	{
+		if (*str == '|')
+		{
+			while (*str == '|')
+			{
+				count++;
+				str++;
+			}
+			break ;
+		}
+		str++;
+	}
+	if (count >= 1)
+	{
+		if (count == 1)
+			print_error_token(ERROR_1PIPE);
+		else
+			print_error_token(ERROR_2PLUSPIPE);
+		return (ERROR);
+	}
+	return (0);
+}
+
+int	check_tokens_error(char **input)
+{
+	int i;
+	char	*box;
+	int		count;
+
+	i = 0;
+	count = 0;
+	if (check_first_argv(input[i]) == ERROR)
+		return (ERROR);
+	while (input[i] != NULL)
+	{
+		box = input[i];
+		while (*box != '\0')
+		{
+			if (*box == '|')
+			{
+				while (*box == '|')
+				{
+					count++;
+					box++;
+				}
+				break ;
+			}
+			box++;
+		}
+		i++;
+	}
+	if (count > 1)
+	{
+		print_error_token(ERROR_2PLUSPIPE);
+		return (ERROR);
+	}
+	return (0);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_data	data;
 	int		exitcode;
-	int		flag;
 	char	**split_input;
 
 	initialize_env(argv, argc, &data, envp);
 	signal(SIGINT, sighandler);
 	while (1)
 	{
-		flag = 0;
 		line = readline("Minishell >> ");
 		if (line == NULL)
 			return (1);
@@ -192,9 +256,14 @@ int	main(int argc, char **argv, char **envp)
 		split_input = get_split_input(line, &data);
 		if (split_input == NULL)
 			return (1);
-		flag = get_flag_exec(line);
-		if (flag == 0) {
-			data.input = get_split_input(line, &data);
+		if (check_tokens_error(split_input) == ERROR)
+		{
+			//free stuff
+			return (1);
+		}
+		else 
+		{
+			data.input = split_input;
 			if (data.input)
 			{
 				exitcode = minishell(&data);
@@ -208,174 +277,13 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-int	find_len_input(char **input)
-{
-	int	count;
-
-	count = 0;
-	while (*input != NULL)
-	{
-		count++;
-		input++;
-	}
-	return (count);
-}
-
-int	get_tokens(char *str)
-{
-	int	count;
-	char *temp;
-
-	count = 0;
-	while (*str != '\0')
-	{
-		if (*str == '|')
-		{
-			temp = str;
-			temp++;
-			if (*temp == '|')
-				count--;
-			count++;
-		}
-		str++;
-	}
-	return (count);
-}
-
-int	count_tokens(char **input, int size)
-{
-	int count;
-	int	i;
-	
-	i = 0;
-	count = 0;
-	while (i < size)
-	{
-		if (ft_strlen(input[i]) > 1)
-			count = get_tokens(input[i]) + count;
-		i++;
-	}
-	return (count);
-}
-
-char	**add_tokens(char **input)
-{
-	char	**new_input;
-	int		size_new_input;
-	int		num_tokens;
-	int		size_input;
-
-	size_input = find_len_input(input);
-	num_tokens = count_tokens(input, size_input);
-	size_new_input = size_input + num_tokens;
-	new_input = (char **)malloc(sizeof(char *) * (size_new_input) + 1);
-	if (new_input == NULL)
-		return (NULL);
-	printf("size new input %d from input %d and tokens %D\n", size_new_input, size_input, num_tokens);
-
-
-
-
-	return (NULL);
-}
-
-#define	ERROR_1ARGV -1
-#define	ERROR_OR -2
-
-int	get_num_pipes(char *input)
-{
-	int	count;
-	int	flag;
-	char	*temp;
-
-	flag = 0;
-	count = 0;
-	while (*input != '\0')
-	{
-		if (*input == '|')
-		{
-			if (flag == 0)
-			{
-				temp = input;
-				temp++;
-				if (*temp != '|')
-					return (ERROR_1ARGV);
-				else
-					return (ERROR_OR);
-			}
-			else
-			{
-				temp = input;
-				temp++;
-				if (*temp == '|')
-					return (ERROR_OR);
-				count++;
-			}
-		}
-		flag = 1;
-		input++;
-	}
-	return (count);
-}
-
-int	check_pipe_end(char *str)
-{
-	int	flag;
-	int	size;
-
-	size = ft_strlen(str);
-	str += size - 1;
-	flag = 0;
-	while (*str == ' ' || *str == '\n' || *str == '\t')
-			str--;
-	
-	while (size > 0)
-	{
-		if (*str == '|')
-			flag = 1;
-		str--;
-		size--;
-	}
-	return (flag);
-}
-
-char	**split_by_pipes(char *input)
-{
-	int	number_processes;
-	int	flag_pipe_end;
-	char	**get_processes;
-
-	number_processes = get_num_pipes(input);
-	if (number_processes < 0)
-	{
-		// print_error(number_processes);
-		// free(input);
-		return (NULL);
-	}
-	else
-		number_processes++;
-	flag_pipe_end = check_pipe_end(input);
-	get_processes = (char **)malloc(sizeof(char *) * (number_processes + 1));
-	if (get_processes == NULL)
-	{
-		free(input);
-		return (NULL);
-	}
-
-	// exit(1);
-	return (NULL);
-}
 char	**get_split_input(char *str, t_data *data)
 {
 	char		*expanded_input;
 	char		**split_input;
-	char		**split_input_pipes;
 
 	expanded_input = expand_input(str, data);
 	if (expanded_input == NULL)
-		return (NULL);
-	split_input_pipes = split_by_pipes(expanded_input);
-	if (split_input_pipes == NULL)
 		return (NULL);
 	split_input = split_function(expanded_input);
 	if (split_input == NULL)
@@ -383,13 +291,6 @@ char	**get_split_input(char *str, t_data *data)
 		free_strings(str, expanded_input, NULL);
 		return (NULL);
 	}
-	// split_by_tokens = add_tokens(split_input);
-	// exit(1);
-	// if(split_by_tokens == NULL)
-	// {
-	// 	free_strings(str, expanded_input, split_input);
-	// 	return (NULL);
-	// }
 	return (split_input);
 }
 
