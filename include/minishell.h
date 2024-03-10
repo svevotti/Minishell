@@ -94,8 +94,11 @@ int		find_size_array(char *str);
 //utils trans env
 char	**get_item(char *str, char delimiter);
 
-//split by pipes
-char	**split_by_pipe(char *input);
+//crate input pipe at the end
+void	update_input(char **input);
+
+//print error
+int	check_tokens_error(char **input);
 
 // builtin
 int		exec_builtin(t_proc *proc, t_data *data);

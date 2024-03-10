@@ -41,6 +41,8 @@ SRCS	:=	./src/main.c \
 			./src/minishell.c \
 			./src/free.c \
 			./src/tools.c \
+			./src/craete_input_pipes_end.c \
+			./src/error_messages.c
 			
 OBJS	:= ${SRCS:.c=.o}
 
