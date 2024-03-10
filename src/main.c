@@ -164,7 +164,7 @@ int	find_size_pipe_end(char *str)
 		count++;
 		if (strcmp(str, "|") == 0)
 		{
-			prompt = readline("∙ ");
+			prompt = readline("size∙ ");
 			int	size_prompt = ft_strlen(prompt);
 			prompt += size_prompt - 1;
 			while (*prompt == ' ' || *prompt == '\n' || *prompt == '\t')
@@ -176,7 +176,7 @@ int	find_size_pipe_end(char *str)
 	return (count);
 }
 
-void *get_cmd_pipes(int size_pipes)
+void *get_cmd_pipes(int)
 {
 	int		new_pipe;
 	char	*prompt;
@@ -187,7 +187,7 @@ void *get_cmd_pipes(int size_pipes)
 	while (new_pipe == 1)
 	{
 		new_pipe = 0;
-		prompt = readline("∙ ");
+		prompt = readline("str∙ ");
 		int	size_prompt = ft_strlen(prompt);
 		prompt += size_prompt - 1;
 		while (*prompt == ' ' || *prompt == '\n' || *prompt == '\t')
@@ -198,6 +198,7 @@ void *get_cmd_pipes(int size_pipes)
 	exit(6);
 	return (NULL);
 }
+
 void	update_input(char **input)
 {
 	int	size_input;
@@ -211,6 +212,27 @@ void	update_input(char **input)
 	size_new_input = find_size_pipe_end(input[size_input - 1] + size_input);
 	new_input = (char **)malloc(sizeof(char *) * (size_new_input + 1));
 	get_cmd_pipes(find_size_pipe_end(input[size_input - 1]));
+	//new_input[i] = NULL;
+
+	// get_cmd = input[size_input - 1];
+	// int count = 0;
+	// while (new_pipe == 1)
+	// {
+	// 	new_pipe = 0;
+	// 	count++;
+	// 	if (strcmp(get_cmd, "|") == 0)
+	// 	{
+	// 		prompt = readline("~");
+	// 		temp = prompt;
+	// 		int	size_prompt = ft_strlen(prompt);
+	// 		temp += size_prompt - 1;
+	// 		while (*temp == ' ' || *temp == '\n' || *temp == '\t')
+	// 			temp--;
+	// 		if (*temp == '|')
+	// 			new_pipe = 1;
+	// 	}
+	// }
+	// printf("count pipes in prompt %d\n", count);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -219,24 +241,31 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 	int		exitcode;
 	char	**split_input;
+	// char	**new_input;
 
 	initialize_env(argv, argc, &data, envp);
 	signal(SIGINT, sighandler);
 	while (1)
 	{
-		line = readline("Minishell >> ");
-		if (line == NULL)
-			return (1);
+		line = readline("(=^･^=) ");
 		add_history(line);
 		split_input = get_split_input(line, &data);
 		if (split_input == NULL)
 			return (1);
+		if (check_pipe_end(split_input) == PIPE_END)
+		{
+			printf("size array %d\n", find_size_input_array(split_input));
+			update_input(split_input);
+			exit(1);
+
+			
+		}
 		if (check_tokens_error(split_input) == ERROR)
 		{
 			//free stuff
-			return (1);
+			//return (1);
 		}
-		else 
+		else
 		{
 			data.input = split_input;
 			if (data.input)
@@ -247,7 +276,6 @@ int	main(int argc, char **argv, char **envp)
 				free_array(data.input); 
 			}
 		}
-		free(line);
 	}
 	return (0);
 }
