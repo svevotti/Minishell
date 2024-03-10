@@ -26,116 +26,6 @@ void sighandler(int signum) {
    printf("Caught signal %d, coming out...\n", signum);
    exit(1);
 }
-
-char	*find_cmd(char *str)
-{
-	char *cmd;
-	char *temp;
-	int len;
-	int i;
-
-	i = 0;
-	temp = str;
-	len = 0;
-	i = 0;
-	while (*temp != '\0')
-	{
-		if (*temp == ' ' || *temp == '\n' || *temp == '\t')
-			break;
-		temp++;
-		len++;
-	}
-	cmd = (char *)malloc(sizeof(char) * (len + 1));
-	if (cmd == NULL)
-		return (NULL);
-	temp = cmd;
-	while (i < len)
-	{
-		*temp++ = *str++;
-		i++;
-	}
-	*temp = '\0';
-	return (cmd);
-}
-
-int	check_cmd(char *str)
-{
-	char *cmd;
-	
-	cmd = find_cmd(str);
-	if (cmd == NULL)
-		return (1);
-	return (0);
-}
-
-int	check_syntax(char *str)
-{
-	char	*cmd;
-	char	*temp;
-
-	while (*str == ' ' || *str == '\n' || *str == '\t')
-			str++;
-	cmd = find_cmd(str);
-	temp = cmd;
-	int count = 0;
-	if (*temp == '|')
-	{
-		while (*temp == '|')
-			{
-				count++;
-				temp++;
-			}
-	}
-	if (*temp == '>')
-	{
-		while (*temp == '>')
-		{
-			count++;
-			temp++;
-		}
-	}
-	else if (*temp == '<')
-	{
-		while (*temp != '<')
-		{
-			count++;
-			temp++;
-		}
-	}
-	if (*cmd == '|')
-	{
-		if (count == 1)
-			return (ERROR_1PIPE);
-		else
-			return (ERROR_2PLUSPIPE);
-	}
-	else if (*cmd == '>')
-	{
-		if (count == 1 && ft_strlen(str) == 1)
-			return (ERROR_1REDIRECTION_INPUT);
-		else if (count == 2 && ft_strlen(str) == 2)
-			return (ERROR_2REDIRECTION_INPUT);
-		else if (count == 3)
-			return (ERROR_3REDIRECTION_INPUT);
-		else if (count > 3)
-			return (ERROR_4PLUSREDIRECTION_INPUT);
-	}
-	else if (*cmd == '<')
-	{
-		if (count == 1 && ft_strlen(str) == 1)
-			return (ERROR_1REDIRECTION_OUTPUT);
-		else if (count == 2 && ft_strlen(str) == 2)
-			return (ERROR_2REDIRECTION_OUTPUT);
-		else if (count == 3)
-			return (ERROR_3REDIRECTION_OUTPUT);
-		else if (count == 4)
-			return (ERROR_4REDIRECTION_OUTPUT);
-		else if (count > 4)
-			return (ERROR_5PLUSREDIRECTION_OUTPUT);
-	}
-	return (0);
-}
-
 void	print_error_token(int check)
 {
 	if (check == ERROR_1PIPE)
@@ -156,23 +46,11 @@ void	print_error_token(int check)
 		printf("bash: syntax error near unexpected token `<<'\n");
 }
 
-int	get_flag_exec(char *str)
-{
-	int check;
-	int flag = 0;
-
-	flag = 0;
-	check = check_syntax(str);
-	if (check != 0)
-	{
-		flag = 1;
-		print_error_token(check);
-	}
-	return (flag);
-}
 #define ERROR -1
 #define FREE -1
+#define	PIPE_END -2
 
+ #include <string.h>
 int	check_first_argv(char *str)
 {
 	int count;
@@ -236,6 +114,103 @@ int	check_tokens_error(char **input)
 		return (ERROR);
 	}
 	return (0);
+}
+
+int	find_size_input_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (*array != NULL)
+	{
+		array++;
+		i++;
+	}
+	return (i);
+}
+
+int	check_pipe(char *str)
+{
+	int	size;
+
+	size = ft_strlen(str);
+	str += size - 1;
+	if (*str == '|')
+		return (1);
+	return (0);
+}
+
+int	check_pipe_end(char **input)
+{
+	int	size_array;
+	
+	size_array = find_size_input_array(input);
+	if (check_pipe(input[size_array - 1]) == 1)
+		return(PIPE_END);
+	return (0);
+}
+
+int	find_size_pipe_end(char *str)
+{
+	int	new_pipe;
+	int	count;
+	char	*prompt;
+
+	new_pipe = 1;
+	count = 0;
+	while (new_pipe == 1)
+	{
+		new_pipe = 0;
+		count++;
+		if (strcmp(str, "|") == 0)
+		{
+			prompt = readline("∙ ");
+			int	size_prompt = ft_strlen(prompt);
+			prompt += size_prompt - 1;
+			while (*prompt == ' ' || *prompt == '\n' || *prompt == '\t')
+				prompt--;
+			if (*prompt == '|')
+				new_pipe = 1;		
+		}
+	}
+	return (count);
+}
+
+void *get_cmd_pipes(int size_pipes)
+{
+	int		new_pipe;
+	char	*prompt;
+	int		*size_array;
+	char	*array_pipes;
+
+	new_pipe = 1;
+	while (new_pipe == 1)
+	{
+		new_pipe = 0;
+		prompt = readline("∙ ");
+		int	size_prompt = ft_strlen(prompt);
+		prompt += size_prompt - 1;
+		while (*prompt == ' ' || *prompt == '\n' || *prompt == '\t')
+			prompt--;
+		if (*prompt == '|')
+			new_pipe = 1;
+	}
+	exit(6);
+	return (NULL);
+}
+void	update_input(char **input)
+{
+	int	size_input;
+	int	size_new_input;
+	char	**new_input;
+	char	*str_new_pipes;
+	char	*str;
+
+
+	size_input = find_size_input_array(input);
+	size_new_input = find_size_pipe_end(input[size_input - 1] + size_input);
+	new_input = (char **)malloc(sizeof(char *) * (size_new_input + 1));
+	get_cmd_pipes(find_size_pipe_end(input[size_input - 1]));
 }
 
 int	main(int argc, char **argv, char **envp)
