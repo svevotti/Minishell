@@ -18,11 +18,27 @@ int	find_len(char *str)
 			str++;
 		}
 	}
+	else if (*str == '>')
+	{
+		while (*str == '>')
+		{
+			count++;
+			str++;
+		}
+	}
+	else if (*str == '<')
+	{
+		while (*str == '<')
+		{
+			count++;
+			str++;
+		}
+	}
 	else
 	{
 		while (*str != '\0')
 		{
-			if ((*str == ' ' || *str == '\n' || *str == '\t' || *str == '|')
+			if ((*str == ' ' || *str == '\n' || *str == '\t' || *str == '|' || *str == '>' || *str == '<')
 				&& single_quote == 0 && double_quotes == 0)
 				break ;
 			if (*str == 39)
@@ -72,7 +88,9 @@ char	**split_function(char *str)
 	int		size_array;
 	int		i;
 	char	*single_str;
+	int		size_str;
 
+	size_str = 0;
 	size_array = find_size_array(str);
 	string_split = (char **)malloc(sizeof(char *) * (size_array + 1));
 	if (string_split == NULL)
@@ -85,7 +103,9 @@ char	**split_function(char *str)
 		single_str = get_single_str(str);
 		if (single_str == NULL)
 			return (NULL);
-		int size_str = ft_strlen(single_str);
+		if (*str == 34 || *str == 39)
+			str += 2;
+		size_str = ft_strlen(single_str);
 		str += size_str;
 		string_split[i] = single_str;
 		i++;

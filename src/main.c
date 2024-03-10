@@ -31,6 +31,8 @@ int	main(int argc, char **argv, char **envp)
 		split_input = get_split_input(line, &data);
 		if (split_input == NULL)
 			return (1);
+		// printf("array -\n");
+		// print_array(split_input);
 		// if (check_pipe_end(split_input) == PIPE_END)
 		// {
 		// 	printf("size array %d\n", find_size_input_array(split_input));
@@ -41,6 +43,7 @@ int	main(int argc, char **argv, char **envp)
 		// }
 		if (check_tokens_error(split_input) == ERROR)
 		{
+			printf("error\n");
 			//free stuff
 			//return (1);
 		}
