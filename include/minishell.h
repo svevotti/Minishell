@@ -96,9 +96,10 @@ char	**get_item(char *str, char delimiter);
 
 //crate input pipe at the end
 void	update_input(char **input);
+int		find_size_input_array(char **array);
 
 //print error
-int	check_tokens_error(char **input);
+int	tokens_error(char **input);
 
 // builtin
 int		exec_builtin(t_proc *proc, t_data *data);

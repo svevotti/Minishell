@@ -1,0 +1,64 @@
+test cases
+
+TOKENS
+Error
+pipes
+- | is at the beginning
+- || is at the beginning
+- || in the middle
+red input
+- any number of > alone
+nothing afterwords
+- >>> + smth (error >)
+- >>>> + smth (error >>)
+- smth + any number > (2 types of error)
+
+red output
+- < alone
+- << alone
+
+bash-3.2$ |
+bash: syntax error near unexpected token `|'
+bash-3.2$ ||
+bash: syntax error near unexpected token `||'
+bash-3.2$ |||
+bash: syntax error near unexpected token `||'
+bash-3.2$ ||||
+bash: syntax error near unexpected token `||'
+bash-3.2$ >
+bash: syntax error near unexpected token `newline'
+bash-3.2$ >>
+bash: syntax error near unexpected token `newline'
+bash-3.2$ >>>
+bash: syntax error near unexpected token `>'
+bash-3.2$ >>>>
+bash: syntax error near unexpected token `>>'
+bash-3.2$ >>>>>
+bash: syntax error near unexpected token `>>'
+bash-3.2$ <
+bash: syntax error near unexpected token `newline'
+bash-3.2$ <
+bash: syntax error near unexpected token `newline'
+bash-3.2$ <<
+bash: syntax error near unexpected token `newline'
+bash-3.2$ <<<
+bash: syntax error near unexpected token `newline'
+bash-3.2$ <<<<
+bash: syntax error near unexpected token `<'
+bash-3.2$ <<<<<
+bash: syntax error near unexpected token `<<'
+
+bash-3.2$ echo ||| $HOME
+bash: syntax error near unexpected token `|'
+bash-3.2$ echo |||| $HOME
+bash: syntax error near unexpected token `||'
+bash-3.2$ test >>> test3
+bash: syntax error near unexpected token `>'
+bash-3.2$ test >>>> test3
+bash: syntax error near unexpected token `>>'
+bash-3.2$ test <<< test3
+bash-3.2$ test <<<< test3
+bash: syntax error near unexpected token `<'
+bash-3.2$ test <<<<< test3
+bash: syntax error near unexpected token `<<'
+bash-3.2$ 
