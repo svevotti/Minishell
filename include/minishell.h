@@ -3,9 +3,9 @@
 
 # include "../libft/libft.h"
 # include <stdlib.h>
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <stdio.h>
 # include <fcntl.h>
 # include <errno.h>
 # include <sys/wait.h>

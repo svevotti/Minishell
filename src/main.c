@@ -10,17 +10,19 @@ char	**get_split_input(char *str, t_data *data);
 int		child_process(char **input, t_env *env, char **envp);
 
 void sighandler(int signum) {
-   printf("Caught signal %d, coming out...\n", signum);
-   exit(1);
+
+	(void)signum;
+	ft_putstr_fd("\n", 1);
+	rl_on_new_line(); // Regenerate the prompt on a newline
+	rl_replace_line("", 0); // Clear the previous text
+	rl_redisplay();
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_data	data;
-	int		exitcode;
 	char	**split_input;
-	// char	**new_input;
 
 	initialize_env(argv, argc, &data, envp);
 	signal(SIGINT, sighandler);
@@ -31,16 +33,10 @@ int	main(int argc, char **argv, char **envp)
 		split_input = get_split_input(line, &data);
 		if (split_input == NULL)
 			return (1);
+		if (find_size_input_array(split_input) == 0)
+			continue ;
 		// printf("array - ");
 		// print_array(split_input);
-		// if (check_pipe_end(split_input) == PIPE_END)
-		// {
-		// 	printf("size array %d\n", find_size_input_array(split_input));
-		// 	update_input(split_input);
-		// 	exit(1);
-
-			
-		// }
 		if (tokens_error(split_input) == ERROR)
 		{
 			//return(55);
@@ -52,8 +48,7 @@ int	main(int argc, char **argv, char **envp)
 			data.input = split_input;
 			if (data.input)
 			{
-				exitcode = minishell(&data);
-				printf("exitcode main: %d\n", exitcode);
+				minishell(&data);
 				free_procs(data.procs);
 				free_array(data.input); 
 			}
