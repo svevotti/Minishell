@@ -42,7 +42,8 @@ SRCS	:=	./src/main.c \
 			./src/free.c \
 			./src/tools.c \
 			./src/craete_input_pipes_end.c \
-			./src/error_messages.c
+			./src/error_message_tokens.c \
+			./src/error_message_tokens_utils.c
 			
 OBJS	:= ${SRCS:.c=.o}
 

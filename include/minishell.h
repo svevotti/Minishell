@@ -18,6 +18,19 @@
 # define INFILE 3
 # define HEREDOC 4
 
+# define ERROR -1
+# define ERROR_1PIPE -1
+# define ERROR_2PLUSPIPE -2
+# define ERROR_REDIRECTION_INPUT -3
+# define ERROR_3REDIRECTION_INPUT -4
+# define ERROR_4PLUSREDIRECTION_INPUT -5
+# define ERROR_REDIRECTION_OUTPUT -6
+# define ERROR_4REDIRECTION_OUTPUT -7
+# define ERROR_5PLUSREDIRECTION_OUTPUT -8
+# define PIPE 1
+# define RED_INPUT 2
+# define RED_OUTPUT 3
+
 struct	s_env;
 
 typedef struct s_env
@@ -100,6 +113,12 @@ int		find_size_input_array(char **array);
 
 //print error
 int	tokens_error(char **input);
+
+//error message tokens
+void	print_error_token(int check);
+int		check_red_input(char *str, char *next_str);
+int		check_red_output(char *str, char *next_str);
+
 
 // builtin
 int		exec_builtin(t_proc *proc, t_data *data);
