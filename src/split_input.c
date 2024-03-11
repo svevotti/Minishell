@@ -1,6 +1,34 @@
 #include "../include/minishell.h"
 
-#define ERROR_PIPES -1
+char	*get_str_count_token(char *str, int *count)
+{
+	if (*str == '|')
+	{
+		while (*str == '|')
+		{
+			*count = *count + 1;
+			str++;
+		}
+	}
+	else if (*str == '>')
+	{
+		while (*str == '>')
+		{
+			*count = *count + 1;
+			str++;
+		}
+	}
+	else if (*str == '<')
+	{
+		while (*str == '<')
+		{
+			*count = *count + 1;
+			str++;
+		}
+	}
+	return (str);
+}
+
 int	find_len(char *str)
 {
 	int	count;
@@ -10,30 +38,8 @@ int	find_len(char *str)
 	count = 0;
 	single_quote = 0;
 	double_quotes = 0;
-	if (*str == '|')
-	{
-		while (*str == '|')
-		{
-			count++;
-			str++;
-		}
-	}
-	else if (*str == '>')
-	{
-		while (*str == '>')
-		{
-			count++;
-			str++;
-		}
-	}
-	else if (*str == '<')
-	{
-		while (*str == '<')
-		{
-			count++;
-			str++;
-		}
-	}
+	if (*str == '|' || *str == '>' || *str == '<')
+		str = get_str_count_token(str, &count);
 	else
 	{
 		while (*str != '\0')
@@ -90,7 +96,6 @@ char	**split_function(char *str)
 	char	*single_str;
 	int		size_str;
 
-	size_str = 0;
 	size_array = find_size_array(str);
 	string_split = (char **)malloc(sizeof(char *) * (size_array + 1));
 	if (string_split == NULL)
