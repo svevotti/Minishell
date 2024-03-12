@@ -1,64 +1,108 @@
-test cases
+test cases for tokens
 
-TOKENS
-Error
-pipes
-- | is at the beginning
-- || is at the beginning
-- || in the middle
-red input
-- any number of > alone
-nothing afterwords
-- >>> + smth (error >)
-- >>>> + smth (error >>)
-- smth + any number > (2 types of error)
-
-red output
-- < alone
-- << alone
-
-bash-3.2$ |
+PIPES
+(=^･^=) |
 bash: syntax error near unexpected token `|'
-bash-3.2$ ||
+(=^･^=) ||
 bash: syntax error near unexpected token `||'
-bash-3.2$ |||
+(=^･^=) |||
 bash: syntax error near unexpected token `||'
-bash-3.2$ ||||
+(=^･^=) ||||
 bash: syntax error near unexpected token `||'
-bash-3.2$ >
-bash: syntax error near unexpected token `newline'
-bash-3.2$ >>
-bash: syntax error near unexpected token `newline'
-bash-3.2$ >>>
-bash: syntax error near unexpected token `>'
-bash-3.2$ >>>>
-bash: syntax error near unexpected token `>>'
-bash-3.2$ >>>>>
-bash: syntax error near unexpected token `>>'
-bash-3.2$ <
-bash: syntax error near unexpected token `newline'
-bash-3.2$ <
-bash: syntax error near unexpected token `newline'
-bash-3.2$ <<
-bash: syntax error near unexpected token `newline'
-bash-3.2$ <<<
-bash: syntax error near unexpected token `newline'
-bash-3.2$ <<<<
-bash: syntax error near unexpected token `<'
-bash-3.2$ <<<<<
-bash: syntax error near unexpected token `<<'
-
-bash-3.2$ echo ||| $HOME
+(=^･^=) |echo
 bash: syntax error near unexpected token `|'
-bash-3.2$ echo |||| $HOME
+(=^･^=) ||echo
 bash: syntax error near unexpected token `||'
-bash-3.2$ test >>> test3
-bash: syntax error near unexpected token `>'
-bash-3.2$ test >>>> test3
+(=^･^=) |echo $HOME
+bash: syntax error near unexpected token `|'
+(=^･^=) ||echo $HOME
+bash: syntax error near unexpected token `||'
+(=^･^=) echo $HOME || grep U
+bash: syntax error near unexpected token `||'
+(=^･^=) echo $HOME | grep U ||
+bash: syntax error near unexpected token `||'
+(=^･^=) |echo $HOME | grep U
+bash: syntax error near unexpected token `|'
+(=^･^=) |echo $HOME | grep U |
+bash: syntax error near unexpected token `|'
+
+RED INPUT
 bash: syntax error near unexpected token `>>'
-bash-3.2$ test <<< test3
-bash-3.2$ test <<<< test3
+(=^･^=) >test
+exitcode main: 0
+(=^･^=) >>test1
+exitcode main: 0
+(=^･^=) >>>test3
+bash: syntax error near unexpected token `>'
+(=^･^=) >>>>test3
+bash: syntax error near unexpected token `>>'
+(=^･^=) echo $HOME | >
+bash: syntax error near unexpected token `newline'
+(=^･^=) echo $HOME | >>
+bash: syntax error near unexpected token `newline'
+(=^･^=) echo $HOME | >>>
+bash: syntax error near unexpected token `>'
+(=^･^=) echo $HOME | >>>>
+bash: syntax error near unexpected token `>>'
+(=^･^=) test >
+bash: syntax error near unexpected token `newline'
+(=^･^=) test >>
+bash: syntax error near unexpected token `newline'
+(=^･^=) test >>>
+bash: syntax error near unexpected token `>'
+(=^･^=) test >>>>
+bash: syntax error near unexpected token `>>'
+(=^･^=) echo $HOME | test >
+bash: syntax error near unexpected token `newline'
+(=^･^=) echo $HOME | test >>
+bash: syntax error near unexpected token `newline'
+(=^･^=) echo $HOME | test >>>
+bash: syntax error near unexpected token `>'
+(=^･^=) echo $HOME | test >>>>
+bash: syntax error near unexpected token `>>'
+
+RED OUTPUT
+(=^･^=) <
+bash: syntax error near unexpected token `newline'
+(=^･^=) <<
+bash: syntax error near unexpected token `newline'
+(=^･^=) <<<
+error to check
+(=^･^=) <<<<
 bash: syntax error near unexpected token `<'
-bash-3.2$ test <<<<< test3
+(=^･^=) <<<<<
 bash: syntax error near unexpected token `<<'
-bash-3.2$ 
+(=^･^=) rm test test1
+exitcode main: 0
+(=^･^=) <test
+minishell: test: No such file or directory
+exitcode main: 1
+(=^･^=) <<test
+>
+(=^･^=) <<<test
+error to check
+(=^･^=) <<<<test
+bash: syntax error near unexpected token `<'
+(=^･^=) <<<<<test
+bash: syntax error near unexpected token `<<'
+(=^･^=) echo $HOME | < test
+minishell: test: No such file or directory
+exitcode main: 1
+(=^･^=) echo $HOME | << test
+>
+(=^･^=) echo $HOME | <<< test
+error to check
+(=^･^=) echo $HOME | <<<< test
+bash: syntax error near unexpected token `<'
+(=^･^=) echo $HOME | <<<<< test
+bash: syntax error near unexpected token `<<'
+(=^･^=) test <
+bash: syntax error near unexpected token `newline'
+(=^･^=) test <<
+bash: syntax error near unexpected token `newline'
+(=^･^=) test <<<
+error to check
+(=^･^=) test <<<<
+bash: syntax error near unexpected token `<'
+(=^･^=) test <<<<<
+bash: syntax error near unexpected token `<<'

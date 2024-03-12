@@ -12,14 +12,13 @@
 
 NAME	:= minishell
 
-CFLAGS	:= -Wextra -Wall -Werror -g -I ./includes/
+CFLAGS	:= -Wextra -Wall -Werror -g -I ./includes/ -I/opt/homebrew/opt/readline/include
 
 LIBFT	:= ./libft
 
 LKLIBFT	:= -L $(LIBFT) -lft
 
-LIBS	:= $(LKLIBFT) -lreadline
-
+LIBS	:= $(LKLIBFT) -L/opt/homebrew/opt/readline/lib -lreadline
 SRCS	:=	./src/main.c \
 			./src/handle_env_var.c \
 			./src/trans_env.c \
@@ -42,7 +41,9 @@ SRCS	:=	./src/main.c \
 			./src/free.c \
 			./src/tools.c \
 			./src/craete_input_pipes_end.c \
-			./src/error_messages.c
+			./src/error_message_tokens.c \
+			./src/error_message_tokens_utils.c \
+			./src/initialize_program.c
 			
 OBJS	:= ${SRCS:.c=.o}
 

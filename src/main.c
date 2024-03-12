@@ -9,53 +9,56 @@ void	initialize_env(char **argv, char argc, t_data *data, char **envp);
 char	**get_split_input(char *str, t_data *data);
 int		child_process(char **input, t_env *env, char **envp);
 
-void sighandler(int signum) {
-   printf("Caught signal %d, coming out...\n", signum);
-   exit(1);
+void	sig_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		ft_putstr_fd("\n", 1);
+		rl_on_new_line(); // Regenerate the prompt on a newline
+		rl_replace_line("", 0); // Clear the previous text
+		rl_redisplay();
+	}
+}
+
+int	check_endoffile(char *str)
+{
+	if (str == NULL)
+		return (-1);
+	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char		*line;
+	char	*line;
 	t_data	data;
-	int		exitcode;
 	char	**split_input;
-	// char	**new_input;
 
+	initialize_signals();
 	initialize_env(argv, argc, &data, envp);
-	signal(SIGINT, sighandler);
+	if (argc > 1)
+		exit(1);
 	while (1)
 	{
 		line = readline("(=^･^=) ");
+		if (check_endoffile(line) == -1)
+			exit(1); //ctrl D is EOF
 		add_history(line);
 		split_input = get_split_input(line, &data);
 		if (split_input == NULL)
 			return (1);
-		// printf("array - ");
-		// print_array(split_input);
-		// if (check_pipe_end(split_input) == PIPE_END)
-		// {
-		// 	printf("size array %d\n", find_size_input_array(split_input));
-		// 	update_input(split_input);
-		// 	exit(1);
-
-			
-		// }
+		print_array(split_input);
+		if (find_size_input_array(split_input) == 0)
+			continue ;
 		if (tokens_error(split_input) == ERROR)
-		{
-			//return(55);
-			//free stuff
-			//return (1);
-		}
+			printf("free stuff\n");
 		else
 		{
 			data.input = split_input;
 			if (data.input)
 			{
-				exitcode = minishell(&data);
-				printf("exitcode main: %d\n", exitcode);
+				minishell(&data);
 				free_procs(data.procs);
-				free_array(data.input); 
+				free_array(data.input);
 			}
 		}
 	}
@@ -77,11 +80,4 @@ char	**get_split_input(char *str, t_data *data)
 		return (NULL);
 	}
 	return (split_input);
-}
-
-void	initialize_env(char **argv, char argc, t_data *data, char **envp)
-{
-	(void)argc;
-	(void)argv;
-	trans_env(data, envp);
 }
