@@ -43,7 +43,8 @@ SRCS	:=	./src/main.c \
 			./src/craete_input_pipes_end.c \
 			./src/error_message_tokens.c \
 			./src/error_message_tokens_utils.c \
-			./src/initialize_program.c
+			./src/initialize_program.c \
+			./src/split_input_utils.c
 			
 OBJS	:= ${SRCS:.c=.o}
 

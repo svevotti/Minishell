@@ -27,6 +27,7 @@ bash: syntax error near unexpected token `|'
 bash: syntax error near unexpected token `|'
 
 RED INPUT
+it doesnt work echo $HOME > test. it gets stuck after dup2
 bash: syntax error near unexpected token `>>'
 (=^･^=) >test
 exitcode main: 0

@@ -29,7 +29,7 @@ char	*get_str_count_token(char *str, int *count)
 	return (str);
 }
 
-int	find_len(char *str)
+int	count_len_word(char *str)
 {
 	int	count;
 	int	single_quote;
@@ -38,24 +38,31 @@ int	find_len(char *str)
 	count = 0;
 	single_quote = 0;
 	double_quotes = 0;
+	while (*str != '\0')
+	{
+		if ((is_white_space(str) == 1 || is_token(str) == 1)
+			&& single_quote == 0 && double_quotes == 0)
+			break ;
+		if (*str == 39)
+			single_quote = get_quote_flag(single_quote);
+		else if (*str == 34)
+			double_quotes = get_quote_flag(double_quotes);
+		else
+			count++;
+		str++;
+	}
+	return (count);
+}
+
+int	find_len(char *str)
+{
+	int	count;
+
+	count = 0;
 	if (*str == '|' || *str == '>' || *str == '<')
 		str = get_str_count_token(str, &count);
 	else
-	{
-		while (*str != '\0')
-		{
-			if ((*str == ' ' || *str == '\n' || *str == '\t' || *str == '|' || *str == '>' || *str == '<')
-				&& single_quote == 0 && double_quotes == 0)
-				break ;
-			if (*str == 39)
-				single_quote = get_quote_flag(single_quote);
-			else if (*str == 34)
-				double_quotes = get_quote_flag(double_quotes);
-			else
-				count++;
-			str++;
-		}
-	}
+		count = count_len_word(str);
 	return (count);
 }
 
@@ -94,7 +101,6 @@ char	**split_function(char *str)
 	int		size_array;
 	int		i;
 	char	*single_str;
-	int		size_str;
 
 	size_array = find_size_array(str);
 	string_split = (char **)malloc(sizeof(char *) * (size_array + 1));
@@ -110,8 +116,7 @@ char	**split_function(char *str)
 			return (NULL);
 		if (*str == 34 || *str == 39)
 			str += 2;
-		size_str = ft_strlen(single_str);
-		str += size_str;
+		str += ft_strlen(single_str);
 		string_split[i] = single_str;
 		i++;
 	}

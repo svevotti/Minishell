@@ -71,6 +71,10 @@ typedef struct s_heredoc
 }t_heredoc;
 
 
+//utils split input
+int	is_white_space(char *str);
+int	is_token(char *str);
+
 //main
 void	sig_handler(int signum);
 //initilize signls
