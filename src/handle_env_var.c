@@ -59,25 +59,18 @@ char	*get_str(char *str, t_env *env)
 	return (new_string);
 }
 
-char	*expand_input(char *str, t_data *data)
+char	*get_new_string(char *new_str, char *str, t_env *env, int flag)
 {
-	char	*new_string;
 	char	*temp;
-	int		flag_single_quote;
 	int		len_word;
 	char	*value_var;
 
-	new_string = get_str(str, data->env);
-	if (new_string == NULL)
-		return (NULL);
-	temp = new_string;
-	flag_single_quote = 0;
-	len_word = 0;
+	temp = new_str;
 	while (*str != '\0')
 	{
-		if (*str == '$' && flag_single_quote == 0)
+		if (*str == '$' && flag == 0)
 		{
-			value_var = get_value(++str, data->env, &len_word);
+			value_var = get_value(++str, env, &len_word);
 			if (value_var == NULL)
 				return (NULL);
 			while (*value_var != '\0')
@@ -87,10 +80,23 @@ char	*expand_input(char *str, t_data *data)
 		else
 		{
 			if (*str == 39)
-				flag_single_quote = get_quote_flag(flag_single_quote);
+				flag = get_quote_flag(flag);
 			*temp++ = *str++;
 		}
 	}
 	*temp = '\0';
+	return (new_str);
+}
+
+char	*expand_input(char *str, t_data *data)
+{
+	char	*new_string;
+	int		flag_single_quote;
+
+	new_string = get_str(str, data->env);
+	if (new_string == NULL)
+		return (NULL);
+	flag_single_quote = 0;
+	new_string = get_new_string(new_string, str, data->env, flag_single_quote);
 	return (new_string);
 }
