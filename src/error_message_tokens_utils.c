@@ -6,21 +6,21 @@ void	red_output_error_message(int nbr_token, int next_word_len);
 void	print_error_token(int check)
 {
 	if (check == ERROR_1PIPE)
-		printf("bash: syntax error near unexpected token `|'\n");
+		ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
 	else if (check == ERROR_2PLUSPIPE)
-		printf("bash: syntax error near unexpected token `||'\n");
+		ft_putstr_fd("bash: syntax error near unexpected token `||'\n", 2);
 	else if (check == ERROR_REDIRECTION_INPUT)
-		printf("bash: syntax error near unexpected token `newline'\n");
+		ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
 	else if (check == ERROR_3REDIRECTION_INPUT)
-		printf("bash: syntax error near unexpected token `>'\n");
+		ft_putstr_fd("bash: syntax error near unexpected token `>'\n", 2);
 	else if (check == ERROR_4PLUSREDIRECTION_INPUT)
-		printf("bash: syntax error near unexpected token `>>'\n");
+		ft_putstr_fd("bash: syntax error near unexpected token `>>'\n", 2);
 	else if (check == ERROR_REDIRECTION_OUTPUT)
-		printf("bash: syntax error near unexpected token `newline'\n");
+		ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
 	else if (check == ERROR_4REDIRECTION_OUTPUT)
-		printf("bash: syntax error near unexpected token `<'\n");
+		ft_putstr_fd("bash: syntax error near unexpected token `<'\n", 2);
 	else if (check == ERROR_5PLUSREDIRECTION_OUTPUT)
-		printf("bash: syntax error near unexpected token `<<'\n");
+		ft_putstr_fd("bash: syntax error near unexpected token `<<'\n"), 2;
 }
 
 int	check_red_input(char *str, char *next_str)
