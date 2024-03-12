@@ -75,7 +75,7 @@ char	**get_split_input(char *str, t_data *data)
 	split_input = split_function(expanded_input);
 	if (split_input == NULL)
 	{
-		free_strings(str, expanded_input, NULL);
+		//free_strings(str, expanded_input, NULL);
 		return (NULL);
 	}
 	return (split_input);

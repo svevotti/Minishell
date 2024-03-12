@@ -23,11 +23,8 @@ SRCS	:=	./src/main.c \
 			./src/handle_env_var.c \
 			./src/trans_env.c \
 			./src/split_input.c \
-			./src/check_first_argv.c \
-			./src/free_functions.c \
 			./src/find_size_env_var.c \
 			./src/utils_env_var.c \
-			./src/print_array.c \
 			./src/size_split_input.c \
 			./src/utilis_trans_env.c \
 			./src/exec.c \
@@ -40,7 +37,6 @@ SRCS	:=	./src/main.c \
 			./src/minishell.c \
 			./src/free.c \
 			./src/tools.c \
-			./src/craete_input_pipes_end.c \
 			./src/error_message_tokens.c \
 			./src/error_message_tokens_utils.c \
 			./src/initialize_program.c \

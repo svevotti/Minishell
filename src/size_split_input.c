@@ -1,5 +1,18 @@
 #include "../include/minishell.h"
 
+int	find_size_input_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (*array != NULL)
+	{
+		array++;
+		i++;
+	}
+	return (i);
+}
+
 char	*traverse_quotes(char *str)
 {
 	char	quote;
