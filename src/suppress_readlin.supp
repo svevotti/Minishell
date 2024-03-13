@@ -1,0 +1,4 @@
+Run valgrind as usual, but with the extra option --gen-suppressions=all.
+This tells valgrind to print a suppression after every error it finds.
+
+
