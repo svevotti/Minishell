@@ -22,6 +22,7 @@ char	*get_value(char *str, t_env *env, int *len_word)
 	char	*name_var;
 	char	*value_var;
 
+	name_var = NULL;
 	if (*str == '?')
 	{
 		value_var = "0";
@@ -42,15 +43,16 @@ char	*get_value(char *str, t_env *env, int *len_word)
 				return (NULL);
 		}
 	}
+	free(name_var);
 	return (value_var);
 }
 
-char	*get_str(char *str, t_env *env)
+char	*get_str(char *str)
 {
 	int		str_size;
 	char	*new_string;
 
-	str_size = find_size(str, env);
+	str_size = find_size(str);
 	if (str_size == -1)
 		return (NULL);
 	new_string = (char *)malloc(sizeof(char) * (str_size + 1));
@@ -93,7 +95,7 @@ char	*expand_input(char *str, t_data *data)
 	char	*new_string;
 	int		flag_single_quote;
 
-	new_string = get_str(str, data->env);
+	new_string = get_str(str);
 	if (new_string == NULL)
 		return (NULL);
 	flag_single_quote = 0;

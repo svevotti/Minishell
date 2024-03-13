@@ -80,13 +80,12 @@ void	sig_handler(int signum);
 void	initialize_env(char **argv, char argc, t_data *data, char **envp);
 void	initialize_signals(void);
 //handle env var
-int		find_size(char *str, t_env *env);
+int		find_size(char *str);
 char	*find_name_var(char *str);
 char	*expand_input(char *str, t_data *data);
 char	*get_env_value(t_env *head, char *key);
 
 //find size env var
-int		find_size(char *str, t_env *env);
 int		find_len(char *str);
 
 //trans_env

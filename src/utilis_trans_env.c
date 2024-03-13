@@ -82,5 +82,7 @@ char	**get_item(char *str, char delimiter)
 	else
 		split_env[1] = ft_strdup(value);
 	split_env[2] = NULL;
+	free(key);
+	free(value);
 	return (split_env);
 }
