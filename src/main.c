@@ -62,17 +62,12 @@ int	main(int argc, char **argv, char **envp)
 			rl_clear_history();
 			free_strs(line, NULL);
 			free_env(data.env);
-			return (55);
+			return (1);
 		}
 		if (find_size_input_array(data.input) == 0)
 			continue ;
 		if (tokens_error(data.input) == ERROR)
-		{
-			free_env(data.env);
-			rl_clear_history();
 			free_strs(line, data.input);
-			exit(55);
-		}
 		else
 		{
 				minishell(&data);

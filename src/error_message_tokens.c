@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-int	check_pipe_first(char *str);
+int	check_pipe(char **str);
 int	check_nbr_pipe(char *str);
 int	check_tokens(char *str, char *next_str);
 int	get_token(char *str);
@@ -10,7 +10,7 @@ int	tokens_error(char **input)
 	int	i;
 
 	i = 0;
-	if (check_pipe_first(input[i]) != 0)
+	if (check_pipe(input) != 0)
 		return (ERROR);
 	while (input[i] != NULL)
 	{
@@ -55,10 +55,10 @@ int	get_token(char *str)
 	return (0);
 }
 
-int	check_pipe_first(char *str)
+int	check_first(char *str)
 {
 	int	count;
-
+	
 	count = 0;
 	if (*str == '|')
 	{
@@ -73,6 +73,37 @@ int	check_pipe_first(char *str)
 			print_error_token(ERROR_2PLUSPIPE);
 		return (ERROR);
 	}
+	return (0);
+}
+
+int	check_last(char *str)
+{
+	int	count;
+	
+	count = 0;
+	if (*str == '|')
+	{
+		while (*str == '|')
+		{
+			count++;
+			str++;
+		}
+		if (count == 1)
+			print_error_token(ERROR_1PIPE);
+		else
+			print_error_token(ERROR_2PLUSPIPE);
+		return (ERROR);
+	}
+	return (0);
+}
+
+int	check_pipe(char **str)
+{
+	int	size;
+
+	size = find_size_input_array(str);
+	if (check_first(str[0]) != 0 || check_last(str[size - 1]) != 0)
+		return (ERROR);
 	return (0);
 }
 
