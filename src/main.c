@@ -29,9 +29,6 @@ int	check_endoffile(char *str)
 
 void	free_strs(char *str, char **array)
 {
-	int	i;
-
-	i = 0;
 	free(str);
 	if (array != NULL)
 		free_array(array);
@@ -41,8 +38,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_data	data;
-	// char	**split_input;
-	// int		exitcode;
 
 	initialize_signals();
 	initialize_env(argv, argc, &data, envp);
@@ -58,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			free_env(data.env);
 			free(line);
-			exit(55);
+			exit(0);
 		} //ctrl D is EOF
 		add_history(line);
 		data.input = get_split_input(line, &data);
@@ -81,7 +76,6 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 				minishell(&data);
-				free_env(data.env);
 				free_strs(line, data.input);
 				free_procs(data.procs);
 		}

@@ -23,8 +23,6 @@ int	get_len_var(char *str, int *len_name_var, t_env *env)
 			return (-1);
 		*len_name_var = ft_strlen(name_var);
 		value_var = getenv(name_var);
-		if (value_var == NULL)
-			//no match
 		len_var = len_var + ft_strlen(value_var);
 	}
 	return (len_var);
@@ -42,7 +40,8 @@ int	find_size(char *str, t_env *env)
 	{
 		if (*str == '$' && quote_flag == 0)
 		{
-			total_len += get_len_var(str + 1, &len_name_var, env);
+			int var_len = get_len_var(str + 1, &len_name_var, env);
+			total_len = total_len + var_len;
 			if (total_len == -1)
 				return (-1);
 			str += len_name_var;
