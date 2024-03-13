@@ -41,45 +41,49 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_data	data;
-	char	**split_input;
+	// char	**split_input;
 	// int		exitcode;
 
 	initialize_signals();
 	initialize_env(argv, argc, &data, envp);
 	if (argc > 1)
-		exit(1);
+	{
+		free_env(data.env);
+		exit(55);
+	}
 	while (1)
 	{
 		line = readline("(=^･^=) ");
 		if (check_endoffile(line) == -1)
 		{
+			free_env(data.env);
 			free(line);
 			exit(55);
 		} //ctrl D is EOF
 		add_history(line);
-		split_input = get_split_input(line, &data);
-		if (split_input == NULL)
+		data.input = get_split_input(line, &data);
+		if (data.input == NULL)
 		{
+			rl_clear_history();
 			free_strs(line, NULL);
-			return (1);
+			free_env(data.env);
+			return (55);
 		}
-		if (find_size_input_array(split_input) == 0)
+		if (find_size_input_array(data.input) == 0)
 			continue ;
-		if (tokens_error(split_input) == ERROR)
+		if (tokens_error(data.input) == ERROR)
 		{
-			printf("add line %p, add split input %p\n", line, split_input);
-			free_strs(line, NULL);
+			free_env(data.env);
+			rl_clear_history();
+			free_strs(line, data.input);
+			exit(55);
 		}
 		else
 		{
-			data.input = split_input;
-			if (data.input)
-			{
 				minishell(&data);
+				free_env(data.env);
+				free_strs(line, data.input);
 				free_procs(data.procs);
-				free_array(data.input);
-				free(line);
-			}
 		}
 	}
 	return (0);
@@ -96,7 +100,7 @@ char	**get_split_input(char *str, t_data *data)
 	split_input = split_function(expanded_input);
 	if (split_input == NULL)
 	{
-		//free_strings(str, expanded_input, NULL);
+		free(expanded_input);
 		return (NULL);
 	}
 	free(expanded_input);
