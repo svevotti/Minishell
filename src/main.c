@@ -27,11 +27,22 @@ int	check_endoffile(char *str)
 	return (0);
 }
 
+void	free_strs(char *str, char **array)
+{
+	int	i;
+
+	i = 0;
+	free(str);
+	if (array != NULL)
+		free_array(array);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_data	data;
 	char	**split_input;
+	// int		exitcode;
 
 	initialize_signals();
 	initialize_env(argv, argc, &data, envp);
@@ -41,15 +52,24 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = readline("(=^･^=) ");
 		if (check_endoffile(line) == -1)
-			exit(1); //ctrl D is EOF
+		{
+			free(line);
+			exit(55);
+		} //ctrl D is EOF
 		add_history(line);
 		split_input = get_split_input(line, &data);
 		if (split_input == NULL)
+		{
+			free_strs(line, NULL);
 			return (1);
+		}
 		if (find_size_input_array(split_input) == 0)
 			continue ;
 		if (tokens_error(split_input) == ERROR)
-			printf("free stuff\n");
+		{
+			printf("add line %p, add split input %p\n", line, split_input);
+			free_strs(line, NULL);
+		}
 		else
 		{
 			data.input = split_input;
@@ -58,6 +78,7 @@ int	main(int argc, char **argv, char **envp)
 				minishell(&data);
 				free_procs(data.procs);
 				free_array(data.input);
+				free(line);
 			}
 		}
 	}
@@ -78,5 +99,6 @@ char	**get_split_input(char *str, t_data *data)
 		//free_strings(str, expanded_input, NULL);
 		return (NULL);
 	}
+	free(expanded_input);
 	return (split_input);
 }

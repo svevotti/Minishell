@@ -20,7 +20,7 @@ void	print_error_token(int check)
 	else if (check == ERROR_4REDIRECTION_OUTPUT)
 		ft_putstr_fd("bash: syntax error near unexpected token `<'\n", 2);
 	else if (check == ERROR_5PLUSREDIRECTION_OUTPUT)
-		ft_putstr_fd("bash: syntax error near unexpected token `<<'\n"), 2;
+		ft_putstr_fd("bash: syntax error near unexpected token `<<'\n", 2);
 }
 
 int	check_red_input(char *str, char *next_str)

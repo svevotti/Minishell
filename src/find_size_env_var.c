@@ -23,6 +23,8 @@ int	get_len_var(char *str, int *len_name_var, t_env *env)
 			return (-1);
 		*len_name_var = ft_strlen(name_var);
 		value_var = getenv(name_var);
+		if (value_var == NULL)
+			//no match
 		len_var = len_var + ft_strlen(value_var);
 	}
 	return (len_var);
