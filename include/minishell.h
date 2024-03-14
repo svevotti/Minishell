@@ -138,7 +138,7 @@ char	**get_item(char *str, char delimiter);
 
 //crate input pipe at the end
 void	update_input(char **input);
-int		is_enter(char **array);
+int		find_size_input_array(char **array);
 
 //print error
 int		tokens_error(char **input);
