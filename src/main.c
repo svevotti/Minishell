@@ -3,7 +3,6 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <signal.h>
-#define ERROR -1
 
 void	initialize_env(char **argv, char argc, t_data *data, char **envp);
 char	**get_split_input(char *str, t_data *data);
@@ -39,6 +38,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_data	data;
+	
 	initialize(argv, argc, &data, envp);
 	while (1)
 	{
