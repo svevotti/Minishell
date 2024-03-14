@@ -132,8 +132,8 @@ void	free_array(char **arr);
 void	free_data(t_data *data);
 
 // parse
-int		parse_cmds(t_data *data);
-int		fill_cmd_nodes(t_list *procs, t_data *data);
+void	parse_cmds(t_data *data);
+void	fill_cmd_nodes(t_list *procs, t_data *data);
 t_proc	*init_cmd(int id);
 void	list_to_array(t_proc *proc);
 void	create_cmd_list(t_data *data);
@@ -160,10 +160,13 @@ char	*get_path(char *cmd, t_env *env);
 // error
 void	ft_error(char *arg, int flag);
 void	ft_print_error(char *s, int fd);
+void	export_error(char *arg);
+void	cd_error(char *arg, int flag);
+void	exit_error(char *str, int flag);
 
 //redirection
 int		is_redirection(char *str);
-int		prepare_redirection(t_proc *proc, char **input, int i);
+void	prepare_redirection(t_proc *proc, char **input, int i);
 void	get_filename(t_proc *proc, char *file, int type);
 int		open_file(t_proc *proc, int type);
 int		open_outfile(t_proc *proc, int type);
