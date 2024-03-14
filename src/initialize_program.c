@@ -22,9 +22,11 @@ void	initialize_signals(void)
 	sigaction(SIGQUIT, &action_2, NULL);
 }
 
-void	initialize_env(char **argv, char argc, t_data *data, char **envp)
+void	initialize(char **argv, char argc, t_data *data, char **envp)
 {
 	(void)argc;
 	(void)argv;
 	trans_env(data, envp);
+	initialize_signals();
+
 }

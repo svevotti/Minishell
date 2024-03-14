@@ -23,7 +23,6 @@ int	get_len_var(char *str, int *len_name_var)
 			return (-1);
 		*len_name_var = ft_strlen(name_var);
 		value_var = getenv(name_var);
-		//free(name_var);
 		len_var = len_var + ft_strlen(value_var);
 	}
 	free(name_var);

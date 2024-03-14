@@ -40,7 +40,8 @@ SRCS	:=	./src/main.c \
 			./src/error_message_tokens.c \
 			./src/error_message_tokens_utils.c \
 			./src/initialize_program.c \
-			./src/split_input_utils.c
+			./src/split_input_utils.c \
+			./src/check_pipes_syntax.c
 			
 OBJS	:= ${SRCS:.c=.o}
 

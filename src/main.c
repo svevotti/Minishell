@@ -27,9 +27,10 @@ int	check_endoffile(char *str)
 	return (0);
 }
 
-void	free_strs(char *str, char **array)
+void	free_strs(char *str, char **array, t_env *env)
 {
 	free(str);
+	free_env(env);
 	if (array != NULL)
 		free_array(array);
 }
@@ -38,40 +39,32 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_data	data;
-
-	initialize_signals();
-	initialize_env(argv, argc, &data, envp);
-	if (argc > 1)
-	{
-		free_env(data.env);
-		exit(55);
-	}
+	initialize(argv, argc, &data, envp);
 	while (1)
 	{
 		line = readline("(=^･^=) ");
 		if (check_endoffile(line) == -1)
 		{
-			free_env(data.env);
-			free(line);
+			free_strs(line, NULL, data.env);
+			rl_clear_history();
 			exit(0);
 		} //ctrl D is EOF
 		add_history(line);
 		data.input = get_split_input(line, &data);
 		if (data.input == NULL)
 		{
+			free_strs(line, NULL, data.env);
 			rl_clear_history();
-			free_strs(line, NULL);
-			free_env(data.env);
 			return (1);
 		}
 		if (find_size_input_array(data.input) == 0)
 			continue ;
 		if (tokens_error(data.input) == ERROR)
-			free_strs(line, data.input);
+			free_strs(line, data.input, NULL);
 		else
 		{
 				minishell(&data);
-				free_strs(line, data.input);
+				free_strs(line, data.input, NULL);
 				free_procs(data.procs);
 		}
 	}

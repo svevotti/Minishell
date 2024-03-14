@@ -70,6 +70,9 @@ typedef struct s_heredoc
 	char	*check;
 }t_heredoc;
 
+//check pipes
+int	check_pipe(char **str);
+
 //utils split input
 int		is_white_space(char *str);
 int		is_token(char *str);
@@ -77,7 +80,7 @@ int		is_token(char *str);
 //main
 void	sig_handler(int signum);
 //initilize signals
-void	initialize_env(char **argv, char argc, t_data *data, char **envp);
+void	initialize(char **argv, char argc, t_data *data, char **envp);
 void	initialize_signals(void);
 //handle env var
 int		find_size(char *str);
