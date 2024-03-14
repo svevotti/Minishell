@@ -1,5 +1,4 @@
 #include "../include/minishell.h"
-#include <signal.h>
 
 void	initialize_signals(void)
 {
@@ -27,6 +26,11 @@ void	initialize(char **argv, char argc, t_data *data, char **envp)
 	(void)argc;
 	(void)argv;
 	trans_env(data, envp);
+	data->input = NULL;
+	data->exit = 0;
+	data->exitcode = 0;
+	data->std_in = dup(STDIN_FILENO);
+	data->std_out = dup(STDOUT_FILENO);
 	initialize_signals();
 
 }
