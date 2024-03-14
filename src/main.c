@@ -34,6 +34,7 @@ void	free_strs(char *str, char **array, t_env *env)
 		free_array(array);
 }
 
+
 void	get_input(t_data *data)
 {
 	char	*line;
@@ -72,6 +73,7 @@ int	main(int argc, char **argv, char **envp)
 			data.exitcode = minishell(&data);
 			free_procs(data.procs);
 			free_array(data.input);
+
 		}
 	}
 	return (0);

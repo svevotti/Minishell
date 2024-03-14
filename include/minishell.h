@@ -75,6 +75,7 @@ typedef struct s_data
 	t_env	*env;
 	t_list	*procs;
 	char	**input;
+	char	*line;
 	int		std_in;
 	int		std_out;
 	int		exit;
