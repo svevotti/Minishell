@@ -1,0 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/11 10:25:20 by joschka           #+#    #+#             */
+/*   Updated: 2024/03/11 15:23:00 by joschka          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+int	ft_isnumber(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	ft_exit(char **cmd, t_data *data)
+{
+	int	ret;
+
+	ret = data->exitcode;
+	if (data->exit)
+		ft_putstr_fd("exit\n", 2);
+	if (cmd[1])
+	{
+		if (!ft_isnumber(cmd[1]))
+		{
+			exit_error(cmd[1], 1);
+			ret = 2;
+		}
+		else
+		{
+			ret = ft_atoi(cmd[1]);
+			if (cmd[2])
+			{
+				exit_error(NULL, 0);
+				return (1);
+			}
+		}
+	}
+	free_data(data);
+	exit(ret);
+}

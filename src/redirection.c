@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
+/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:17:16 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/04 13:43:08 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/08 10:27:58 by joschka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	get_filename(t_proc *proc, char *file, int type)
 	}
 }
 
-int	prepare_redirection(t_proc *proc, char **input, int i)
+void	prepare_redirection(t_proc *proc, char **input, int i)
 {
 	int	type;
 	int	ret;
@@ -108,6 +108,5 @@ int	prepare_redirection(t_proc *proc, char **input, int i)
 	{
 		ret = get_heredoc(proc, input[i]);
 	}
-	proc->exec = ret;
-	return (ret);
+	proc->no_exec = ret;
 }
