@@ -12,23 +12,19 @@
 
 NAME	:= minishell
 
-CFLAGS	:= -Wextra -Wall -Werror -g -I ./includes/
+CFLAGS	:= -Wextra -Wall -Werror -g -I ./includes/ -I/opt/homebrew/opt/readline/include
 
 LIBFT	:= ./libft
 
 LKLIBFT	:= -L $(LIBFT) -lft
 
-LIBS	:= $(LKLIBFT) -lreadline
-
+LIBS	:= $(LKLIBFT) -L/opt/homebrew/opt/readline/lib -lreadline
 SRCS	:=	./src/main.c \
 			./src/handle_env_var.c \
 			./src/trans_env.c \
 			./src/split_input.c \
-			./src/check_first_argv.c \
-			./src/free_functions.c \
 			./src/find_size_env_var.c \
 			./src/utils_env_var.c \
-			./src/print_array.c \
 			./src/size_split_input.c \
 			./src/utilis_trans_env.c \
 			./src/exec.c \
@@ -41,6 +37,11 @@ SRCS	:=	./src/main.c \
 			./src/minishell.c \
 			./src/free.c \
 			./src/tools.c \
+			./src/error_message_tokens.c \
+			./src/error_message_tokens_utils.c \
+			./src/initialize_program.c \
+			./src/split_input_utils.c \
+			./src/check_pipes_syntax.c
 			./src/builtins/ft_echo.c \
 			./src/builtins/ft_env.c \
 			./src/builtins/ft_export.c \
@@ -48,7 +49,6 @@ SRCS	:=	./src/main.c \
 			./src/builtins/ft_unset.c \
 			./src/builtins/ft_cd.c \
 			./src/builtins/ft_exit.c \
-
 			
 OBJS	:= ${SRCS:.c=.o}
 

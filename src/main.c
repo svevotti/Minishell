@@ -2,50 +2,71 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <signal.h>
 
 void	initialize_env(char **argv, char argc, t_data *data, char **envp);
 char	**get_split_input(char *str, t_data *data);
 int		child_process(char **input, t_env *env, char **envp);
 
+void	sig_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		ft_putstr_fd("\n", 1);
+		rl_on_new_line(); // Regenerate the prompt on a newline
+		rl_replace_line("", 0); // Clear the previous text
+		rl_redisplay();
+	}
+}
+
+int	check_endoffile(char *str)
+{
+	if (str == NULL)
+		return (-1);
+	return (0);
+}
+
+void	free_strs(char *str, char **array, t_env *env)
+{
+	free(str);
+	free_env(env);
+	if (array != NULL)
+		free_array(array);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	char		*line;
+	char	*line;
 	t_data	data;
-	int		exitcode;
-	// char		**split_input;
-
-	initialize_env(argv, argc, &data, envp);
+	
+	initialize(argv, argc, &data, envp);
 	while (1)
 	{
-		line = readline("Minishell >> ");
-		if (line == NULL)
-			return (1);
+		line = readline("(=^･^=) ");
+		if (check_endoffile(line) == -1)
+		{
+			free_strs(line, NULL, data.env);
+			rl_clear_history();
+			exit(0);
+		} //ctrl D is EOF
 		add_history(line);
 		data.input = get_split_input(line, &data);
-		free(line);
-		if (data.input)
+		if (data.input == NULL)
 		{
-			exitcode = minishell(&data);
-			printf("exitcode main: %d\n", exitcode);
-			free_procs(data.procs);
-			free_array(data.input); 
+			free_strs(line, NULL, data.env);
+			rl_clear_history();
+			return (1);
 		}
-		//store split in struct t_data
-		//call minishell
-		// if (split_input == NULL)
-		// {
-		// 	if (data.flag == 1)
-		// 	{
-		// 		free(line);
-		// 		return (1);
-		// 	}
-		// 	printf("\n");
-		// }
-		// if (child_process(split_input, data.env, envp) < 0)
-		// {
-		// 	free_strings(line, NULL, split_input);
-		// 	return (1);
-		// }
+		if (find_size_input_array(data.input) == 0)
+			continue ;
+		if (tokens_error(data.input) == ERROR)
+			free_strs(line, data.input, NULL);
+		else
+		{
+				minishell(&data);
+				free_strs(line, data.input, NULL);
+				free_procs(data.procs);
+		}
 	}
 	return (0);
 }
@@ -57,48 +78,13 @@ char	**get_split_input(char *str, t_data *data)
 
 	expanded_input = expand_input(str, data);
 	if (expanded_input == NULL)
-	{
-		// if (data->flag == 1)
-		// 	free_strings(str, NULL, NULL);
 		return (NULL);
-	}
 	split_input = split_function(expanded_input);
 	if (split_input == NULL)
 	{
-		free_strings(str, expanded_input, NULL);
+		free(expanded_input);
 		return (NULL);
 	}
+	free(expanded_input);
 	return (split_input);
-}
-
-// int	child_process(char **input, t_env *env, char **envp)
-// {
-// 	pid_t		id_child;
-// 	int			status;
-// 	int			status_code;
-
-// 	id_child = fork();
-// 	if (id_child == 0)
-// 		execute_cmd(input, env, envp);
-// 	else if (id_child < 0)
-// 	{
-// 		perror("error\n");
-// 		return (id_child);
-// 	}
-// 	else
-// 	{
-// 		wait(&status);
-// 		status_code = WEXITSTATUS(status);
-// 		env->exit_status = status_code;
-// 	}
-// 	return (id_child);
-// }
-
-void	initialize_env(char **argv, char argc, t_data *data, char **envp)
-{
-	(void)argc;
-	(void)argv;
-	trans_env(data, envp);
-	// data->env->exit_status = 0;
-	// data->flag = 0;
 }

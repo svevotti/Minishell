@@ -1,13 +1,13 @@
 #include "../include/minishell.h"
 
-int	get_len_var(char *str, int *len_name_var, t_env *env)
+int	get_len_var(char *str, int *len_name_var)
 {
 	char	*name_var;
 	char	*value_var;
 	int		len_var;
 
 	len_var = 0;
-	(void)env;
+	name_var = NULL;
 	if (*str == '?')
 	{
 		value_var = "0";
@@ -25,10 +25,11 @@ int	get_len_var(char *str, int *len_name_var, t_env *env)
 		value_var = getenv(name_var);
 		len_var = len_var + ft_strlen(value_var);
 	}
+	free(name_var);
 	return (len_var);
 }
 
-int	find_size(char *str, t_env *env)
+int	find_size(char *str)
 {
 	int		total_len;
 	int		quote_flag;
@@ -40,7 +41,7 @@ int	find_size(char *str, t_env *env)
 	{
 		if (*str == '$' && quote_flag == 0)
 		{
-			total_len += get_len_var(str + 1, &len_name_var, env);
+			total_len += get_len_var(str + 1, &len_name_var);
 			if (total_len == -1)
 				return (-1);
 			str += len_name_var;

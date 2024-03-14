@@ -1,4 +1,5 @@
 #include "../include/minishell.h"
+
 int	find_key_size(char *str, char delimiter)
 {
 	int	count;
@@ -75,13 +76,13 @@ char	**get_item(char *str, char delimiter)
 		return (NULL);
 	str = str + ft_strlen(key) + 1;
 	value = get_value_str(str);
-	// if (value == NULL)
-	// 	return (NULL);
 	split_env[0] = ft_strdup(key);
 	if (value == NULL)
 		split_env[1] = NULL;
 	else
 		split_env[1] = ft_strdup(value);
 	split_env[2] = NULL;
+	free(key);
+	free(value);
 	return (split_env);
 }

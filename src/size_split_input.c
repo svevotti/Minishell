@@ -1,79 +1,84 @@
 #include "../include/minishell.h"
 
-char	*count_words(char *str, int *word)
+int	find_size_input_array(char **array)
 {
-	if (*str != 39 && *str != 34 && *str != ' '
-		&& *str != '\n' && *str != '\t' && *str != '\0')
+	int	i;
+
+	i = 0;
+	while (*array != NULL)
 	{
-		*word = 1;
-		while (*str != 39 && *str != 34 && *str != ' '
-			&& *str != '\n' && *str != '\t' && *str != '\0')
+		array++;
+		i++;
+	}
+	return (i);
+}
+
+char	*traverse_quotes(char *str)
+{
+	char	quote;
+
+	quote = *str;
+	str++;
+	while (*str != quote)
+		str++;
+	return (str + 1);
+}
+
+char	*move_according_token(char *str)
+{
+	if (*str == '|')
+	{
+		while (*str == '|')
 			str++;
 	}
-	else if (*str == 39)
+	else if (*str == '>')
 	{
-		*word = 1;
-		str++;
-		while (*str != 39)
+		while (*str == '>')
 			str++;
-		str++;
 	}
-	else if (*str == 34)
+	else if (*str == '<')
 	{
-		*word = 1;
-		str++;
-		while (*str != 34)
+		while (*str == '<')
 			str++;
-		str++;
 	}
+	return (str);
+}
+
+char	*traverse_token(char *str)
+{
+	char	*white_spaces;
+
+	white_spaces = ("\n\t ");
+	if (!ft_strchr(white_spaces, *str) && *str != '\0' && *str != '|'
+		&& *str != '>' && *str != '<')
+	{
+		while (!ft_strchr(white_spaces, *str) && *str != '\0'
+			&& *str != '|' && *str != '>' && *str != '<')
+		{
+			if (*str == 39 || *str == 34)
+				str = traverse_quotes(str);
+			else
+				str++;
+		}
+	}
+	else if (*str == '|' || *str == '>' || *str == '<')
+			str = move_according_token(str);
 	return (str);
 }
 
 int	find_size_array(char *str)
 {
 	int	count;
-	int	word;
 
 	while (*str == ' ' || *str == '\n' || *str == '\t')
 		str++;
 	count = 0;
-	word = 1;
 	while (*str != '\0')
 	{
 		count++;
-		word = 1;
-		while (word == 1)
-		{
-			word = 0;
-			str = count_words(str, &word);
-		}
+		str = traverse_token(str);
 		while (*str == ' ' || *str == '\n' || *str == '\t')
 			str++;
-	}
-	return (count);
-}
-
-int	find_len(char *str)
-{
-	int	count;
-	int	single_quote;
-	int	double_quotes;
-
-	count = 0;
-	single_quote = 0;
-	double_quotes = 0;
-	while (*str != '\0')
-	{
-		if ((*str == ' ' || *str == '\n' || *str == '\t')
-			&& single_quote == 0 && double_quotes == 0)
-			break ;
-		if (*str == 39)
-			single_quote = get_quote_flag(single_quote);
-		else if (*str == 34)
-			double_quotes = get_quote_flag(double_quotes);
-		else
-			count++;
-		str++;
 	}
 	return (count);
 }
