@@ -3,25 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
+/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 10:40:05 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/04 15:02:24 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/13 11:47:56 by joschka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*get_path(char *cmd, t_env *env)
+char	*check_path(char **paths, char *cmd)
 {
-	char	**paths;
 	char	*cmdpath;
 	char	*tmp;
 	int		i;
 
-	while (ft_strncmp(env->str, "PATH=", 5) != 0)
-		env = env->next;
-	paths = ft_split(env->str + 5, ':');
 	i = 0;
 	while (paths[i])
 	{
@@ -29,16 +25,26 @@ char	*get_path(char *cmd, t_env *env)
 		cmdpath = ft_strjoin(tmp, cmd);
 		free(tmp);
 		if (access(cmdpath, X_OK) == 0)
-		{
-			free_array(paths);
 			return (cmdpath);
-		}
 		free(cmdpath);
 		i++;
 	}
-	i = 0;
-	free_array(paths);
 	return (NULL);
+}
+
+char	*get_path(char *cmd, t_env *env)
+{
+	char	**paths;
+	char	*cmdpath;
+
+	if (!var_exists("PATH", env))
+		return (NULL);
+	while (ft_strncmp(env->str, "PATH=", 5) != 0)
+		env = env->next;
+	paths = ft_split(env->str + 5, ':');
+	cmdpath = check_path(paths, cmd);
+	free_array(paths);
+	return (cmdpath);
 }
 
 char	**env_to_array(t_env *env)
@@ -73,9 +79,9 @@ void	exec_linux(t_data *data, t_proc *proc, t_env *env)
 	char	**envarray;
 	int		ret;
 
-	if (proc->exec)
+	if (proc->no_exec)
 	{
-		ret = proc->exec;
+		ret = proc->no_exec;
 		free_data(data);
 		exit(ret);
 	}

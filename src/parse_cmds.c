@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
+/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:21:35 by jbeck             #+#    #+#             */
-/*   Updated: 2024/03/04 13:42:54 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/08 10:27:26 by joschka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_proc	*init_cmd(int id)
 	cmd->pipe_out = -1;
 	cmd->infile = NULL;
 	cmd->outfile = NULL;
-	cmd->exec = 0;
+	cmd->no_exec = 0;
 	return (cmd);
 }
 
@@ -71,18 +71,16 @@ void	create_cmd_list(t_data *data)
 	}
 }
 
-int	fill_cmd_nodes(t_list *procs, t_data *data)
+void	fill_cmd_nodes(t_list *procs, t_data *data)
 {
 	int	i;
-	int	ret;
 
-	ret = 0;
 	i = 0;
 	while (data->input[i])
 	{
 		if (is_redirection(data->input[i]))
 		{
-			ret = prepare_redirection(procs->content, data->input, i);
+			prepare_redirection(procs->content, data->input, i);
 			i += 2;
 		}
 		else if (!ft_strcmp(data->input[i], "|"))
@@ -97,22 +95,18 @@ int	fill_cmd_nodes(t_list *procs, t_data *data)
 			i++;
 		}
 	}
-	return (ret);
 }
 
-int	parse_cmds(t_data *data)
+void	parse_cmds(t_data *data)
 {
 	t_list	*run;
-	int		ret;
 
-	ret = 0;
 	create_cmd_list(data);
-	ret = fill_cmd_nodes(data->procs, data);
+	fill_cmd_nodes(data->procs, data);
 	run = data->procs;
 	while (run)
 	{
 		list_to_array(run->content);
 		run = run->next;
 	}
-	return (ret);
 }

@@ -10,8 +10,21 @@
 # include <errno.h>
 # include <sys/wait.h>
 
-# define ECHO 1
-# define ENV 2
+# define ECHO	1
+# define ENV	2
+# define EXPORT	3
+# define PWD	4
+# define UNSET	5
+# define CD		6
+# define EXIT	7
+
+# define ANSI_RESET		"\x1b[0m"
+# define ANSI_RED		"\x1b[31m"
+# define ANSI_GREEN		"\x1b[32m"
+# define ANSI_YELLOW	"\x1b[33m"
+# define ANSI_BLUE		"\x1b[34m"
+# define ANSI_MAGENT	"\x1b[35m"
+# define ANSI_CYAN		"\x1b[36m"
 
 # define TRUNC_OUTFILE 1
 # define APPEND_OUTFILE 2
@@ -40,7 +53,7 @@ typedef struct s_proc
 	int		pipe_out;
 	char	*infile;
 	char	*outfile;
-	int		exec;
+	int		no_exec;
 }t_proc;
 
 typedef struct s_data
@@ -48,6 +61,10 @@ typedef struct s_data
 	t_env	*env;
 	t_list	*procs;
 	char	**input;
+	int		std_in;
+	int		std_out;
+	int		exit;
+	int		exitcode;
 }t_data;
 
 typedef struct s_heredoc
@@ -98,6 +115,14 @@ int		exec_builtin(t_proc *proc, t_data *data);
 int		is_builtin(t_proc *proc);
 int		ft_echo(char **cmd);
 int		get_arr_size(char **arr);
+void	ft_unset(char **cmd, t_data *data);
+void	ft_env(t_env *env);
+int		ft_export(char **cmd, t_data *data);
+int		ft_pwd(void);
+char	*get_identifier(char *arg);
+t_env	*var_exists(char *str, t_env *env);
+int		ft_cd(char **cmd, t_data *data);
+int		ft_exit(char **cmd, t_data *data);
 
 // free
 void	free_env(t_env *head);
