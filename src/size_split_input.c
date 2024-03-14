@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   size_split_input.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smazzari <smazzari@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/14 13:37:23 by smazzari          #+#    #+#             */
+/*   Updated: 2024/03/14 13:37:24 by smazzari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	find_size_input_array(char **array)
@@ -62,7 +74,7 @@ char	*traverse_token(char *str)
 		}
 	}
 	else if (*str == '|' || *str == '>' || *str == '<')
-			str = move_according_token(str);
+		str = move_according_token(str);
 	return (str);
 }
 

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_pipes_syntax.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smazzari <smazzari@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/14 13:34:28 by smazzari          #+#    #+#             */
+/*   Updated: 2024/03/14 13:36:10 by smazzari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	check_first(char *str)
 {
 	int	count;
-	
+
 	count = 0;
 	if (*str == '|')
 	{
@@ -24,7 +36,7 @@ int	check_first(char *str)
 int	check_last(char *str)
 {
 	int	count;
-	
+
 	count = 0;
 	if (*str == '|')
 	{

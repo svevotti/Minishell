@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smazzari <smazzari@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/14 13:35:02 by smazzari          #+#    #+#             */
+/*   Updated: 2024/03/14 13:35:03 by smazzari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 #include <dirent.h>
 #include <sys/stat.h>
@@ -13,27 +25,11 @@ void	sig_handler(int signum)
 	if (signum == SIGINT)
 	{
 		ft_putstr_fd("\n", 1);
-		rl_on_new_line(); // Regenerate the prompt on a newline
-		rl_replace_line("", 0); // Clear the previous text
+		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
-
-int	check_endoffile(char *str)
-{
-	if (str == NULL)
-		return (-1);
-	return (0);
-}
-
-void	free_strs(char *str, char **array, t_env *env)
-{
-	free(str);
-	free_env(env);
-	if (array != NULL)
-		free_array(array);
-}
-
 
 void	get_input(t_data *data)
 {
@@ -63,7 +59,7 @@ void	get_input(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
-	
+
 	initialize(argv, argc, &data, envp);
 	while (1)
 	{
@@ -73,7 +69,7 @@ int	main(int argc, char **argv, char **envp)
 			data.exitcode = minishell(&data);
 			free_procs(data.procs);
 			free_array(data.input);
-
+			data.input = NULL;
 		}
 	}
 	return (0);

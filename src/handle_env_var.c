@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_env_var.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smazzari <smazzari@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/14 13:34:49 by smazzari          #+#    #+#             */
+/*   Updated: 2024/03/14 13:34:53 by smazzari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 char	*get_env_value(t_env *head, char *key)
@@ -17,7 +29,7 @@ char	*get_env_value(t_env *head, char *key)
 	return (value);
 }
 
-char	*get_value(char *str, t_env *env, int *len_word)
+char	*get_value(char *str, t_data *data, int *len_word)
 {
 	char	*name_var;
 	char	*value_var;
@@ -25,10 +37,10 @@ char	*get_value(char *str, t_env *env, int *len_word)
 	name_var = NULL;
 	if (*str == '?')
 	{
-		value_var = "0";
+		value_var = ft_itoa(data->exitcode);
 		if (value_var == NULL)
 			return (NULL);
-		*len_word = 1;
+		*len_word = ft_strlen(value_var);
 	}
 	else
 	{
@@ -38,7 +50,7 @@ char	*get_value(char *str, t_env *env, int *len_word)
 		else
 		{
 			*len_word = ft_strlen(name_var);
-			value_var = get_env_value(env, name_var);
+			value_var = get_env_value(data->env, name_var);
 			if (value_var == NULL)
 				return (NULL);
 		}
@@ -61,7 +73,7 @@ char	*get_str(char *str)
 	return (new_string);
 }
 
-char	*get_new_string(char *new_str, char *str, t_env *env, int flag)
+char	*get_new_string(char *new_str, char *str, t_data *data, int flag)
 {
 	char	*temp;
 	int		len_word;
@@ -72,7 +84,7 @@ char	*get_new_string(char *new_str, char *str, t_env *env, int flag)
 	{
 		if (*str == '$' && flag == 0)
 		{
-			value_var = get_value(++str, env, &len_word);
+			value_var = get_value(++str, data, &len_word);
 			if (value_var == NULL)
 				return (NULL);
 			while (*value_var != '\0')
@@ -99,6 +111,6 @@ char	*expand_input(char *str, t_data *data)
 	if (new_string == NULL)
 		return (NULL);
 	flag_single_quote = 0;
-	new_string = get_new_string(new_string, str, data->env, flag_single_quote);
+	new_string = get_new_string(new_string, str, data, flag_single_quote);
 	return (new_string);
 }
