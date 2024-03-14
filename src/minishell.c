@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
+/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/04 16:51:02 by jbeck             #+#    #+#             */
-/*   Updated: 2024/03/04 16:52:44 by jbeck            ###   ########.fr       */
+/*   Created: 2024/03/01 13:40:16 by joschka           #+#    #+#             */
+/*   Updated: 2024/03/11 13:37:15 by joschka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,26 @@ int	run_executor(t_data *data)
 	return (exitcode);
 }
 
+void	restore_std(int fdin, int fdout)
+{
+	dup2(fdin, STDIN_FILENO);
+	dup2(fdout, STDOUT_FILENO);
+}
+
 int	minishell(t_data *data)
 {
 	int	exitcode;
 
 	data->procs = NULL;
-	// if (parse_cmds(data))
-	// 	return (1);
 	parse_cmds(data);
 	if (is_builtin(data->procs->content) && !data->procs->next)
 	{
+		data->exit = 1;
 		redirect(data->procs->content);
 		exitcode = exec_builtin(data->procs->content, data);
 	}
 	else
 		exitcode = run_executor(data);
+	restore_std(data->std_in, data->std_out);
 	return (exitcode);
 }
