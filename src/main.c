@@ -34,38 +34,44 @@ void	free_strs(char *str, char **array, t_env *env)
 		free_array(array);
 }
 
-int	main(int argc, char **argv, char **envp)
+void	get_input(t_data *data)
 {
 	char	*line;
+
+	line = readline("(=^･^=) ");
+	if (!line)
+	{
+		free_env(data->env);
+		exit(data->exitcode);
+	}
+	add_history(line);
+	if (ft_strlen(line))
+		data->input = get_split_input(line, data);
+	if (data->input)
+	{
+		if (tokens_error(data->input) == ERROR)
+		{
+			free_array(data->input);
+			data->input = NULL;
+			data->exitcode = 2;
+		}
+	}
+	free(line);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
 	t_data	data;
 	
 	initialize(argv, argc, &data, envp);
 	while (1)
 	{
-		line = readline("(=^･^=) ");
-		if (check_endoffile(line) == -1)
+		get_input(&data);
+		if (data.input)
 		{
-			free_strs(line, NULL, data.env);
-			rl_clear_history();
-			exit(0);
-		} //ctrl D is EOF
-		add_history(line);
-		data.input = get_split_input(line, &data);
-		if (data.input == NULL)
-		{
-			free_strs(line, NULL, data.env);
-			rl_clear_history();
-			return (1);
-		}
-		if (find_size_input_array(data.input) == 0)
-			continue ;
-		if (tokens_error(data.input) == ERROR)
-			free_strs(line, data.input, NULL);
-		else
-		{
-				minishell(&data);
-				free_strs(line, data.input, NULL);
-				free_procs(data.procs);
+			data.exitcode = minishell(&data);
+			free_procs(data.procs);
+			free_array(data.input);
 		}
 	}
 	return (0);

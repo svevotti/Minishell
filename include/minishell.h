@@ -8,6 +8,7 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <signal.h>
 # include <sys/wait.h>
 
 # define ECHO	1
@@ -88,7 +89,7 @@ typedef struct s_heredoc
 }t_heredoc;
 
 //check pipes
-int	check_pipe(char **str);
+int		check_pipe(char **str);
 
 //utils split input
 int		is_white_space(char *str);
@@ -125,7 +126,6 @@ void	free_input(char **input);
 //utils env var
 char	*find_name_var(char *str);
 int		get_quote_flag(int flag);
-
 void	print_array(char **str);
 
 //size split input
