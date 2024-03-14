@@ -74,6 +74,7 @@ typedef struct s_data
 	t_env	*env;
 	t_list	*procs;
 	char	**input;
+	char	*line;
 	int		std_in;
 	int		std_out;
 	int		exit;
@@ -137,7 +138,7 @@ char	**get_item(char *str, char delimiter);
 
 //crate input pipe at the end
 void	update_input(char **input);
-int		find_size_input_array(char **array);
+int		is_enter(char **array);
 
 //print error
 int		tokens_error(char **input);
