@@ -78,3 +78,7 @@ bash: syntax error near unexpected token `>>'
 bash: syntax error near unexpected token `<'
 (=^･^=) <<<<echo
 bash: syntax error near unexpected token `<<'
+
+echo "exit_code ->$? user ->$USER home -> $HOME" 
+mini output = (exit_code ->0 user ->/home/smazzari home -> /home/smazzari)
+bash output = (exit_code ->0 user ->smazzari home -> /home/smazzari)

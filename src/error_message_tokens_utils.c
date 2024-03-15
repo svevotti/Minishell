@@ -68,6 +68,14 @@ int	check_red_output(char *str, char *next_str)
 		red_output_error_message(count);
 		return (ERROR);
 	}
+	else
+	{
+		if (*next_str == '|')
+		{
+			print_error_token(ERROR_1PIPE);
+			return (ERROR);
+		}
+	}
 	return (0);
 }
 
