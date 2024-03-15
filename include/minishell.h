@@ -142,6 +142,7 @@ int		find_size_input_array(char **array);
 
 //print error
 int	check_syntax_tokens(char *str, int index, t_data *data, int size_array);
+int	check_redirections(char **input);
 
 //error message tokens
 void	print_error_token(int check);

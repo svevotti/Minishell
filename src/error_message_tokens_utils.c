@@ -12,8 +12,8 @@
 
 #include "../include/minishell.h"
 
-void	red_input_error_message(int nbr_token, int next_word_len);
-void	red_output_error_message(int nbr_token, int next_word_len);
+void	red_input_error_message(int nbr_token);
+void	red_output_error_message(int nbr_token);
 
 void	print_error_token(int check)
 {
@@ -37,43 +37,25 @@ void	print_error_token(int check)
 
 int	check_red_input(char *str, char *next_str)
 {
-	int	count;
+	int count;
 
 	count = ft_strlen(str);
 	if (ft_strlen(next_str) == 0)
 	{
-		red_input_error_message(count, 0);
+		red_input_error_message(count);
 		return (ERROR);
-	}
-	else
-	{
-		if (count >= 3)
-		{
-			red_input_error_message(count, 1);
-			return (ERROR);
-		}
 	}
 	return (0);
 }
 
-void	red_input_error_message(int nbr_token, int next_word_len)
+void	red_input_error_message(int nbr_token)
 {
-	if (next_word_len == 0)
-	{
-		if (nbr_token == 1 || nbr_token == 2)
-			print_error_token(ERROR_REDIRECTION_INPUT);
-		else if (nbr_token == 3)
-			print_error_token(ERROR_3REDIRECTION_INPUT);
-		else if (nbr_token > 3)
-			print_error_token(ERROR_4PLUSREDIRECTION_INPUT);
-	}
-	else
-	{
-		if (nbr_token == 3)
-			print_error_token(ERROR_3REDIRECTION_INPUT);
-		else
-			print_error_token(ERROR_4PLUSREDIRECTION_INPUT);
-	}
+	if (nbr_token == 1 || nbr_token == 2)
+		print_error_token(ERROR_REDIRECTION_INPUT);
+	else if (nbr_token == 3)
+		print_error_token(ERROR_3REDIRECTION_INPUT);
+	else if (nbr_token > 3)
+		print_error_token(ERROR_4PLUSREDIRECTION_INPUT);
 }
 
 int	check_red_output(char *str, char *next_str)
@@ -83,38 +65,46 @@ int	check_red_output(char *str, char *next_str)
 	count = ft_strlen(str);
 	if (ft_strlen(next_str) == 0)
 	{
-		red_output_error_message(count, 0);
+		red_output_error_message(count);
 		return (ERROR);
-	}
-	else
-	{
-		if (count >= 3)
-		{
-			red_output_error_message(count, 1);
-			return (ERROR);
-		}
 	}
 	return (0);
 }
 
-void	red_output_error_message(int nbr_token, int next_word_len)
+void	red_output_error_message(int nbr_token)
 {
-	if (next_word_len == 0)
+	if (nbr_token == 1 || nbr_token == 2)
+		print_error_token(ERROR_REDIRECTION_OUTPUT);
+	else if (nbr_token == 3)
+		print_error_token(ERROR_4REDIRECTION_OUTPUT);
+	else if (nbr_token > 3)
+		print_error_token(ERROR_5PLUSREDIRECTION_OUTPUT);
+}
+
+int	get_redirection(char *str)
+{
+	if (*str == '>')
+		return(RED_INPUT);
+	else if (*str == '<')
+		return (RED_OUTPUT);
+	return (0);
+}
+int	check_redirections(char **input)
+{
+	int	check;
+	int i;
+
+	check = 0;
+	i = 0;
+	while (input[i] != NULL)
 	{
-		if (nbr_token == 1 || nbr_token == 2)
-			print_error_token(ERROR_REDIRECTION_OUTPUT);
-		else if (nbr_token == 3)
-			print_error_token(ERROR_4REDIRECTION_OUTPUT);
-		else if (nbr_token > 3)
-			print_error_token(ERROR_5PLUSREDIRECTION_OUTPUT);
+		if (get_redirection(input[i]) == RED_INPUT)
+			check = check_red_input(input[i], input[i + 1]);
+		else if (get_redirection(input[i]) == RED_OUTPUT)
+			check = check_red_output(input[i], input[i + 1]);
+		if (check == ERROR)
+			return (ERROR);
+		i++;
 	}
-	else
-	{
-		if (nbr_token == 3)
-			printf("error to check\n");
-		else if (nbr_token == 4)
-			print_error_token(ERROR_4REDIRECTION_OUTPUT);
-		else
-			print_error_token(ERROR_5PLUSREDIRECTION_OUTPUT);
-	}
+	return (check);
 }

@@ -41,7 +41,6 @@ SRCS	:=	./src/main.c \
 			./src/error_message_tokens_utils.c \
 			./src/initialize_program.c \
 			./src/split_input_utils.c \
-			./src/check_pipes_syntax.c \
 			./src/builtins/ft_echo.c \
 			./src/builtins/ft_env.c \
 			./src/builtins/ft_export.c \
