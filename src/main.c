@@ -46,13 +46,12 @@ void	get_input(t_data *data)
 		data->input = get_split_input(line, data);
 	if (data->input)
 	{
-		//printf("data exit code %d\n", data->exitcode);
-		// if (tokens_error(data->input) == ERROR)
-		// {
-		// 	free_array(data->input);
-		// 	data->input = NULL;
-		// 	data->exitcode = 2;
-		// }
+		if (check_redirections(data->input) == ERROR)
+		{
+			free_array(data->input);
+			data->input = NULL;
+			data->exitcode = 2;
+		}
 	}
 	free(line);
 }
