@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:46:01 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/11 15:34:11 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/15 16:34:00 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,10 @@ void	ft_print_error(char *s, int fd)
 
 void	ft_error(char *arg, int flag)
 {
-	char	*str;
-
 	if (flag == 0)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(arg);
-	}
-	else if (flag == 1)
-	{
-		str = ft_strjoin(arg, ": command not found\n");
-		ft_print_error(str, 2);
-		free(str);
 	}
 	else if (flag == 2)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 10:40:05 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/13 11:47:56 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/15 16:29:21 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,6 @@ char	**env_to_array(t_env *env)
 	return (envarray);
 }
 
-void	for_norm_again(t_data *data, t_proc *proc)
-{
-	usleep(50000);
-	ft_error(proc->cmd[0], 1);
-	free_data(data);
-	exit(127);
-}
-
 void	exec_linux(t_data *data, t_proc *proc, t_env *env)
 {
 	char	**envarray;
@@ -90,12 +82,7 @@ void	exec_linux(t_data *data, t_proc *proc, t_env *env)
 		free_data(data);
 		exit(0);
 	}
-	if (access(proc->cmd[0], X_OK) == 0)
-		proc->path = ft_strdup(proc->cmd[0]);
-	else
-		proc->path = get_path(proc->cmd[0], env);
-	if (!proc->path)
-		for_norm_again(data, proc);
+	precheck_path(data, proc);
 	envarray = env_to_array(env);
 	execve(proc->path, proc->cmd, envarray);
 	free_array(envarray);

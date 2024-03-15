@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/15 16:32:21 by jbeck             #+#    #+#             */
+/*   Updated: 2024/03/15 16:34:33 by jbeck            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -12,7 +24,6 @@
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <sys/stat.h>
-
 
 # define ECHO	1
 # define ENV	2
@@ -197,6 +208,7 @@ int		redirect_pipe(pid_t pid, t_proc *proc, int *fd);
 int		exec_cmd(t_data *data, t_proc *proc, t_env *env);
 void	exec_linux(t_data *data, t_proc *proc, t_env *env);
 char	*get_path(char *cmd, t_env *env);
+void	precheck_path(t_data *data, t_proc *proc);
 
 // error
 void	ft_error(char *arg, int flag);
@@ -204,6 +216,7 @@ void	ft_print_error(char *s, int fd);
 void	export_error(char *arg);
 void	cd_error(char *arg, int flag);
 void	exit_error(char *str, int flag);
+void	ft_path_error(char *arg, int flag);
 
 //redirection
 int		is_redirection(char *str);

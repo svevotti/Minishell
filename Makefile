@@ -6,7 +6,7 @@
 #    By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/20 14:49:17 by jbeck             #+#    #+#              #
-#    Updated: 2024/03/14 09:35:33 by jbeck            ###   ########.fr        #
+#    Updated: 2024/03/15 16:31:39 by jbeck            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRCS	:=	./src/main.c \
 			./src/minishell.c \
 			./src/free.c \
 			./src/tools.c \
+			./src/check_path.c \
 			./src/error_message_tokens.c \
 			./src/error_message_tokens_utils.c \
 			./src/initialize_program.c \
