@@ -56,9 +56,19 @@ int	count_len_word(char *str)
 			&& single_quote == 0 && double_quotes == 0)
 			break ;
 		if (*str == 39)
-			single_quote = get_quote_flag(single_quote);
+		{
+			if (double_quotes == 0)
+				single_quote = get_quote_flag(single_quote);
+			else
+				count++;
+		}
 		else if (*str == 34)
-			double_quotes = get_quote_flag(double_quotes);
+		{
+			if (single_quote == 0)
+				double_quotes = get_quote_flag(double_quotes);
+			else
+				count++;
+		}
 		else
 			count++;
 		str++;
@@ -78,13 +88,17 @@ int	find_len(char *str)
 	return (count);
 }
 
-char	*get_single_str(char *str)
+char	*get_single_str_test(char *str, t_data *data)
 {
 	int		size_string;
 	int		count;
 	char	*single_str;
 	char	*temp;
+	int	single_quote;
+	int	double_quotes;
 
+	single_quote = 0;
+	double_quotes = 0;
 	size_string = find_len(str);
 	single_str = (char *)malloc(sizeof(char) * (size_string + 1));
 	if (single_str == NULL)
@@ -94,12 +108,39 @@ char	*get_single_str(char *str)
 	while (count < size_string)
 	{
 		if (*str == 39 || *str == 34)
-			str++;
+		{
+			if (*str == 39)
+			{
+				if (single_quote == 0)
+					single_quote = 1;
+				if (data->flag_quotes == 0)
+					data->flag_quotes = 1;
+				if (double_quotes == 0)
+					str++;
+				else
+				{
+					*temp++ = *str++;
+					count++;
+				}
+			}
+			else if (*str == 34)
+			{
+				if (double_quotes == 0)
+					double_quotes = 1;
+				if (data->flag_quotes == 0)
+					data->flag_quotes = 1;
+				if (single_quote == 0)
+					str++;
+				else
+				{
+					*temp++ = *str++;
+					count++;
+				}
+			}
+		}
 		else
 		{
-			*temp = *str;
-			temp++;
-			str++;
+			*temp++ = *str++;
 			count++;
 		}
 	}
@@ -107,13 +148,14 @@ char	*get_single_str(char *str)
 	return (single_str);
 }
 
-char	**split_function(char *str)
+char	**split_function(char *str, t_data *data)
 {
 	char	**string_split;
 	int		size_array;
 	int		i;
 	char	*single_str;
 
+	data->flag_quotes = 0;
 	size_array = find_size_array(str);
 	string_split = (char **)malloc(sizeof(char *) * (size_array + 1));
 	if (string_split == NULL)
@@ -123,8 +165,10 @@ char	**split_function(char *str)
 	{
 		while (*str == ' ' || *str == '\n' || *str == '\t')
 			str++;
-		single_str = get_single_str(str);
+		single_str = get_single_str_test(str, data);
 		if (single_str == NULL)
+			return (NULL);
+		if (check_syntax_tokens(single_str, i, data, size_array) == ERROR)
 			return (NULL);
 		if (*str == 34 || *str == 39)
 			str += 2;

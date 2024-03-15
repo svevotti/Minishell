@@ -31,5 +31,7 @@ int	is_white_space(char *str)
 		return (1);
 	if (*str == '\t')
 		return (1);
+	if (*str == '\0')
+		return (2);
 	return (0);
 }

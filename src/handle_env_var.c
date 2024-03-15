@@ -18,7 +18,7 @@ char	*get_env_value(t_env *head, char *key)
 
 	while (head != NULL)
 	{
-		if (ft_strncmp(head->key, key, ft_strlen(key)) == 0)
+		if (ft_strcmp(head->key, key) == 0)
 			return (head->value);
 		head = head->next;
 	}
@@ -59,12 +59,12 @@ char	*get_value(char *str, t_data *data, int *len_word)
 	return (value_var);
 }
 
-char	*get_str(char *str)
+char	*get_str(char *str, t_data *data)
 {
 	int		str_size;
 	char	*new_string;
 
-	str_size = find_size(str);
+	str_size = find_size(str, data);
 	if (str_size == -1)
 		return (NULL);
 	new_string = (char *)malloc(sizeof(char) * (str_size + 1));
@@ -82,7 +82,7 @@ char	*get_new_string(char *new_str, char *str, t_data *data, int flag)
 	temp = new_str;
 	while (*str != '\0')
 	{
-		if (*str == '$' && flag == 0)
+		if (*str == '$' && flag == 0 && check_name_variable(*(str + 1)) == 1)
 		{
 			value_var = get_value(++str, data, &len_word);
 			if (value_var == NULL)
@@ -107,7 +107,7 @@ char	*expand_input(char *str, t_data *data)
 	char	*new_string;
 	int		flag_single_quote;
 
-	new_string = get_str(str);
+	new_string = get_str(str, data);
 	if (new_string == NULL)
 		return (NULL);
 	flag_single_quote = 0;

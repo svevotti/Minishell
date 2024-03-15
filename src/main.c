@@ -46,7 +46,7 @@ void	get_input(t_data *data)
 		data->input = get_split_input(line, data);
 	if (data->input)
 	{
-		if (tokens_error(data->input) == ERROR)
+		if (check_redirections(data->input) == ERROR)
 		{
 			free_array(data->input);
 			data->input = NULL;
@@ -83,7 +83,7 @@ char	**get_split_input(char *str, t_data *data)
 	expanded_input = expand_input(str, data);
 	if (expanded_input == NULL)
 		return (NULL);
-	split_input = split_function(expanded_input);
+	split_input = split_function(expanded_input, data);
 	if (split_input == NULL)
 	{
 		free(expanded_input);
