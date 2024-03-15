@@ -18,7 +18,7 @@ char	*get_env_value(t_env *head, char *key)
 
 	while (head != NULL)
 	{
-		if (ft_strncmp(head->key, key, ft_strlen(key)) == 0)
+		if (ft_strcmp(head->key, key) == 0)
 			return (head->value);
 		head = head->next;
 	}
