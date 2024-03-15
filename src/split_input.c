@@ -78,7 +78,7 @@ int	find_len(char *str)
 	return (count);
 }
 
-char	*get_single_str_test(char *str, int *flag_quotes)
+char	*get_single_str_test(char *str, t_data *data)
 {
 	int		size_string;
 	int		count;
@@ -97,13 +97,13 @@ char	*get_single_str_test(char *str, int *flag_quotes)
 		{
 			if (*str == 39)
 			{
-				if (*flag_quotes == 0)
-					*flag_quotes = 1;
+				if (data->flag_quotes == 0)
+					data->flag_quotes = 1;
 			}
 			else if (*str == 34)
 			{
-				if (*flag_quotes == 0)
-					*flag_quotes = 1;
+				if (data->flag_quotes == 0)
+					data->flag_quotes = 1;
 			}
 			str++;
 		}
@@ -119,50 +119,14 @@ char	*get_single_str_test(char *str, int *flag_quotes)
 	return (single_str);
 }
 
-int	check_errors_pipes(char *str, int index, int flag_quotes, t_data *data, int size_array)
-{
-	int	check;
-	int	size;
-
-	check = 0;
-	size = ft_strlen(str);
-	if (*str == '|')
-	{
-		if (flag_quotes == 0) // no quotes
-		{
-			if (index == 0 || index == size_array - 1)
-			{
-				if (ft_strlen(str) == 1)
-					print_error_token(ERROR_1PIPE);
-				else
-					print_error_token(ERROR_2PLUSPIPE);
-				data->exitcode = 2;
-				return (ERROR);
-			}
-			else
-			{
-				if (ft_strlen(str) > 1)
-				{
-					print_error_token(ERROR_2PLUSPIPE);
-					data->exitcode = 2;
-					return (ERROR);
-				}
-			}
-
-		}
-	}
-	return (check);
-}
-
 char	**split_function(char *str, t_data *data)
 {
 	char	**string_split;
 	int		size_array;
 	int		i;
 	char	*single_str;
-	int		flag_quotes;
 
-	flag_quotes = 0;
+	data->flag_quotes = 0;
 	size_array = find_size_array(str);
 	string_split = (char **)malloc(sizeof(char *) * (size_array + 1));
 	if (string_split == NULL)
@@ -172,10 +136,10 @@ char	**split_function(char *str, t_data *data)
 	{
 		while (*str == ' ' || *str == '\n' || *str == '\t')
 			str++;
-		single_str = get_single_str_test(str, &flag_quotes);
+		single_str = get_single_str_test(str, data);
 		if (single_str == NULL)
 			return (NULL);
-		if (check_errors_pipes(single_str, i, flag_quotes, data, size_array) == ERROR)
+		if (check_syntax_tokens(single_str, i, data, size_array) == ERROR)
 			return (NULL);
 		if (*str == 34 || *str == 39)
 			str += 2;
@@ -184,6 +148,5 @@ char	**split_function(char *str, t_data *data)
 		i++;
 	}
 	string_split[i] = NULL;
-	//printf("string %s\n", string_split[0]);
 	return (string_split);
 }

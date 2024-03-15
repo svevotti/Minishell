@@ -59,12 +59,12 @@ char	*get_value(char *str, t_data *data, int *len_word)
 	return (value_var);
 }
 
-char	*get_str(char *str)
+char	*get_str(char *str, t_data *data)
 {
 	int		str_size;
 	char	*new_string;
 
-	str_size = find_size(str);
+	str_size = find_size(str, data);
 	if (str_size == -1)
 		return (NULL);
 	new_string = (char *)malloc(sizeof(char) * (str_size + 1));
@@ -73,7 +73,7 @@ char	*get_str(char *str)
 	return (new_string);
 }
 
-char	*get_new_string(char *new_str, char *str, t_data *data)
+char	*get_new_string(char *new_str, char *str, t_data *data, int flag)
 {
 	char	*temp;
 	int		len_word;
@@ -102,15 +102,15 @@ char	*get_new_string(char *new_str, char *str, t_data *data)
 	return (new_str);
 }
 
-char	*expand_input(char *str)
+char	*expand_input(char *str, t_data *data)
 {
 	char	*new_string;
 	int		flag_single_quote;
 
-	new_string = get_str(str);
+	new_string = get_str(str, data);
 	if (new_string == NULL)
 		return (NULL);
 	flag_single_quote = 0;
-	new_string = get_new_string(new_string, str, data);
+	new_string = get_new_string(new_string, str, data, flag_single_quote);
 	return (new_string);
 }
