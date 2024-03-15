@@ -41,9 +41,8 @@
 # define ERROR_REDIRECTION_OUTPUT -6
 # define ERROR_4REDIRECTION_OUTPUT -7
 # define ERROR_5PLUSREDIRECTION_OUTPUT -8
-# define PIPE 1
-# define RED_INPUT 2
-# define RED_OUTPUT 3
+# define RED_INPUT 1
+# define RED_OUTPUT 2
 
 struct	s_env;
 
@@ -80,6 +79,7 @@ typedef struct s_data
 	int		std_out;
 	int		exit;
 	int		exitcode;
+	int		flag_quotes;
 }t_data;
 
 typedef struct s_heredoc
@@ -102,9 +102,9 @@ void	sig_handler(int signum);
 void	initialize(char **argv, char argc, t_data *data, char **envp);
 void	initialize_signals(void);
 //handle env var
-int		find_size(char *str);
+int		find_size(char *str, t_data *data);
 char	*find_name_var(char *str);
-char	*expand_input(char *str);
+char	*expand_input(char *str, t_data *data);
 char	*get_env_value(t_env *head, char *key);
 
 //find size env var
@@ -141,7 +141,7 @@ void	update_input(char **input);
 int		find_size_input_array(char **array);
 
 //print error
-int		tokens_error(char **input);
+int	check_syntax_tokens(char *str, int index, t_data *data, int size_array);
 
 //error message tokens
 void	print_error_token(int check);
