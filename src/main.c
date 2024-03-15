@@ -66,7 +66,6 @@ int	main(int argc, char **argv, char **envp)
 		get_input(&data);
 		if (data.input)
 		{
-			//printf("data input %s\n", data.input[0]); //not printint tokens if "|"
 			data.exitcode = minishell(&data);
 			free_procs(data.procs);
 			free_array(data.input);

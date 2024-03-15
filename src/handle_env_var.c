@@ -82,7 +82,7 @@ char	*get_new_string(char *new_str, char *str, t_data *data, int flag)
 	temp = new_str;
 	while (*str != '\0')
 	{
-		if (*str == '$')
+		if (*str == '$' && flag == 0 && check_name_variable(*(str + 1)) == 1)
 		{
 			value_var = get_value(++str, data, &len_word);
 			if (value_var == NULL)

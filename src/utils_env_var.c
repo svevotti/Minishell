@@ -27,6 +27,8 @@ int	check_name_variable(char c)
 		return (1);
 	if (strncmp(&c, "_", 1) == 0)
 		return (1);
+	if (c == '?')
+		return (1);
 	return (0);
 }
 

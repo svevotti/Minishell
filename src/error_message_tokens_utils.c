@@ -83,6 +83,8 @@ void	red_output_error_message(int nbr_token)
 
 int	get_redirection(char *str)
 {
+	if (ft_strlen(str) > 2)
+		return (0);
 	if (*str == '>')
 		return(RED_INPUT);
 	else if (*str == '<')

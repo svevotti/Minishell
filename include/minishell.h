@@ -126,8 +126,8 @@ void	free_input(char **input);
 
 //utils env var
 char	*find_name_var(char *str);
+int	check_name_variable(char c);
 int		get_quote_flag(int flag);
-void	print_array(char **str);
 
 //size split input
 int		find_len(char *str);
