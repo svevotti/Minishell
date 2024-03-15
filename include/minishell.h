@@ -104,7 +104,7 @@ void	initialize_signals(void);
 //handle env var
 int		find_size(char *str);
 char	*find_name_var(char *str);
-char	*expand_input(char *str, t_data *data);
+char	*expand_input(char *str);
 char	*get_env_value(t_env *head, char *key);
 
 //find size env var
@@ -115,7 +115,7 @@ void	trans_env(t_data *data, char **envp);
 void	free_env(t_env *head);
 
 //split_input
-char	**split_function(char *str);
+char	**split_function(char *str, t_data *data);
 
 //check first argv
 void	execute_cmd(char **input, t_env *env, char **envp);

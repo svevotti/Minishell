@@ -73,7 +73,7 @@ char	*get_str(char *str)
 	return (new_string);
 }
 
-char	*get_new_string(char *new_str, char *str, t_data *data, int flag)
+char	*get_new_string(char *new_str, char *str, t_data *data)
 {
 	char	*temp;
 	int		len_word;
@@ -82,7 +82,7 @@ char	*get_new_string(char *new_str, char *str, t_data *data, int flag)
 	temp = new_str;
 	while (*str != '\0')
 	{
-		if (*str == '$' && flag == 0)
+		if (*str == '$')
 		{
 			value_var = get_value(++str, data, &len_word);
 			if (value_var == NULL)
@@ -102,7 +102,7 @@ char	*get_new_string(char *new_str, char *str, t_data *data, int flag)
 	return (new_str);
 }
 
-char	*expand_input(char *str, t_data *data)
+char	*expand_input(char *str)
 {
 	char	*new_string;
 	int		flag_single_quote;
@@ -111,6 +111,6 @@ char	*expand_input(char *str, t_data *data)
 	if (new_string == NULL)
 		return (NULL);
 	flag_single_quote = 0;
-	new_string = get_new_string(new_string, str, data, flag_single_quote);
+	new_string = get_new_string(new_string, str, data);
 	return (new_string);
 }

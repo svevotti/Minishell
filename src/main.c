@@ -46,12 +46,13 @@ void	get_input(t_data *data)
 		data->input = get_split_input(line, data);
 	if (data->input)
 	{
-		if (tokens_error(data->input) == ERROR)
-		{
-			free_array(data->input);
-			data->input = NULL;
-			data->exitcode = 2;
-		}
+		printf("data exit code %d\n", data->exitcode);
+		// if (tokens_error(data->input) == ERROR)
+		// {
+		// 	free_array(data->input);
+		// 	data->input = NULL;
+		// 	data->exitcode = 2;
+		// }
 	}
 	free(line);
 }
@@ -66,6 +67,7 @@ int	main(int argc, char **argv, char **envp)
 		get_input(&data);
 		if (data.input)
 		{
+			//printf("data input %s\n", data.input[0]); //not handly tokens if in ""
 			data.exitcode = minishell(&data);
 			free_procs(data.procs);
 			free_array(data.input);
@@ -80,10 +82,10 @@ char	**get_split_input(char *str, t_data *data)
 	char		*expanded_input;
 	char		**split_input;
 
-	expanded_input = expand_input(str, data);
+	expanded_input = expand_input(str);
 	if (expanded_input == NULL)
 		return (NULL);
-	split_input = split_function(expanded_input);
+	split_input = split_function(expanded_input, data);
 	if (split_input == NULL)
 	{
 		free(expanded_input);
