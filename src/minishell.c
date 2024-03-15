@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:40:16 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/11 13:37:15 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/14 15:56:59 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	minishell(t_data *data)
 		data->exit = 1;
 		redirect(data->procs->content);
 		exitcode = exec_builtin(data->procs->content, data);
+		data->exit = 0;
 	}
 	else
 		exitcode = run_executor(data);

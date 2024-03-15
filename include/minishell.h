@@ -10,6 +10,9 @@
 # include <errno.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+
 
 # define ECHO	1
 # define ENV	2

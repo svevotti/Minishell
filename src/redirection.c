@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:17:16 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/08 10:27:58 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/14 14:38:07 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void	prepare_redirection(t_proc *proc, char **input, int i)
 	int	ret;
 
 	ret = 0;
+	if (proc->no_exec)
+		return ;
 	type = is_redirection(input[i]);
 	i++;
 	if (type <= INFILE)
