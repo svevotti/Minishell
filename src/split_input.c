@@ -148,7 +148,7 @@ char	*get_single_str_test(char *str, t_data *data)
 	return (single_str);
 }
 
-char	**split_function(char *str, t_data *data)
+char	**split_tokens(char *str, t_data *data)
 {
 	char	**string_split;
 	int		size_array;

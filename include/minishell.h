@@ -105,6 +105,7 @@ typedef struct s_heredoc
 
 //print array
 void print_array(char **str);
+void	print_3d_array(char ***str);
 
 //split processes
 char **split_pipes(char *str, t_data *data);
@@ -134,7 +135,7 @@ void	trans_env(t_data *data, char **envp);
 void	free_env(t_env *head);
 
 //split_input
-char	**split_function(char *str, t_data *data);
+char	**split_tokens(char *str, t_data *data);
 
 //check first argv
 void	execute_cmd(char **input, t_env *env, char **envp);

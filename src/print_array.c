@@ -15,3 +15,19 @@ void print_array(char **str)
 		i++;
 	}
 }
+
+void	print_3d_array(char ***str)
+{
+	int i = 0;
+	if (str == NULL)
+	{
+		printf("str is NULL\n");
+		return ;
+	}
+	while (str[i] != NULL)
+	{
+		printf("%d ----------\n", i);
+		print_array(str[i]);
+		i++;
+	}
+}
