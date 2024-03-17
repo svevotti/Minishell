@@ -49,6 +49,8 @@ SRCS	:=	./src/main.c \
 			./src/builtins/ft_unset.c \
 			./src/builtins/ft_cd.c \
 			./src/builtins/ft_exit.c \
+			./src/print_array.c \
+			./src/split_processes.c
 			
 OBJS	:= ${SRCS:.c=.o}
 

@@ -103,6 +103,11 @@ typedef struct s_heredoc
 	char	*check;
 }t_heredoc;
 
+//print array
+void print_array(char **str);
+
+//split processes
+char **split_pipes(char *str, t_data *data);
 //check pipes
 int		check_pipe(char **str);
 
