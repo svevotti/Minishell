@@ -103,8 +103,10 @@ typedef struct s_heredoc
 	char	*check;
 }t_heredoc;
 
+//error pipes
+int		check_syntax_pipes(char *str, t_data *data, int check);
 //print array
-void print_array(char **str);
+void 	print_array(char **str);
 void	print_3d_array(char ***str);
 
 //split processes

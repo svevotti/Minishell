@@ -1,113 +1,45 @@
 #include "../include/minishell.h"
 
-int	check_first(char *str)
-{
-	int	pipe_number;
-
-	pipe_number = 0;
-	if (*str == '|')
-	{
-		while (*str == '|')
-		{
-			pipe_number++;
-			str++;
-		}
-		if (pipe_number == 1)
-			print_error_token(ERROR_1PIPE);
-		else
-			print_error_token(ERROR_2PLUSPIPE);
-		return (ERROR);
-	}
-	return (0);
-}
-
-int	check_last(char *str)
-{
-	char *temp;
-	int	pipe_number;
-
-	pipe_number = 0;	
-	temp = str + ft_strlen(str) - 1;
-	while (*temp == ' ' || *temp == '\t' || *temp == '\n')
-		temp--;
-	if (*temp == '|')
-	{
-		while (*temp == '|')
-		{
-			pipe_number++;
-			temp--;;
-		}
-		if (pipe_number == 1)
-			print_error_token(ERROR_1PIPE);
-		else
-			print_error_token(ERROR_2PLUSPIPE);
-		return (ERROR);
-	}
-	return (0);
-}
-
-int	check_number(char *str)
-{
-	int	pipe_number;
-
-	pipe_number = 0;
-	while (*str == '|')
-	{
-		pipe_number++;
-		str++;
-	}
-	if (pipe_number > 1)
-	{
-		if (pipe_number == 1)
-			print_error_token(ERROR_1PIPE);
-		else
-			print_error_token(ERROR_2PLUSPIPE);
-		return (ERROR);
-	}
-	return (0);
-}
-
-int	check_syntax_pipes(char *str, t_data *data, int check)
-{
-	if (check == 1)
-	{
-		if (check_first(str) == - 1 || check_last(str) == -1)
-		{
-			data->exitcode = 2;
-			return (ERROR);
-		}
-	}
-	else
-	{
-		if (check_number(str) == -1)
-		{
-			data->exitcode = 2;
-			return (ERROR);
-		}
-	}
-	return (0);
-}
-
 int	find_size_pipe(char *str, t_data *data)
 {
 	int	count;
-	int	single_quote;
-	int	double_quote;
+	int double_quotes;
+	int	single_quotes;
 
+	double_quotes = 0;
+	single_quotes = 0;
 	count = 1;
-	single_quote = 0;
-	double_quote = 0;
 	while (*str == ' ' || *str == '\n' || *str == '\t')
 		str++;
 	if (check_syntax_pipes(str, data, 1) == -1)
 		return (ERROR);
 	while (*str != '\0')
 	{
-		if (*str == '|')
+		if (*str == 34)
+		{
+			if (single_quotes == 0)
+			{
+				if (double_quotes == 0)
+					double_quotes = 1;
+				else
+					double_quotes = 0;
+			}
+		}
+		else if (*str == 39)
+		{
+			if (double_quotes == 0)
+			{
+				if (single_quotes == 0)
+					single_quotes = 1;
+				else
+					single_quotes = 0;
+			}
+		}
+		if (*str == '|' && double_quotes == 0 && single_quotes == 0)
 		{
 			count++;
 			if (check_syntax_pipes(str, data, 2) == -1)
-				return (ERROR);
+					return (ERROR);
 		}
 		str++;
 	}
@@ -117,16 +49,36 @@ int	find_size_pipe(char *str, t_data *data)
 int	count_len_process(char *str)
 {
 	int	count;
-	int	single_quote;
-	int	double_quotes;
+	int double_quotes;
+	int	single_quotes;
 
 	count = 0;
-	single_quote = 0;
 	double_quotes = 0;
+	single_quotes = 0;
 	while (*str != '\0')
 	{
-		if (*str == '|' && single_quote == 0 && double_quotes == 0)
+		if (*str == '|' && single_quotes == 0 && double_quotes == 0)
 			break ;
+		if (*str == 34)
+		{
+			if (single_quotes == 0)
+			{
+				if (double_quotes == 0)
+					double_quotes = 1;
+				else
+					double_quotes = 0;
+			}
+		}
+		else if (*str == 39)
+		{
+			if (double_quotes == 0)
+			{
+				if (single_quotes == 0)
+					single_quotes = 1;
+				else
+					single_quotes = 0;
+			}
+		}
 		count++;
 		str++;
 	}
@@ -139,11 +91,7 @@ char	*get_process(char *str)
 	int		count;
 	char	*single_str;
 	char	*temp;
-	int	single_quote;
-	int	double_quotes;
 
-	single_quote = 0;
-	double_quotes = 0;
 	size_string = count_len_process(str);
 	single_str = (char *)malloc(sizeof(char) * (size_string + 1));
 	if (single_str == NULL)
@@ -183,5 +131,8 @@ char **split_pipes(char *str, t_data *data)
 		i++;
 	}
 	array_processes[i] = NULL;
+	// printf("processes -----\n");
+	// print_array(array_processes);
+	// printf("processes -----\n");
 	return (array_processes);
 }
