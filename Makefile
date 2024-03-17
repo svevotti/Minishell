@@ -12,7 +12,7 @@
 
 NAME	:= minishell
 
-CFLAGS	:= -Wextra -Wall -Werror -g -I ./includes/ -I/opt/homebrew/opt/readline/include
+CFLAGS	:= -Wextra -Wall -g -I ./includes/ -I/opt/homebrew/opt/readline/include
 
 LIBFT	:= ./libft
 
