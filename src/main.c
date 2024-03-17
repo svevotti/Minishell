@@ -63,21 +63,63 @@ void	get_input(t_data *data)
 	free(line);
 }
 
+int	count_words_process(char *str)
+{
+	int count;
+
+	while (*str == ' ' || *str == '\n' || *str == '\t')
+		str++;
+	count = 0;
+	while (*str != '\0')
+	{
+		count++;
+		str = traverse_token(str);
+		while (*str == ' ' || *str == '\n' || *str == '\t')
+			str++;
+	}
+	return (count);
+}
+
+char	***split_words(char **processes, t_data *data)
+{
+	char	***array_tokens;
+	int		nbr_words;
+	int		size_array_tokens;
+	int		i;
+	int		j;
+
+	(void)data;
+	size_array_tokens = find_size_input_array(processes);
+	array_tokens = (char ***)malloc(sizeof(char **) * (size_array_tokens) + 1);
+	if (array_tokens == NULL)
+		return (NULL);
+	i = 0;
+	j = 0;
+	//printf("array size %d\n", size_array_tokens);
+	while (i < size_array_tokens)
+	{
+		nbr_words = count_words_process(processes[i]);
+		//printf("%i ~ nbr words %d\n", i, nbr_words);
+		i++;
+	}
+	return (NULL);
+}
 char	**get_split_input(char *str, t_data *data)
 {
 	char		*expanded_input;
 	char		**split_input;
 	char 		**array_processes;
-	// char 		***array_words;
+	char 		***array_words;
 
 	expanded_input = expand_input(str, data);
 	if (expanded_input == NULL)
 		return (NULL);
 	array_processes = split_pipes(expanded_input, data);
+	printf("arrat processes 1 ~ ");
+	print_array(array_processes);
 	if (array_processes == NULL)
 		return (NULL);
-	// array_words = split_words(array_processes, data);
-	// print_array(array_processes);
+	array_words = split_words(array_processes, data);
 	// exit(100);	
 	split_input = split_function(expanded_input, data);
 	if (split_input == NULL)

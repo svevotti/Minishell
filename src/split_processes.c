@@ -69,7 +69,6 @@ int	check_number(char *str)
 
 int	check_syntax_pipes(char *str, t_data *data, int check)
 {
-	
 	if (check == 1)
 	{
 		if (check_first(str) == - 1 || check_last(str) == -1)
@@ -104,22 +103,28 @@ int	find_size_pipe(char *str, t_data *data)
 		return (ERROR);
 	while (*str != '\0')
 	{
-		if (*str == 39)
-		{
-			if (single_quote == 0)
-				single_quote = get_quote_flag(single_quote);
-		}
-		else if (*str == 34)
-		{
-			if (double_quote == 0)
-				double_quote = get_quote_flag(double_quote);
-		}
-		else if (*str == '|' && single_quote == 0 && double_quote == 0)
+		if (*str == '|')
 		{
 			count++;
 			if (check_syntax_pipes(str, data, 2) == -1)
 				return (ERROR);
 		}
+		// if (*str == 39)
+		// {
+		// 	if (single_quote == 0)
+		// 		single_quote = get_quote_flag(single_quote);
+		// }
+		// else if (*str == 34)
+		// {
+		// 	if (double_quote == 0)
+		// 		double_quote = get_quote_flag(double_quote);
+		// }
+		// else if (*str == '|' && single_quote == 0 && double_quote == 0)
+		// {
+		// 	count++;
+		// 	if (check_syntax_pipes(str, data, 2) == -1)
+		// 		return (ERROR);
+		// }
 		str++;
 	}
 	return (count);
@@ -138,22 +143,22 @@ int	count_len_process(char *str)
 	{
 		if (*str == '|' && single_quote == 0 && double_quotes == 0)
 			break ;
-		else if (*str == 39)
-		{
-			if (double_quotes == 0)
-				single_quote = get_quote_flag(single_quote);
-			else
-				count++;
-		}
-		else if (*str == 34)
-		{
-			if (single_quote == 0)
-				double_quotes = get_quote_flag(double_quotes);
-			else
-				count++;
-		}
-		else
-			count++;
+		// else if (*str == 39)
+		// {
+		// 	if (single_quote == 0)
+		// 		single_quote = get_quote_flag(single_quote);
+		// 	else
+		// 		count++;
+		// }
+		// else if (*str == 34)
+		// {
+		// 	if (double_quotes == 0)
+		// 		double_quotes = get_quote_flag(double_quotes);
+		// 	else
+		// 		count++;
+		// }
+		// else
+		count++;
 		str++;
 	}
 	return (count);
@@ -178,38 +183,38 @@ char	*get_process(char *str)
 	temp = single_str;
 	while (count < size_string)
 	{
-		if (*str == 39 || *str == 34)
-		{
-			if (*str == 39)
-			{
-				if (single_quote == 0)
-					single_quote = 1;
-				if (double_quotes == 0)
-					str++;
-				else
-				{
-					*temp++ = *str++;
-					count++;
-				}
-			}
-			else if (*str == 34)
-			{
-				if (double_quotes == 0)
-					double_quotes = 1;
-				if (single_quote == 0)
-					str++;
-				else
-				{
-					*temp++ = *str++;
-					count++;
-				}
-			}
-		}
-		else
-		{
+		// if (*str == 39 || *str == 34)
+		// {
+		// 	if (*str == 39)
+		// 	{
+		// 		if (single_quote == 0)
+		// 			single_quote = 1;
+		// 		if (double_quotes == 0)
+		// 			str++;
+		// 		else
+		// 		{
+		// 			*temp++ = *str++;
+		// 			count++;
+		// 		}
+		// 	}
+		// 	else if (*str == 34)
+		// 	{
+		// 		if (double_quotes == 0)
+		// 			double_quotes = 1;
+		// 		if (single_quote == 0)
+		// 			str++;
+		// 		else
+		// 		{
+		// 			*temp++ = *str++;
+		// 			count++;
+		// 		}
+		// 	}
+		// }
+		// else
+		// {
 			*temp++ = *str++;
 			count++;
-		}
+		// }
 	}
 	*temp = '\0';
 	return (single_str);

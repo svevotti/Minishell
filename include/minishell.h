@@ -151,6 +151,8 @@ int		get_quote_flag(int flag);
 //size split input
 int		find_len(char *str);
 int		find_size_array(char *str);
+char	*traverse_token(char *str);
+
 
 //utils trans env
 char	**get_item(char *str, char delimiter);
