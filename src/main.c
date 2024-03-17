@@ -63,27 +63,6 @@ void	get_input(t_data *data)
 	free(line);
 }
 
-char	***get_array_pipes(char **process, t_data *data)
-{
-	char	***array_processes;
-	int		size_array_tokens;
-	int		i;
-
-	(void)data;
-	size_array_tokens = find_size_input_array(process);
-	array_processes = (char ***)malloc(sizeof(char **) * (size_array_tokens) + 1);
-	i = 0;
-	if (array_processes == NULL)
-		return (NULL);
-	while (i < size_array_tokens)
-	{
-		array_processes[i] = split_tokens(process[i], data); 
-		i++;
-	}
-	array_processes[i] = NULL;
-	return (array_processes);
-}
-
 char	**get_split_input(char *str, t_data *data)
 {
 	char		*expanded_input;
@@ -94,6 +73,7 @@ char	**get_split_input(char *str, t_data *data)
 	if (expanded_input == NULL)
 		return (NULL);
 	array_processes = split_pipes(expanded_input, data);
+	//print_array(array_processes);
 	if (array_processes == NULL)
 		return (NULL);
 	array_tokens = get_array_pipes(array_processes, data);
@@ -103,7 +83,7 @@ char	**get_split_input(char *str, t_data *data)
 		return (NULL);
 
 	}
-	print_3d_array(array_tokens);
+	// print_3d_array(array_tokens);
 	free(expanded_input);
 	return (NULL);
 }

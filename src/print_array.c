@@ -11,6 +11,7 @@ void print_array(char **str)
 	}
 	while (str[i] != NULL)
 	{
+		printf("process %d----------\n", i + 1);
 		printf("%s\n", str[i]);
 		i++;
 	}

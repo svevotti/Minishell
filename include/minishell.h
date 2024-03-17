@@ -137,7 +137,7 @@ void	trans_env(t_data *data, char **envp);
 void	free_env(t_env *head);
 
 //split_input
-char	**split_tokens(char *str, t_data *data);
+char	***get_array_pipes(char **process, t_data *data);
 
 //check first argv
 void	execute_cmd(char **input, t_env *env, char **envp);
