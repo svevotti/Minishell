@@ -14,12 +14,23 @@
 
 char	*get_str_count_token(char *str, int *count)
 {
+	int	type;
+
+	type = *str;
 	if (*str == '>')
 	{
 		while (*str == '>')
 		{
 			*count = *count + 1;
 			str++;
+		}
+		if (*count > 2)
+		{
+			if (*count == 3 && type == '>')
+				print_error_token(ERROR_3REDIRECTION_INPUT);
+			else if (*count > 3)
+				print_error_token(ERROR_4PLUSREDIRECTION_INPUT);
+			return (NULL);
 		}
 	}
 	else if (*str == '<')
@@ -29,63 +40,16 @@ char	*get_str_count_token(char *str, int *count)
 			*count = *count + 1;
 			str++;
 		}
+		if (*count > 2)
+		{
+			if (*count == 3 && type == '<')
+				print_error_token(ERROR_3REDIRECTION_INPUT);
+			else if (*count > 3)
+				print_error_token(ERROR_4PLUSREDIRECTION_INPUT);
+			return (NULL);
+		}
 	}
 	return (str);
-}
-
-int	count_redirection(char *str, char c)
-{
-	int	count;
-
-	count = 0;
-	while (*str == c)
-	{
-		count++;
-		str++;
-	}
-	if (count > 2)
-	{
-		if (c == '>')
-		{
-			if (count == 3)
-				print_error_token(ERROR_3REDIRECTION_INPUT);
-			else if (count > 3)
-				print_error_token(ERROR_4PLUSREDIRECTION_INPUT);
-		}
-		else
-		{
-			if (count == 3)
-				print_error_token(ERROR_4REDIRECTION_OUTPUT);
-			else if (count > 3)
-				print_error_token(ERROR_5PLUSREDIRECTION_OUTPUT);
-		}
-		return (ERROR);
-	}
-	return (0);
-}
-
-int	check_syntax_redirection(char *str, t_data *data, int check)
-{
-	char	redirection;
-
-	redirection = *str;
-	if (check == 1)
-	{
-		if (count_redirection(str, redirection) == -1)
-		{
-			data->exitcode = 2;
-			return (ERROR);
-		}
-	}
-	// else
-	// {
-	// 	if (can_redirect(str, redirection) == 1)
-	// 	{
-	// 		data->exitcode = 2;
-	// 		return (ERROR);
-	// 	}
-	// }
-	return (0);
 }
 
 int	count_len_word(char *str, t_data *data)
@@ -101,44 +65,43 @@ int	count_len_word(char *str, t_data *data)
 	double_quotes = 0;
 	while (*str != '\0')
 	{
-		if ((is_white_space(str) == 1 || is_token(str) == 1) && single_quote == 0 && double_quotes == 0)
+		if (is_white_space(str) == 1 && single_quote == 0 && double_quotes == 0)
 			break ;
-		if (*str == 39)
-		{
-			if (double_quotes == 0)
-			{
-				if (single_quote == 0)
-					single_quote = get_quote_flag(single_quote);
-				else
-					single_quote = 0;
-			}
-			count++;
-			// if (single_quote == 0 && double_quotes == 1)
-			// 	count++;
-		}
-		else if (*str == 34)
-		{
-			if (single_quote == 0)
-			{
-				if (double_quotes == 0)
-					double_quotes = get_quote_flag(double_quotes);
-				else
-					single_quote = 0;
-			}
-			count++;
-			// if (double_quotes == 0 && single_quote == 1)
-			// 	count++;
-		}
-		else if ((*str == '>' || *str == '<') && single_quote == 0 && double_quotes == 0)
-		{
-			count_redirection = check_syntax_redirection(str, data, 1);
-			if (count == -1)
-				return (ERROR);
-			count += count_redirection;
-			str += count_redirection;
-		}
-		else
-			count++;
+		// if (*str == 39)
+		// {
+		// 	if (double_quotes == 0)
+		// 	{
+		// 		if (single_quote == 0)
+		// 			single_quote = get_quote_flag(single_quote);
+		// 		else
+		// 			single_quote = 0;
+		// 	}
+		// 	count++;
+		// 	// if (single_quote == 0 && double_quotes == 1)
+		// 	// 	count++;
+		// }
+		// else if (*str == 34)
+		// {
+		// 	if (single_quote == 0)
+		// 	{
+		// 		if (double_quotes == 0)
+		// 			double_quotes = get_quote_flag(double_quotes);
+		// 		else
+		// 			single_quote = 0;
+		// 	}
+		// 	count++;
+		// 	// if (double_quotes == 0 && single_quote == 1)
+		// 	// 	count++;
+		// }
+		// else if ((*str == '>' || *str == '<') && single_quote == 0 && double_quotes == 0)
+		// {
+		// 	count_redirection = check_syntax_redirection(str, data, 1);
+		// 	if (count == -1)
+		// 		return (ERROR);
+		// 	count += count_redirection;
+		// 	str += count_redirection;
+		// }
+		count++;
 		str++;
 	}
 	return (count);
@@ -148,7 +111,18 @@ int	find_len_token(char *str, t_data *data)
 {
 	int	count;
 
-	count = count_len_word(str, data);
+	count = 0;
+	if (is_token(str) == 1)
+	{
+		str = get_str_count_token(str, &count);
+		if (str == NULL)
+		{
+			data->exitcode = 2;
+			return (ERROR);
+		}
+	}
+	else
+		count = count_len_word(str, data);
 	return (count);
 }
 
@@ -164,6 +138,8 @@ char	*get_single_str(char *str, t_data *data)
 	single_quote = 0;
 	double_quotes = 0;
 	size_string = find_len_token(str, data);
+	if (size_string == -1)
+		return (NULL);
 	printf("size each command %d - cmd %s\n", size_string, str);
 	if (size_string == -1)
 		return (NULL);
@@ -233,8 +209,8 @@ char	**split_tokens(char *str, t_data *data)
 		single_str = get_single_str(str, data);
 		if (single_str == NULL)
 			return (NULL);
-		if (*str == 34 || *str == 39)
-			str += 2;
+		// if (*str == 34 || *str == 39)
+		// 	str += 2;
 		str += ft_strlen(single_str);
 		string_split[i] = single_str;
 		i++;
