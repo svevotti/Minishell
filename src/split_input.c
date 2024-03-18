@@ -219,6 +219,29 @@ char	**split_tokens(char *str, t_data *data)
 	return (string_split);
 }
 
+void	print_proc_items(t_list *head)
+{
+	t_proc	*proc;
+
+	proc = head->content;
+	printf("--- LIST ITEM PROC ---\n");
+	while (head != NULL)
+	{
+		printf("id --> %d\n", proc->id);
+		printf("path --> %s\n", proc->path);
+		// printf("cmdlist --  ");
+		printf("commands --  ");
+		print_array(proc->cmd);
+		printf("pipe in --> %d\n", proc->pipe_in);
+		printf("pipe out --> %d\n", proc->pipe_out);
+		printf("infile --> %s\n", proc->infile);
+		printf("outfile --> %s\n", proc->outfile);
+		printf("no exec --> %d\n", proc->no_exec);
+		head = head -> next;
+	}
+	printf("--- END ---\n");
+}
+
 void	get_array_pipes(char **process, t_data *data)
 {
 	int		size_array_tokens;
@@ -226,7 +249,6 @@ void	get_array_pipes(char **process, t_data *data)
 	t_list	*wrapped_proc;
 	t_proc	*proc;
 
-	(void)data;
 	size_array_tokens = find_size_input_array(process);
 	i = 0;
 	while (i < size_array_tokens)
@@ -234,11 +256,9 @@ void	get_array_pipes(char **process, t_data *data)
 		proc = init_cmd(i);
 		wrapped_proc = ft_lstnew(proc);
 		proc->cmd = split_tokens(process[i], data);
-		// printf("cmd ----\n");
-		// print_array(proc->cmd);
-		// printf("process ----\n");
 		ft_lstadd_back(&data->procs, wrapped_proc);
 		i++;
 	}
+	print_proc_items(wrapped_proc);
 }
 		
