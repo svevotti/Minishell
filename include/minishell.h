@@ -137,7 +137,7 @@ void	trans_env(t_data *data, char **envp);
 void	free_env(t_env *head);
 
 //split_input
-char	***get_array_pipes(char **process, t_data *data);
+void	get_array_pipes(char **process, t_data *data);
 
 //check first argv
 void	execute_cmd(char **input, t_env *env, char **envp);
@@ -153,7 +153,7 @@ int		get_quote_flag(int flag);
 
 //size split input
 int		find_len(char *str);
-int		find_size_array(char *str);
+int		count_commands(char *str);
 char	*traverse_token(char *str);
 
 

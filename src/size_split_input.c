@@ -38,12 +38,7 @@ char	*traverse_quotes(char *str)
 
 char	*move_according_token(char *str)
 {
-	if (*str == '|')
-	{
-		while (*str == '|')
-			str++;
-	}
-	else if (*str == '>')
+	if (*str == '>')
 	{
 		while (*str == '>')
 			str++;
@@ -61,11 +56,9 @@ char	*traverse_token(char *str)
 	char	*white_spaces;
 
 	white_spaces = ("\n\t ");
-	if (!ft_strchr(white_spaces, *str) && *str != '\0' && *str != '|'
-		&& *str != '>' && *str != '<')
+	if (!ft_strchr(white_spaces, *str) && *str != '\0' && *str != '>' && *str != '<')
 	{
-		while (!ft_strchr(white_spaces, *str) && *str != '\0'
-			&& *str != '|' && *str != '>' && *str != '<')
+		while (!ft_strchr(white_spaces, *str) && *str != '\0' && *str != '>' && *str != '<')
 		{
 			if (*str == 39 || *str == 34)
 				str = traverse_quotes(str);
@@ -73,12 +66,12 @@ char	*traverse_token(char *str)
 				str++;
 		}
 	}
-	else if (*str == '|' || *str == '>' || *str == '<')
+	else if (*str == '>' || *str == '<')
 		str = move_according_token(str);
 	return (str);
 }
 
-int	find_size_array(char *str)
+int	count_commands(char *str)
 {
 	int	count;
 

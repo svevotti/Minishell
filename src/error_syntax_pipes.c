@@ -57,22 +57,18 @@ int	check_number(char *str)
 	int	pipe_number;
 
 	pipe_number = 0;
-	if (*str == 34 || *str == 39)
+	while (*str == '|')
 	{
+		pipe_number++;
 		str++;
-		while (*str == '|')
-		{
-			pipe_number++;
-			str++;
-		}
-		if (pipe_number > 1)
-		{
-			if (pipe_number == 1)
-				print_error_token(ERROR_1PIPE);
-			else
-				print_error_token(ERROR_2PLUSPIPE);
-			return (ERROR);
-		}
+	}
+	if (pipe_number > 1)
+	{
+		if (pipe_number == 1)
+			print_error_token(ERROR_1PIPE);
+		else
+			print_error_token(ERROR_2PLUSPIPE);
+		return (ERROR);
 	}
 	return (0);
 }

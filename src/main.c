@@ -67,7 +67,6 @@ char	**get_split_input(char *str, t_data *data)
 {
 	char		*expanded_input;
 	char 		**array_processes;
-	char 		***array_tokens;
 
 	expanded_input = expand_input(str, data);
 	if (expanded_input == NULL)
@@ -76,13 +75,7 @@ char	**get_split_input(char *str, t_data *data)
 	//print_array(array_processes);
 	if (array_processes == NULL)
 		return (NULL);
-	array_tokens = get_array_pipes(array_processes, data);
-	if (array_tokens == NULL)
-	{
-		free(expanded_input);
-		return (NULL);
-
-	}
+	get_array_pipes(array_processes, data);
 	// print_3d_array(array_tokens);
 	free(expanded_input);
 	return (NULL);
