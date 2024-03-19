@@ -42,7 +42,6 @@ int	redirection(char *str, char *next_str, t_data *data)
 						print_error_token(ERROR_3REDIRECTION_INPUT);
 					else if (count > 3)
 						print_error_token(ERROR_4PLUSREDIRECTION_INPUT);
-					data->exitcode = 2;
 					return (ERROR);
 				}
 				if (ft_strlen(next_str) == 0)
@@ -53,12 +52,14 @@ int	redirection(char *str, char *next_str, t_data *data)
 						print_error_token(ERROR_3REDIRECTION_INPUT);
 					else if (count > 3)
 						print_error_token(ERROR_4PLUSREDIRECTION_INPUT);
-					data->exitcode = 2;
 					return (ERROR);
 				}
 				else
 				{
-					printf("P R E P A R E\n");
+					t_list *list_proc;
+
+					list_proc = data->procs;
+					prepare_redirection(list_proc->content, str, next_str);
 					break ;
 				}
 			}
@@ -90,7 +91,10 @@ int	redirection(char *str, char *next_str, t_data *data)
 				}
 				else
 				{
-					printf("P R E P A R E\n");
+					t_list *list_proc;
+
+					list_proc = data->procs;
+					prepare_redirection(list_proc->content, str, next_str);
 					break ;
 				}
 			}

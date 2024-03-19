@@ -122,7 +122,6 @@ void	clean_up(t_list *list_proc)
 	while (list_proc != NULL)
 	{
 		proc = list_proc->content;
-		printf("proc->cmd ---\n");
 		check_for_quotes(proc->cmd);
 		list_proc = list_proc->next;
 	}

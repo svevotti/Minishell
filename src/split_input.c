@@ -114,7 +114,7 @@ char	**split_tokens(char *str, t_data *data)
 	return (string_split);
 }
 
-void	get_array_pipes(char **process, t_data *data)
+int	get_array_pipes(char **process, t_data *data)
 {
 	int		size_array_tokens;
 	int		i;
@@ -131,11 +131,13 @@ void	get_array_pipes(char **process, t_data *data)
 		ft_lstadd_back(&data->procs, wrapped_proc);
 		i++;
 	}
-	// printf("before removing quotes\n");
-	// print_proc_items(data->procs);
 	if (check_redirection(data) == -1)
-		printf("handle error\n");
+	{
+		// printf("check redirection\n");
+		data->exitcode = 2;
+		return (ERROR);
+	}
 	clean_up(data->procs);
-	// printf("after removing quotes\n");
-	// print_proc_items(data->procs);
+	//print_proc_items(data->procs);
+	return (0);
 }

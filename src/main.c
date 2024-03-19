@@ -16,8 +16,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-char	**get_split_input(char *str, t_data *data);
-void	get_input(t_data *data);
+int	get_split_input(char *str, t_data *data);
+int	get_input(t_data *data);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -26,10 +26,9 @@ int	main(int argc, char **argv, char **envp)
 	initialize(argv, argc, &data, envp);
 	while (1)
 	{
-		get_input(&data);
-		if (data.procs)
+		if (get_input(&data) == 0)
 		{
-			// data.exitcode = minishell(&data);
+			data.exitcode = minishell(&data);
 			free_procs(data.procs);
 			data.procs = NULL;
 			free_array(data.input);
@@ -39,7 +38,7 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-void	get_input(t_data *data)
+int	get_input(t_data *data)
 {
 	char	*line;
 
@@ -50,34 +49,32 @@ void	get_input(t_data *data)
 		exit(data->exitcode);
 	}
 	add_history(line);
-	if (ft_strlen(line))
-		data->input = get_split_input(line, data);
-	if (data->input)
+	if (ft_strlen(line) > 0)
 	{
-		// if (check_redirections(data->input) == ERROR)
-		// {
-		// 	free_array(data->input);
-		// 	data->input = NULL;
-		// 	data->exitcode = 2;
-		// }
+		if (get_split_input(line, data) == -1)
+		{
+			free_array(data->input);
+			data->input = NULL;
+			return (ERROR);
+		}
 	}
 	free(line);
+	return (0);
 }
 
-char	**get_split_input(char *str, t_data *data)
+int	get_split_input(char *str, t_data *data)
 {
 	char		*expanded_input;
 	char 		**array_processes;
 
 	expanded_input = expand_input(str, data);
 	if (expanded_input == NULL)
-		return (NULL);
+		return (ERROR);
 	array_processes = split_pipes(expanded_input, data);
-	//print_array(array_processes);
 	if (array_processes == NULL)
-		return (NULL);
-	get_array_pipes(array_processes, data);
-	// print_3d_array(array_tokens);
+		return (ERROR);
+	if (get_array_pipes(array_processes, data) == -1)
+		return (ERROR);
 	free(expanded_input);
-	return (NULL);
+	return (0);
 }

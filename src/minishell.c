@@ -54,8 +54,8 @@ int	minishell(t_data *data)
 {
 	int	exitcode;
 
-	data->procs = NULL;
-	parse_cmds(data);
+	// data->procs = NULL;
+	// parse_cmds(data);
 	if (is_builtin(data->procs->content) && !data->procs->next)
 	{
 		data->exit = 1;
