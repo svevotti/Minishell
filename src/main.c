@@ -64,8 +64,8 @@ int	get_input(t_data *data)
 
 int	get_split_input(char *str, t_data *data)
 {
-	char		*expanded_input;
-	char 		**array_processes;
+	char	*expanded_input;
+	char	**array_processes;
 
 	expanded_input = expand_input(str, data);
 	if (expanded_input == NULL)

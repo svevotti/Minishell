@@ -14,7 +14,7 @@
 
 int	check_count_redirection(char *str, t_data *data, int type)
 {
-	int check;
+	int	check;
 
 	check = ft_strlen(str);
 	if (check > 2)
@@ -41,7 +41,7 @@ int	check_count_redirection(char *str, t_data *data, int type)
 
 int	check_syntax_tokens(char *str, t_data *data, int size_array)
 {
-	int check;
+	int	check;
 
 	check = 0;
 	if (data->flag_quotes == 0)

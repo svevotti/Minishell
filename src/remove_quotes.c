@@ -104,11 +104,11 @@ char	*remove_quotes(char *str)
 //remove quotes and redirections
 t_list	*get_clean_command_list(char **tokens)
 {
-	int	i;
-	int	size;
-	char *token;
-	t_list *wrapped_token;
-	t_list *wrapped_token_head;
+	int		i;
+	int		size;
+	char	*token;
+	t_list	*wrapped_token;
+	t_list	*wrapped_token_head;
 
 	wrapped_token_head = NULL;
 	i = 0;
@@ -132,7 +132,6 @@ void	clean_up(t_list *list_proc)
 {
 	t_proc	*proc;
 
-	//print_array(((t_proc *)list_proc->content)->cmd);
 	while (list_proc != NULL)
 	{
 		proc = list_proc->content;
