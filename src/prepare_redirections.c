@@ -2,10 +2,10 @@
 
 int	redirection(char *str, char *next_str, t_data *data)
 {
-	int	single_quote;
-	int	double_quote;
-	int	count;
-	t_list *list_proc;
+	int		single_quote;
+	int		double_quote;
+	int		count;
+	t_list	*list_proc;
 
 	single_quote = 0;
 	double_quote = 0;
@@ -90,8 +90,6 @@ int	redirection(char *str, char *next_str, t_data *data)
 				}
 				else
 				{
-					t_list *list_proc;
-
 					list_proc = data->procs;
 					prepare_redirection(list_proc->content, str, next_str);
 					return (1);
@@ -107,7 +105,8 @@ int	check_process(char **str, t_data *data)
 {
 	int	i;
 	int	size;
-	int	check = 0;
+	int	check;
+
 	i = 0;
 	size = find_size_input_array(str);
 	while (i < size)

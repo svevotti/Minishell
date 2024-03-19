@@ -132,12 +132,13 @@ char	**split_pipes(char *str, t_data *data);
 //find size.c
 int		find_size_input_array(char **array);
 //get size.c
-int		find_len(char *str);
 int		count_commands(char *str);
 char	*traverse_token(char *str);
 
 //create list procs
-int		get_array_pipes(char **process, t_data *data);
+int		get_array_processes(char **process, t_data *data);
+//utils_split_input.c
+char	*get_single_str(char *str);
 //utils split input
 int		is_white_space(char *str);
 int		is_token(char *str);

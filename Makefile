@@ -51,6 +51,7 @@ SRCS	:=	./src/main.c \
 			./src/split_processes.c \
 			./src/error_syntax_pipes.c \
 			./src/remove_quotes.c \
+			./src/utils_split_input.c \
 			./src/prepare_redirections.c #./src/error_message_tokens.c ./src/error_message_tokens_utils.c
 			
 OBJS	:= ${SRCS:.c=.o}
