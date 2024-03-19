@@ -35,22 +35,25 @@ void	print_3d_array(char ***str)
 }
 
 void	print_proc_items(t_list *head)
-{	
+{
+	t_list *list_proc;
+
+	list_proc = head;
 	int i = 1;
-	while (head != NULL)
+	while (list_proc != NULL)
 	{
-		// printf("--- LIST ITEM PROC %d---\n", i);
+		printf("--- LIST ITEM PROC %d---\n", i);
 		// printf("id --> %d\n", ((t_proc *)head->content)->id);
 		// printf("path --> %s\n", ((t_proc *)head->content)->path);
 		// printf("cmdlist --  ");
 		printf("commands --  \n");
-		print_array(((t_proc *)head->content)->cmd);
+		print_array(((t_proc *)list_proc->content)->cmd);
 		// printf("pipe in --> %d\n", ((t_proc *)head->content)->pipe_in);
 		// printf("pipe out --> %d\n", ((t_proc *)head->content)->pipe_out);
 		// printf("infile --> %s\n", ((t_proc *)head->content)->infile);
 		// printf("outfile --> %s\n", ((t_proc *)head->content)->outfile);
 		// printf("no exec --> %d\n", ((t_proc *)head->content)->no_exec);
 		printf("---------------\n");
-		head = head->next;
+		list_proc = list_proc->next;
 	}
 }

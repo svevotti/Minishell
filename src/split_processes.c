@@ -3,7 +3,7 @@
 int	find_size_pipe(char *str, t_data *data)
 {
 	int	count;
-	int double_quotes;
+	int	double_quotes;
 	int	single_quotes;
 
 	double_quotes = 0;
@@ -39,7 +39,7 @@ int	find_size_pipe(char *str, t_data *data)
 		{
 			count++;
 			if (check_syntax_pipes(str, data, 2) == -1)
-					return (ERROR);
+				return (ERROR);
 		}
 		str++;
 	}
@@ -49,7 +49,7 @@ int	find_size_pipe(char *str, t_data *data)
 int	count_len_process(char *str)
 {
 	int	count;
-	int double_quotes;
+	int	double_quotes;
 	int	single_quotes;
 
 	count = 0;
@@ -107,7 +107,7 @@ char	*get_process(char *str)
 	return (single_str);
 }
 
-char **split_pipes(char *str, t_data *data)
+char	**split_pipes(char *str, t_data *data)
 {
 	char	**array_processes;
 	int		array_size;
@@ -131,8 +131,5 @@ char **split_pipes(char *str, t_data *data)
 		i++;
 	}
 	array_processes[i] = NULL;
-	// printf("processes -----\n");
-	// print_array(array_processes);
-	// printf("processes -----\n");
 	return (array_processes);
 }

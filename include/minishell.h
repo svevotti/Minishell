@@ -103,15 +103,19 @@ typedef struct s_heredoc
 	char	*check;
 }t_heredoc;
 
+//prepare tokens
+int		check_redirection(t_data *data);
+//remove quotes
+void	clean_up(t_list *list_proc);
 //error pipes
 int		check_syntax_pipes(char *str, t_data *data, int check);
 //print array
-void 	print_array(char **str);
+void	print_array(char **str);
 void	print_3d_array(char ***str);
 void	print_proc_items(t_list *head);
 
 //split processes
-char **split_pipes(char *str, t_data *data);
+char	**split_pipes(char *str, t_data *data);
 //check pipes
 int		check_pipe(char **str);
 
@@ -149,14 +153,13 @@ void	free_input(char **input);
 
 //utils env var
 char	*find_name_var(char *str);
-int	check_name_variable(char c);
+int		check_name_variable(char c);
 int		get_quote_flag(int flag);
 
 //size split input
 int		find_len(char *str);
 int		count_commands(char *str);
 char	*traverse_token(char *str);
-
 
 //utils trans env
 char	**get_item(char *str, char delimiter);
@@ -166,8 +169,8 @@ void	update_input(char **input);
 int		find_size_input_array(char **array);
 
 //print error
-int	check_syntax_tokens(char *str, int index, t_data *data, int size_array);
-int	check_redirections(char **input);
+// int		check_syntax_tokens(char *str, t_data *data, int size_array);
+// int		check_redirections(char **input);
 
 //error message tokens
 void	print_error_token(int check);

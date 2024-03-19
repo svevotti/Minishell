@@ -39,7 +39,7 @@ int	check_count_redirection(char *str, t_data *data, int type)
 	return (check);
 }
 
-int	check_syntax_tokens(char *str, int index, t_data *data, int size_array)
+int	check_syntax_tokens(char *str, t_data *data, int size_array)
 {
 	int check;
 
