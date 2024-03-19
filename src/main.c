@@ -16,6 +16,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 
+#define SUCCESS 0
+
 int	get_split_input(char *str, t_data *data);
 int	get_input(t_data *data);
 
@@ -26,7 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	initialize(argv, argc, &data, envp);
 	while (1)
 	{
-		if (get_input(&data) == 0)
+		if (get_input(&data) == SUCCESS)
 			data.exitcode = minishell(&data);
 		free_procs(data.procs);
 		data.procs = NULL;
@@ -72,8 +74,12 @@ int	get_split_input(char *str, t_data *data)
 	if (array_processes == NULL)
 		return (ERROR);
 	if (get_array_pipes(array_processes, data) == -1)
+	{
+		free_array(array_processes);
+		free(expanded_input);
 		return (ERROR);
-	
+	}
+	free_array(array_processes);
 	free(expanded_input);
 	return (0);
 }

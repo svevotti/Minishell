@@ -152,6 +152,8 @@ int	get_array_pipes(char **process, t_data *data)
 		proc = init_cmd(i);
 		wrapped_proc = ft_lstnew(proc);
 		proc->cmd = split_tokens(process[i], data);
+		if (proc->cmd == NULL)
+			return (-1);
 		ft_lstadd_back(&data->procs, wrapped_proc);
 		i++;
 	}
