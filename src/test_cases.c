@@ -82,3 +82,9 @@ bash: syntax error near unexpected token `<<'
 echo "exit_code ->$? user ->$USER home -> $HOME" 
 mini output = (exit_code ->0 user ->/home/smazzari home -> /home/smazzari)
 bash output = (exit_code ->0 user ->smazzari home -> /home/smazzari)
+
+if there are only whites spaces, it returns the prompt
+
+
+6 8 9 
+8

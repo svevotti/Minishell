@@ -14,8 +14,6 @@
 
 int	is_token(char *str)
 {
-	if (*str == '|')
-		return (1);
 	if (*str == '>')
 		return (1);
 	if (*str == '<')
