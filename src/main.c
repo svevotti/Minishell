@@ -27,10 +27,11 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		get_input(&data);
-		if (data.input)
+		if (data.procs)
 		{
-			data.exitcode = minishell(&data);
+			// data.exitcode = minishell(&data);
 			free_procs(data.procs);
+			data.procs = NULL;
 			free_array(data.input);
 			data.input = NULL;
 		}
@@ -53,12 +54,12 @@ void	get_input(t_data *data)
 		data->input = get_split_input(line, data);
 	if (data->input)
 	{
-		if (check_redirections(data->input) == ERROR)
-		{
-			free_array(data->input);
-			data->input = NULL;
-			data->exitcode = 2;
-		}
+		// if (check_redirections(data->input) == ERROR)
+		// {
+		// 	free_array(data->input);
+		// 	data->input = NULL;
+		// 	data->exitcode = 2;
+		// }
 	}
 	free(line);
 }

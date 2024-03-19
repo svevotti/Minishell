@@ -108,6 +108,7 @@ int		check_syntax_pipes(char *str, t_data *data, int check);
 //print array
 void 	print_array(char **str);
 void	print_3d_array(char ***str);
+void	print_proc_items(t_list *head);
 
 //split processes
 char **split_pipes(char *str, t_data *data);
