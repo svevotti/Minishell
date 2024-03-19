@@ -111,25 +111,3 @@ void	prepare_redirection(t_proc *proc, char *redirection, char *file_name)
 	}
 	proc->no_exec = ret;
 }
-
-// void	prepare_redirection(t_proc *proc, char **input, int i)
-// {
-// 	int	type;
-// 	int	ret;
-
-// 	ret = 0;
-// 	if (proc->no_exec)
-// 		return ;
-// 	type = is_redirection(input[i]);
-// 	i++;
-// 	if (type <= INFILE)
-// 	{
-// 		get_filename(proc, input[i], type);
-// 		ret = open_file(proc, type);
-// 	}
-// 	else if (type == HEREDOC)
-// 	{
-// 		ret = get_heredoc(proc, input[i]);
-// 	}
-// 	proc->no_exec = ret;
-// }

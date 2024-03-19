@@ -36,12 +36,36 @@ char	*get_str_count_token(char *str, int *count)
 int	count_len_word(char *str)
 {
 	int	count;
+	int	single_quote;
+	int	double_quotes;
 
 	count = 0;
+	single_quote = 0;
+	double_quotes = 0;
 	while (*str != '\0')
 	{
-		if (is_white_space(str) == 1)
+		if (is_white_space(str) == 1 && single_quote == 0 && double_quotes == 0)
 			break ;
+		else if (*str == 39)
+		{
+			if (double_quotes == 0)
+			{
+				if (single_quote == 0)
+					single_quote = get_quote_flag(single_quote);
+				else
+					single_quote = 0;
+			}
+		}
+		else if (*str == 34)
+		{
+			if (single_quote == 0)
+			{
+				if (double_quotes == 0)
+					double_quotes = get_quote_flag(double_quotes);
+				else
+					single_quote = 0;
+			}
+		}
 		count++;
 		str++;
 	}
@@ -133,11 +157,9 @@ int	get_array_pipes(char **process, t_data *data)
 	}
 	if (check_redirection(data) == -1)
 	{
-		// printf("check redirection\n");
 		data->exitcode = 2;
 		return (ERROR);
 	}
 	clean_up(data->procs);
-	//print_proc_items(data->procs);
 	return (0);
 }

@@ -101,28 +101,43 @@ char	*remove_quotes(char *str)
 	return (new_str);
 }
 
-void	check_for_quotes(char **str)
+//remove quotes and redirections
+t_list	*get_clean_command_list(char **tokens)
 {
 	int	i;
 	int	size;
+	char *token;
+	t_list *wrapped_token;
+	t_list *wrapped_token_head;
 
+	wrapped_token_head = NULL;
 	i = 0;
-	size = find_size_input_array(str);
+	size = find_size_input_array(tokens);
 	while (i < size)
 	{
-		str[i] = remove_quotes(str[i]);
+		if (is_redirection(tokens[i]))
+			i++;
+		else
+		{
+			token = remove_quotes(tokens[i]);
+			wrapped_token = ft_lstnew(token);
+			ft_lstadd_back(&wrapped_token_head, wrapped_token);
+		}
 		i++;
 	}
+	return (wrapped_token_head);
 }
 
 void	clean_up(t_list *list_proc)
 {
 	t_proc	*proc;
 
+	//print_array(((t_proc *)list_proc->content)->cmd);
 	while (list_proc != NULL)
 	{
 		proc = list_proc->content;
-		check_for_quotes(proc->cmd);
+		proc->cmdlist = get_clean_command_list(proc->cmd);
+		list_to_array(proc);
 		list_proc = list_proc->next;
 	}
 }

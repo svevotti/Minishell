@@ -27,13 +27,11 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		if (get_input(&data) == 0)
-		{
 			data.exitcode = minishell(&data);
-			free_procs(data.procs);
-			data.procs = NULL;
-			free_array(data.input);
-			data.input = NULL;
-		}
+		free_procs(data.procs);
+		data.procs = NULL;
+		free_array(data.input);
+		data.input = NULL;
 	}
 	return (0);
 }
@@ -75,6 +73,7 @@ int	get_split_input(char *str, t_data *data)
 		return (ERROR);
 	if (get_array_pipes(array_processes, data) == -1)
 		return (ERROR);
+	
 	free(expanded_input);
 	return (0);
 }
