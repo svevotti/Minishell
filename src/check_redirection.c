@@ -12,6 +12,35 @@
 
 #include "../include/minishell.h"
 
+int	check_file_name(char *str, int size)
+{
+	if (*str == '>')
+	{
+		if (size == 1)
+			print_error_token(ERROR_3REDIRECTION_INPUT);
+		else
+			print_error_token(ERROR_4PLUSREDIRECTION_INPUT);
+		return (ERROR);
+	}
+	else if (*str == '<')
+	{
+		if (size == 1)
+			print_error_token(ERROR_4REDIRECTION_OUTPUT);
+		else
+			print_error_token(ERROR_5PLUSREDIRECTION_OUTPUT);
+		return (ERROR);
+	}
+	else if (*str == '|')
+	{
+		if (size == 1)
+			print_error_token(ERROR_1PIPE);
+		else
+			print_error_token(ERROR_2PLUSPIPE);
+		return (ERROR);
+	}
+	return (0);
+}
+
 int	check_next_str(char *str, char *next_str, int type)
 {
 	int	count;
@@ -75,6 +104,8 @@ int	check_redirection_input(char *str, char *next_str, t_proc *proc)
 		return (ERROR);
 	else
 	{
+		if (check_file_name(next_str, ft_strlen(next_str)) == -1)
+			return (ERROR);
 		next_str = remove_quotes(next_str);
 		prepare_redirection(proc, str, next_str);
 		free(next_str);

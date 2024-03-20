@@ -89,7 +89,10 @@ int	get_input(t_data *data)
 		}
 	}
 	else
+	{
+		free(line);
 		return (EMPTY);
+	}
 	free(line);
 	return (SUCCESS);
 }
