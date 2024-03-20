@@ -6,13 +6,20 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 13:35:02 by smazzari          #+#    #+#             */
-/*   Updated: 2024/03/20 12:29:30 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/20 18:10:10 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 int	g_sig;
+
+// todo: whitespaces, change getenv to check size of our env var,
+// (=^･^=) "$test"
+// /usr/local/sbin/: Is a directory
+// $? invalid read of size 1
+// check number of quotes = even
+
 
 int	get_split_input(char *str, t_data *data);
 int	get_input(t_data *data);
@@ -46,6 +53,11 @@ int	get_input(t_data *data)
 
 	line = readline("(=^･^=) ");
 	check_for_signal(data);
+	// if (only whitespaces)
+	// {
+		// free(line);
+		// return (ERROR);
+	// }
 	if (!line)
 	{
 		free_env(data->env);
