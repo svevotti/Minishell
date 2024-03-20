@@ -6,7 +6,7 @@
 #    By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/20 14:49:17 by jbeck             #+#    #+#              #
-#    Updated: 2024/03/15 16:31:39 by jbeck            ###   ########.fr        #
+#    Updated: 2024/03/20 12:08:26 by jbeck            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,8 @@ SRCS	:=	./src/main.c \
 			./src/handle_env_var_utils.c \
 			./src/check_redirection.c \
 			./src/remove_quotes_utils.c
+			./src/signals.c
+      
 OBJS	:= ${SRCS:.c=.o}
 
 all: libft $(NAME)

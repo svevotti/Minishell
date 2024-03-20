@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:12:02 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/02 13:46:42 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/20 12:20:15 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,9 @@ int	parentproc(t_data *data, t_list *proc, int parent)
 		free_data(data);
 		exit(ret);
 	}
+	close(data->exit_fd[0]);
+	write(data->exit_fd[1], &ret, sizeof(int));
+	close(data->exit_fd[1]);
 	return (ret);
 }
 
