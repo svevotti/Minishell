@@ -148,6 +148,7 @@ int		check_redirection(t_data *data);
 
 //clean up.c
 //remove quotes
+char	*remove_quotes(char *str);
 void	clean_up(t_list *list_proc);
 
 //errors

@@ -60,21 +60,3 @@ void	print_proc_items(t_list *head)
 		list_proc = list_proc->next;
 	}
 }
-
-// t_list *list;
-
-	// list = data->procs;
-	// printf("-----before execution\n");
-	// print_proc_items(list);
-	if (is_builtin(data->procs->content) && !data->procs->next)
-	{
-		data->exit = 1;
-		redirect(data->procs->content);
-		exitcode = exec_builtin(data->procs->content, data);
-		data->exit = 0;
-	}
-	else
-		exitcode = run_executor(data);
-	restore_std(data->std_in, data->std_out);
-	// printf("-----after execution\n");
-	// print_proc_items(list);

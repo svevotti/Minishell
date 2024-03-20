@@ -17,6 +17,7 @@
 #include <signal.h>
 
 #define SUCCESS 0
+#define EMPTY 1
 
 int	get_split_input(char *str, t_data *data);
 int	get_input(t_data *data);
@@ -58,6 +59,8 @@ int	get_input(t_data *data)
 			return (ERROR);
 		}
 	}
+	else
+		return (EMPTY);
 	free(line);
 	return (0);
 }

@@ -1,11 +1,10 @@
 #include "../include/minishell.h"
 
-int	redirection(char *str, char *next_str, t_data *data)
+int	redirection(char *str, char *next_str, t_proc *proc, t_data *data)
 {
 	int	single_quote;
 	int	double_quote;
 	int	count;
-	t_list *list_proc;
 
 	single_quote = 0;
 	double_quote = 0;
@@ -57,8 +56,8 @@ int	redirection(char *str, char *next_str, t_data *data)
 				}
 				else
 				{
-					list_proc = data->procs;
-					prepare_redirection(list_proc->content, str, next_str);
+					next_str = remove_quotes(next_str);
+					prepare_redirection(proc, str, next_str);
 					return (1);
 				}
 			}
@@ -90,10 +89,8 @@ int	redirection(char *str, char *next_str, t_data *data)
 				}
 				else
 				{
-					t_list *list_proc;
-
-					list_proc = data->procs;
-					prepare_redirection(list_proc->content, str, next_str);
+					next_str = remove_quotes(next_str);
+					prepare_redirection(proc, str, next_str);
 					return (1);
 				}
 			}
@@ -103,7 +100,7 @@ int	redirection(char *str, char *next_str, t_data *data)
 	return (0);
 }
 
-int	check_process(char **str, t_data *data)
+int	check_process(char **str, t_proc *proc, t_data *data)
 {
 	int	i;
 	int	size;
@@ -112,7 +109,7 @@ int	check_process(char **str, t_data *data)
 	size = find_size_input_array(str);
 	while (i < size)
 	{
-		check = redirection(str[i], str[i + 1], data);
+		check = redirection(str[i], str[i + 1], proc, data);
 		if (check == -1)
 			return (ERROR);
 		else if (check == 1)
@@ -131,7 +128,7 @@ int	check_redirection(t_data *data)
 	while (list_cmd != NULL)
 	{
 		proc = list_cmd->content;
-		if (check_process(proc->cmd, data) == -1)
+		if (check_process(proc->cmd, proc, data) == -1)
 			return (ERROR);
 		list_cmd = list_cmd->next;
 	}
