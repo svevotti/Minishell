@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:32:21 by jbeck             #+#    #+#             */
-/*   Updated: 2024/03/20 12:08:38 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/20 12:42:59 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <sys/stat.h>
+
+# define SUCCESS 0
+# define EMPTY 1
 
 # define ECHO	1
 # define ENV	2
@@ -159,7 +162,6 @@ int		check_syntax_pipes(char *str, t_data *data, int check);
 void	print_array(char **str);
 void	print_3d_array(char ***str);
 void	print_proc_items(t_list *head);
-
 
 // builtin
 int		exec_builtin(t_proc *proc, t_data *data);

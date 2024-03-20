@@ -6,18 +6,12 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 13:35:02 by smazzari          #+#    #+#             */
-/*   Updated: 2024/03/20 11:54:44 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/20 12:29:30 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <dirent.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <signal.h>
 
-#define SUCCESS 0
-#define EMPTY 1
 int	g_sig;
 
 int	get_split_input(char *str, t_data *data);
