@@ -1,5 +1,29 @@
 #include "../include/minishell.h"
 
+void	get_flag(int *single_quotes, int *double_quotes, char quote)
+{
+	if (quote == 34)
+	{
+		if (*single_quotes == 0)
+		{
+			if (*double_quotes == 0)
+				*double_quotes = 1;
+			else
+				*double_quotes = 0;
+		}
+	}
+	else if (quote == 39)
+	{
+		if (*double_quotes == 0)
+		{
+			if (*single_quotes == 0)
+				*single_quotes = 1;
+			else
+				*single_quotes = 0;
+		}
+	}
+}
+
 int	find_size_pipe(char *str, t_data *data)
 {
 	int	count;
@@ -15,26 +39,8 @@ int	find_size_pipe(char *str, t_data *data)
 		return (ERROR);
 	while (*str != '\0')
 	{
-		if (*str == 34)
-		{
-			if (single_quotes == 0)
-			{
-				if (double_quotes == 0)
-					double_quotes = 1;
-				else
-					double_quotes = 0;
-			}
-		}
-		else if (*str == 39)
-		{
-			if (double_quotes == 0)
-			{
-				if (single_quotes == 0)
-					single_quotes = 1;
-				else
-					single_quotes = 0;
-			}
-		}
+		if (*str == 34 || *str == 39)
+			get_flag(&single_quotes, &double_quotes, *str);
 		if (*str == '|' && double_quotes == 0 && single_quotes == 0)
 		{
 			count++;
@@ -59,26 +65,8 @@ int	count_len_process(char *str)
 	{
 		if (*str == '|' && single_quotes == 0 && double_quotes == 0)
 			break ;
-		if (*str == 34)
-		{
-			if (single_quotes == 0)
-			{
-				if (double_quotes == 0)
-					double_quotes = 1;
-				else
-					double_quotes = 0;
-			}
-		}
-		else if (*str == 39)
-		{
-			if (double_quotes == 0)
-			{
-				if (single_quotes == 0)
-					single_quotes = 1;
-				else
-					single_quotes = 0;
-			}
-		}
+		if (*str == 34 || *str == 39)
+			get_flag(&single_quotes, &double_quotes, *str);
 		count++;
 		str++;
 	}
