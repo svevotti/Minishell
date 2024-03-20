@@ -15,25 +15,13 @@ int	find_len_str(char *str)
 			break ;
 		if (*str == 39)
 		{
-			if (double_quotes == 0)
-			{
-				if (single_quote == 0)
-					single_quote = get_quote_flag(single_quote);
-				else
-					single_quote = 0;
-			}
+			get_flag(&single_quote, &double_quotes, *str);
 			if (single_quote == 0 && double_quotes == 1)
 				count++;
 		}
 		else if (*str == 34)
 		{
-			if (single_quote == 0)
-			{
-				if (double_quotes == 0)
-					double_quotes = get_quote_flag(double_quotes);
-				else
-					single_quote = 0;
-			}
+			get_flag(&single_quote, &double_quotes, *str);
 			if (double_quotes == 0 && single_quote == 1)
 				count++;
 		}

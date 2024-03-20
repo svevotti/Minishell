@@ -129,6 +129,7 @@ int		find_len(char *str);
 //create processes
 //split processes.c
 char	**split_pipes(char *str, t_data *data);
+void	get_flag(int *single_quotes, int *double_quotes, char quote);
 //find size.c
 int		find_size_input_array(char **array);
 //get size.c
