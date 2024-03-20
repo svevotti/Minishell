@@ -36,6 +36,18 @@ void	print_3d_array(char ***str)
 	}
 }
 
+void	print_list(t_list *lst)
+{
+	t_list	*tmp;
+
+	while (lst)
+	{
+		tmp = lst->next;
+		free(lst);
+		lst = tmp;
+	}
+}
+
 void	print_proc_items(t_list *head)
 {
 	t_list	*list_proc;
@@ -48,7 +60,6 @@ void	print_proc_items(t_list *head)
 		printf("--- LIST ITEM PROC %d---\n", i);
 		printf("id --> %d\n", ((t_proc *)head->content)->id);
 		printf("path --> %s\n", ((t_proc *)head->content)->path);
-		printf("cmdlist --  ");
 		printf("commands --  \n");
 		print_array(((t_proc *)list_proc->content)->cmd);
 		printf("pipe in --> %d\n", ((t_proc *)head->content)->pipe_in);

@@ -126,7 +126,6 @@ char	**split_tokens(char *str, t_data *data)
 	i = 0;
 	while (i < commands_nbr)
 	{
-		// printf("str %s\n", str);
 		while (*str == ' ' || *str == '\n' || *str == '\t')
 			str++;
 		single_str = get_single_str(str);
@@ -158,6 +157,7 @@ int	get_array_pipes(char **process, t_data *data)
 		if (proc->cmd == NULL)
 			return (-1);
 		ft_lstadd_back(&data->procs, wrapped_proc);
+		free_array(proc->cmd);
 		i++;
 	}
 	if (check_redirection(data) == -1)

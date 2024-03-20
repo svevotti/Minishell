@@ -56,6 +56,7 @@ int	get_input(t_data *data)
 		{
 			free_array(data->input);
 			data->input = NULL;
+			free(line);
 			return (ERROR);
 		}
 	}
@@ -75,7 +76,10 @@ int	get_split_input(char *str, t_data *data)
 		return (ERROR);
 	array_processes = split_pipes(expanded_input, data);
 	if (array_processes == NULL)
+	{
+		free(expanded_input);
 		return (ERROR);
+	}
 	if (get_array_pipes(array_processes, data) == -1)
 	{
 		free_array(array_processes);

@@ -122,6 +122,7 @@ t_list	*get_clean_command_list(char **tokens)
 			token = remove_quotes(tokens[i]);
 			wrapped_token = ft_lstnew(token);
 			ft_lstadd_back(&wrapped_token_head, wrapped_token);
+			free(token);
 		}
 		i++;
 	}
@@ -132,8 +133,6 @@ void	clean_up(t_list *list_proc)
 {
 	t_proc	*proc;
 
-	// printf("before removing quotes\n");
-	// print_proc_items(list_proc);
 	while (list_proc != NULL)
 	{
 		proc = list_proc->content;
