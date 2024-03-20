@@ -56,9 +56,11 @@ char	*traverse_token(char *str)
 	char	*white_spaces;
 
 	white_spaces = ("\n\t ");
-	if (!ft_strchr(white_spaces, *str) && *str != '\0' && *str != '>' && *str != '<')
+	if (!ft_strchr(white_spaces, *str) && *str != '\0'
+		&& *str != '>' && *str != '<')
 	{
-		while (!ft_strchr(white_spaces, *str) && *str != '\0' && *str != '>' && *str != '<')
+		while (!ft_strchr(white_spaces, *str) && *str != '\0'
+			c&& *str != '>' && *str != '<')
 		{
 			if (*str == 39 || *str == 34)
 				str = traverse_quotes(str);

@@ -1,5 +1,20 @@
 #include "../include/minishell.h"
 
+int	count_quotes(int single_quote, int double_quotes, char *str)
+{
+	if (*str == 39)
+	{
+		if (single_quote == 0 && double_quotes == 1)
+			return (1);
+	}
+	else if (*str == 34)
+	{
+		if (double_quotes == 0 && single_quote == 1)
+			return (1);
+	}
+	return (0);
+}
+
 int	find_len_str(char *str)
 {
 	int	count;
@@ -13,17 +28,10 @@ int	find_len_str(char *str)
 	{
 		if (is_white_space(str) == 1 && single_quote == 0 && double_quotes == 0)
 			break ;
-		if (*str == 39)
+		if (*str == 39 || *str == 34)
 		{
 			get_flag(&single_quote, &double_quotes, *str);
-			if (single_quote == 0 && double_quotes == 1)
-				count++;
-		}
-		else if (*str == 34)
-		{
-			get_flag(&single_quote, &double_quotes, *str);
-			if (double_quotes == 0 && single_quote == 1)
-				count++;
+			count = count + count_quotes(single_quote, double_quotes, str);
 		}
 		else
 			count++;

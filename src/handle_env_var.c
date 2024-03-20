@@ -29,6 +29,17 @@ char	*get_env_value(t_env *head, char *key)
 	return (value);
 }
 
+char	*create_exitcode(t_data *data, int *len_word)
+{
+	char	*value_var;
+
+	value_var = ft_itoa(data->exitcode);
+	if (value_var == NULL)
+		return (NULL);
+	*len_word = ft_strlen(value_var);
+	return (value_var);
+}
+
 char	*get_value(char *str, t_data *data, int *len_word)
 {
 	char	*name_var;
@@ -37,10 +48,9 @@ char	*get_value(char *str, t_data *data, int *len_word)
 	name_var = NULL;
 	if (*str == '?')
 	{
-		value_var = ft_itoa(data->exitcode);
+		value_var = create_exitcode(data, len_word);
 		if (value_var == NULL)
 			return (NULL);
-		*len_word = ft_strlen(value_var);
 	}
 	else
 	{
