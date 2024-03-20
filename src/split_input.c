@@ -12,105 +12,6 @@
 
 #include "../include/minishell.h"
 
-char	*get_str_count_token(char *str, int *count)
-{
-	if (*str == '>')
-	{
-		while (*str == '>')
-		{
-			*count = *count + 1;
-			str++;
-		}
-	}
-	else if (*str == '<')
-	{
-		while (*str == '<')
-		{
-			*count = *count + 1;
-			str++;
-		}
-	}
-	return (str);
-}
-
-int	count_len_word(char *str)
-{
-	int	count;
-	int	single_quote;
-	int	double_quotes;
-
-	count = 0;
-	single_quote = 0;
-	double_quotes = 0;
-	while (*str != '\0')
-	{
-		if (is_white_space(str) == 1 && single_quote == 0 && double_quotes == 0)
-			break ;
-		else if (*str == 39)
-		{
-			if (double_quotes == 0)
-			{
-				if (single_quote == 0)
-					single_quote = get_quote_flag(single_quote);
-				else
-					single_quote = 0;
-			}
-		}
-		else if (*str == 34)
-		{
-			if (single_quote == 0)
-			{
-				if (double_quotes == 0)
-					double_quotes = get_quote_flag(double_quotes);
-				else
-					double_quotes = 0;
-			}
-		}
-		count++;
-		str++;
-	}
-	return (count);
-}
-
-int	find_len_token(char *str)
-{
-	int	count;
-
-	count = 0;
-	if (is_token(str) == 1)
-		str = get_str_count_token(str, &count);
-	else
-		count = count_len_word(str);
-	return (count);
-}
-
-char	*get_single_str(char *str)
-{
-	int		size_string;
-	int		count;
-	char	*single_str;
-	char	*temp;
-
-	size_string = find_len_token(str);
-	// printf("size strong %d\n", size_string);
-	if (size_string == -1)
-		return (NULL);
-	if (size_string == -1)
-		return (NULL);
-	single_str = (char *)malloc(sizeof(char) * (size_string + 1));
-	if (single_str == NULL)
-		return (NULL);
-	count = 0;
-	temp = single_str;
-	while (count < size_string)
-	{
-			*temp++ = *str++;
-			count++;
-	}
-	*temp = '\0';
-	return (single_str);
-}
-
 char	**split_tokens(char *str, t_data *data)
 {
 	char	**string_split;
@@ -126,7 +27,6 @@ char	**split_tokens(char *str, t_data *data)
 	i = 0;
 	while (i < commands_nbr)
 	{
-		// printf("str %s\n", str);
 		while (*str == ' ' || *str == '\n' || *str == '\t')
 			str++;
 		single_str = get_single_str(str);

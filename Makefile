@@ -51,9 +51,13 @@ SRCS	:=	./src/main.c \
 			./src/split_processes.c \
 			./src/error_syntax_pipes.c \
 			./src/remove_quotes.c \
-			./src/signals.c \
-			./src/prepare_redirections.c #./src/error_message_tokens.c ./src/error_message_tokens_utils.c \
-			
+			./src/prepare_redirections.c \
+			./src/split_input_utils2.c \
+			./src/handle_env_var_utils.c \
+			./src/check_redirection.c \
+			./src/remove_quotes_utils.c
+			./src/signals.c
+      
 OBJS	:= ${SRCS:.c=.o}
 
 all: libft $(NAME)

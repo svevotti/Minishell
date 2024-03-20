@@ -1,48 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   remove_quotes.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smazzari <smazzari@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/20 14:47:06 by smazzari          #+#    #+#             */
+/*   Updated: 2024/03/20 14:47:08 by smazzari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
-
-int	find_len_str(char *str)
-{
-	int	count;
-	int	single_quote;
-	int	double_quotes;
-
-	count = 0;
-	single_quote = 0;
-	double_quotes = 0;
-	while (*str != '\0')
-	{
-		if (is_white_space(str) == 1 && single_quote == 0 && double_quotes == 0)
-			break ;
-		if (*str == 39)
-		{
-			if (double_quotes == 0)
-			{
-				if (single_quote == 0)
-					single_quote = get_quote_flag(single_quote);
-				else
-					single_quote = 0;
-			}
-			if (single_quote == 0 && double_quotes == 1)
-				count++;
-		}
-		else if (*str == 34)
-		{
-			if (single_quote == 0)
-			{
-				if (double_quotes == 0)
-					double_quotes = get_quote_flag(double_quotes);
-				else
-					single_quote = 0;
-			}
-			if (double_quotes == 0 && single_quote == 1)
-				count++;
-		}
-		else
-			count++;
-		str++;
-	}
-	return (count);
-}
 
 char	*remove_quotes(char *str)
 {
@@ -132,8 +100,6 @@ void	clean_up(t_list *list_proc)
 {
 	t_proc	*proc;
 
-	// printf("before removing quotes\n");
-	// print_proc_items(list_proc);
 	while (list_proc != NULL)
 	{
 		proc = list_proc->content;
