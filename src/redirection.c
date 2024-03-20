@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:17:16 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/14 14:38:07 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/20 14:24:20 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	get_filename(t_proc *proc, char *file, int type)
 			proc->outfile = ft_strdup(file);
 		}
 	}
-	if (type <= INFILE)
+	if (type == INFILE)
 	{
 		if (!proc->infile)
 			proc->infile = ft_strdup(file);

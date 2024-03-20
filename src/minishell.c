@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:40:16 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/20 12:08:17 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/20 14:32:17 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ int	minishell(t_data *data)
 	t_list *list;
 
 	list = data->procs;
-	printf("-----before execution\n");
-	print_proc_items(list);
+	// printf("-----before execution\n");
+	// print_proc_items(list);
 	if (is_builtin(data->procs->content) && !data->procs->next)
 	{
 		data->exit = 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:48:20 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/01 16:42:49 by joschka          ###   ########.fr       */
+/*   Updated: 2024/03/20 14:40:57 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	free_list(t_list *lst)
 	while (lst)
 	{
 		tmp = lst->next;
+		free(lst->content);
 		free(lst);
 		lst = tmp;
 	}

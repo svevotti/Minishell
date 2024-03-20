@@ -138,6 +138,7 @@ void	clean_up(t_list *list_proc)
 	{
 		proc = list_proc->content;
 		proc->cmdlist = get_clean_command_list(proc->cmd);
+		free_array(proc->cmd);
 		list_to_array(proc);
 		list_proc = list_proc->next;
 	}
