@@ -125,6 +125,8 @@ char	*expand_input(char *str, t_data *data);
 char	*get_env_value(t_env *head, char *key);
 //find size env var.c
 int		find_len(char *str);
+//utils.c
+char	*get_value(char *str, t_data *data, int *len_word);
 
 //create processes
 //split processes.c
@@ -139,6 +141,7 @@ char	*traverse_token(char *str);
 
 //create list procs
 int		get_array_pipes(char **process, t_data *data);
+char	*get_single_str(char *str);
 //utils split input
 int		is_white_space(char *str);
 int		is_token(char *str);
@@ -146,11 +149,15 @@ int		is_token(char *str);
 //prepare redirection.c
 //prepare tokens
 int		check_redirection(t_data *data);
+//check redirection.c
+int		check_syntax_redirection(char *str, char *next_str, t_proc *proc);
 
 //clean up.c
 //remove quotes
 char	*remove_quotes(char *str);
 void	clean_up(t_list *list_proc);
+//utils.c
+int	find_len_str(char *str);
 
 //errors
 void	print_error_token(int check);
