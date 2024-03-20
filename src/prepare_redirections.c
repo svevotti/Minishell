@@ -116,7 +116,7 @@ int	check_process(char **str, t_proc *proc, t_data *data)
 	int	i;
 	int	size;
 	int	check;
-	
+
 	check = 0;
 	i = 0;
 	size = find_size_input_array(str);

@@ -46,26 +46,8 @@ int	count_len_word(char *str)
 	{
 		if (is_white_space(str) == 1 && single_quote == 0 && double_quotes == 0)
 			break ;
-		else if (*str == 39)
-		{
-			if (double_quotes == 0)
-			{
-				if (single_quote == 0)
-					single_quote = get_quote_flag(single_quote);
-				else
-					single_quote = 0;
-			}
-		}
-		else if (*str == 34)
-		{
-			if (single_quote == 0)
-			{
-				if (double_quotes == 0)
-					double_quotes = get_quote_flag(double_quotes);
-				else
-					double_quotes = 0;
-			}
-		}
+		else if (*str == 39 || *str == 34)
+			get_flag(&single_quote, &double_quotes, *str);
 		count++;
 		str++;
 	}
@@ -92,7 +74,6 @@ char	*get_single_str(char *str)
 	char	*temp;
 
 	size_string = find_len_token(str);
-	// printf("size strong %d\n", size_string);
 	if (size_string == -1)
 		return (NULL);
 	if (size_string == -1)
@@ -104,8 +85,8 @@ char	*get_single_str(char *str)
 	temp = single_str;
 	while (count < size_string)
 	{
-			*temp++ = *str++;
-			count++;
+		*temp++ = *str++;
+		count++;
 	}
 	*temp = '\0';
 	return (single_str);
@@ -157,7 +138,6 @@ int	get_array_pipes(char **process, t_data *data)
 		if (proc->cmd == NULL)
 			return (-1);
 		ft_lstadd_back(&data->procs, wrapped_proc);
-		//free_array(proc->cmd);
 		i++;
 	}
 	if (check_redirection(data) == -1)
