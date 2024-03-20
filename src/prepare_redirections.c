@@ -16,11 +16,9 @@ int	redirection(char *str, char *next_str, t_proc *proc)
 {
 	int	single_quote;
 	int	double_quote;
-	int	count;
 
 	single_quote = 0;
 	double_quote = 0;
-	count = 0;
 	while (*str != '\0')
 	{
 		if (*str == 34)

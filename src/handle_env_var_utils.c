@@ -36,7 +36,7 @@ char	*create_exitcode(t_data *data, int *len_word)
 	value_var = ft_itoa(data->exitcode);
 	if (value_var == NULL)
 		return (NULL);
-	*len_word = ft_strlen(value_var);
+	*len_word = 1;
 	return (value_var);
 }
 
