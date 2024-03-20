@@ -38,8 +38,6 @@ SRCS	:=	./src/main.c \
 			./src/free.c \
 			./src/tools.c \
 			./src/check_path.c \
-			./src/error_message_tokens.c \
-			./src/error_message_tokens_utils.c \
 			./src/initialize_program.c \
 			./src/split_input_utils.c \
 			./src/builtins/ft_echo.c \
@@ -49,6 +47,11 @@ SRCS	:=	./src/main.c \
 			./src/builtins/ft_unset.c \
 			./src/builtins/ft_cd.c \
 			./src/builtins/ft_exit.c \
+			./src/print_array.c \
+			./src/split_processes.c \
+			./src/error_syntax_pipes.c \
+			./src/remove_quotes.c \
+			./src/prepare_redirections.c #./src/error_message_tokens.c ./src/error_message_tokens_utils.c
 			
 OBJS	:= ${SRCS:.c=.o}
 

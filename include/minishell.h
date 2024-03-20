@@ -103,65 +103,63 @@ typedef struct s_heredoc
 	char	*check;
 }t_heredoc;
 
-//check pipes
-int		check_pipe(char **str);
-
-//utils split input
-int		is_white_space(char *str);
-int		is_token(char *str);
-
-//main
-void	sig_handler(int signum);
-//initilize signals
+//initialize program.c
 void	initialize(char **argv, char argc, t_data *data, char **envp);
 void	initialize_signals(void);
-//handle env var
+void	sig_handler(int signum);
+//create env.c
+void	trans_env(t_data *data, char **envp);
+void	free_env(t_env *head);
+//utils env var
+char	*find_name_var(char *str);
+int		check_name_variable(char c);
+int		get_quote_flag(int flag);
+//utils trans env.c
+char	**get_item(char *str, char delimiter);
+
+//env variables
+//handle_env_var.c
 int		find_size(char *str, t_data *data);
 char	*find_name_var(char *str);
 char	*expand_input(char *str, t_data *data);
 char	*get_env_value(t_env *head, char *key);
-
-//find size env var
+//find size env var.c
 int		find_len(char *str);
 
-//trans_env
-void	trans_env(t_data *data, char **envp);
-void	free_env(t_env *head);
-
-//split_input
-char	**split_function(char *str, t_data *data);
-
-//check first argv
-void	execute_cmd(char **input, t_env *env, char **envp);
-
-//free functions
-int		free_strings(char *str1, char *str2, char **str3);
-void	free_input(char **input);
-
-//utils env var
-char	*find_name_var(char *str);
-int	check_name_variable(char c);
-int		get_quote_flag(int flag);
-
-//size split input
-int		find_len(char *str);
-int		find_size_array(char *str);
-
-//utils trans env
-char	**get_item(char *str, char delimiter);
-
-//crate input pipe at the end
-void	update_input(char **input);
+//create processes
+//split processes.c
+char	**split_pipes(char *str, t_data *data);
+//find size.c
 int		find_size_input_array(char **array);
+//get size.c
+int		find_len(char *str);
+int		count_commands(char *str);
+char	*traverse_token(char *str);
 
-//print error
-int	check_syntax_tokens(char *str, int index, t_data *data, int size_array);
-int	check_redirections(char **input);
+//create list procs
+int		get_array_pipes(char **process, t_data *data);
+//utils split input
+int		is_white_space(char *str);
+int		is_token(char *str);
 
-//error message tokens
+//prepare redirection.c
+//prepare tokens
+int		check_redirection(t_data *data);
+
+//clean up.c
+//remove quotes
+char	*remove_quotes(char *str);
+void	clean_up(t_list *list_proc);
+
+//errors
 void	print_error_token(int check);
-int		check_red_input(char *str, char *next_str);
-int		check_red_output(char *str, char *next_str);
+int		check_syntax_pipes(char *str, t_data *data, int check);
+
+//print array
+void	print_array(char **str);
+void	print_3d_array(char ***str);
+void	print_proc_items(t_list *head);
+
 
 // builtin
 int		exec_builtin(t_proc *proc, t_data *data);
@@ -221,7 +219,7 @@ void	ft_path_error(char *arg, int flag);
 
 //redirection
 int		is_redirection(char *str);
-void	prepare_redirection(t_proc *proc, char **input, int i);
+void	prepare_redirection(t_proc *proc, char *redirection, char *file_name);
 void	get_filename(t_proc *proc, char *file, int type);
 int		open_file(t_proc *proc, int type);
 int		open_outfile(t_proc *proc, int type);

@@ -12,6 +12,17 @@
 
 #include "../include/minishell.h"
 
+void	sig_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		ft_putstr_fd("\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
 void	initialize_signals(void)
 {
 	struct sigaction	action_1;
@@ -38,6 +49,7 @@ void	initialize(char **argv, char argc, t_data *data, char **envp)
 	(void)argc;
 	(void)argv;
 	trans_env(data, envp);
+	data->procs = NULL;
 	data->input = NULL;
 	data->exit = 0;
 	data->exitcode = 0;

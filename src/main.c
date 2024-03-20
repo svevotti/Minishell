@@ -16,22 +16,30 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-void	initialize_env(char **argv, char argc, t_data *data, char **envp);
-char	**get_split_input(char *str, t_data *data);
-int		child_process(char **input, t_env *env, char **envp);
+#define SUCCESS 0
+#define EMPTY 1
 
-void	sig_handler(int signum)
+int	get_split_input(char *str, t_data *data);
+int	get_input(t_data *data);
+
+int	main(int argc, char **argv, char **envp)
 {
-	if (signum == SIGINT)
+	t_data	data;
+
+	initialize(argv, argc, &data, envp);
+	while (1)
 	{
-		ft_putstr_fd("\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		if (get_input(&data) == SUCCESS)
+			data.exitcode = minishell(&data);
+		free_procs(data.procs);
+		data.procs = NULL;
+		free_array(data.input);
+		data.input = NULL;
 	}
+	return (0);
 }
 
-void	get_input(t_data *data)
+int	get_input(t_data *data)
 {
 	char	*line;
 
@@ -42,53 +50,39 @@ void	get_input(t_data *data)
 		exit(data->exitcode);
 	}
 	add_history(line);
-	if (ft_strlen(line))
-		data->input = get_split_input(line, data);
-	if (data->input)
+	if (ft_strlen(line) > 0)
 	{
-		if (check_redirections(data->input) == ERROR)
+		if (get_split_input(line, data) == -1)
 		{
 			free_array(data->input);
 			data->input = NULL;
-			data->exitcode = 2;
+			return (ERROR);
 		}
 	}
+	else
+		return (EMPTY);
 	free(line);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	t_data	data;
-
-	initialize(argv, argc, &data, envp);
-	while (1)
-	{
-		get_input(&data);
-		if (data.input)
-		{
-			data.exitcode = minishell(&data);
-			free_procs(data.procs);
-			free_array(data.input);
-			data.input = NULL;
-		}
-	}
 	return (0);
 }
 
-char	**get_split_input(char *str, t_data *data)
+int	get_split_input(char *str, t_data *data)
 {
-	char		*expanded_input;
-	char		**split_input;
+	char	*expanded_input;
+	char	**array_processes;
 
 	expanded_input = expand_input(str, data);
 	if (expanded_input == NULL)
-		return (NULL);
-	split_input = split_function(expanded_input, data);
-	if (split_input == NULL)
+		return (ERROR);
+	array_processes = split_pipes(expanded_input, data);
+	if (array_processes == NULL)
+		return (ERROR);
+	if (get_array_pipes(array_processes, data) == -1)
 	{
+		free_array(array_processes);
 		free(expanded_input);
-		return (NULL);
+		return (ERROR);
 	}
+	free_array(array_processes);
 	free(expanded_input);
-	return (split_input);
+	return (0);
 }

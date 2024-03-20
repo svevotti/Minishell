@@ -12,35 +12,9 @@
 
 #include "../include/minishell.h"
 
-int	check_errors_pipes(char *str, int index, t_data *data, int size_array)
-{
-	int	check;
-
-	check = 0;
-	if (index == 0 || index == size_array - 1)
-	{
-		if (ft_strlen(str) == 1)
-			print_error_token(ERROR_1PIPE);
-		else
-			print_error_token(ERROR_2PLUSPIPE);
-		data->exitcode = 2;
-		return (ERROR);
-	}
-	else
-	{
-		if (ft_strlen(str) > 1)
-		{
-			print_error_token(ERROR_2PLUSPIPE);
-			data->exitcode = 2;
-			return (ERROR);
-		}
-	}
-	return (check);
-}
-
 int	check_count_redirection(char *str, t_data *data, int type)
 {
-	int check;
+	int	check;
 
 	check = ft_strlen(str);
 	if (check > 2)
@@ -65,16 +39,14 @@ int	check_count_redirection(char *str, t_data *data, int type)
 	return (check);
 }
 
-int	check_syntax_tokens(char *str, int index, t_data *data, int size_array)
+int	check_syntax_tokens(char *str, t_data *data, int size_array)
 {
-	int check;
+	int	check;
 
 	check = 0;
 	if (data->flag_quotes == 0)
 	{
-		if (*str == '|')
-			check = check_errors_pipes(str, index, data, size_array);
-		else if (*str == '>')
+		if (*str == '>')
 			check = check_count_redirection(str, data, RED_INPUT);
 		else if (*str == '<')
 			check = check_count_redirection(str, data, RED_OUTPUT);
