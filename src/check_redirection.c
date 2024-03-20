@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smazzari <smazzari@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:47:24 by smazzari          #+#    #+#             */
-/*   Updated: 2024/03/20 14:47:25 by smazzari         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:20:35 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	check_syntax_redirection(char *str, char *next_str, t_proc *proc)
 		{
 			next_str = remove_quotes(next_str);
 			prepare_redirection(proc, str, next_str);
+			free(next_str);
 		}
 	}
 	else
