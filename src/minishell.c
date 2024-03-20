@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:40:16 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/20 14:32:17 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/20 15:33:03 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,7 @@ void	restore_std(int fdin, int fdout)
 int	minishell(t_data *data)
 {
 	int	exitcode;
-	t_list *list;
 
-	list = data->procs;
-	// printf("-----before execution\n");
-	// print_proc_items(list);
 	if (is_builtin(data->procs->content) && !data->procs->next)
 	{
 		data->exit = 1;
@@ -69,7 +65,5 @@ int	minishell(t_data *data)
 	else
 		exitcode = run_executor(data);
 	restore_std(data->std_in, data->std_out);
-	// printf("-----after execution\n");
-	// print_proc_items(list);
 	return (exitcode);
 }

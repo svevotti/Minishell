@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prepare_redirections.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smazzari <smazzari@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/20 14:48:11 by smazzari          #+#    #+#             */
+/*   Updated: 2024/03/20 14:48:12 by smazzari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
-int	redirection(char *str, char *next_str, t_proc *proc, t_data *data)
+int	redirection(char *str, char *next_str, t_proc *proc)
 {
 	int	single_quote;
 	int	double_quote;
@@ -12,88 +24,15 @@ int	redirection(char *str, char *next_str, t_proc *proc, t_data *data)
 	while (*str != '\0')
 	{
 		if (*str == 34)
-		{
-			if (single_quote == 0)
-			{
-				if (double_quote == 0)
-					double_quote = 1;
-				else
-					double_quote = 0;
-			}
-		}
+			get_flag(&single_quote, &double_quote, *str);
 		else if (*str == 39)
+			get_flag(&single_quote, &double_quote, *str);
+		else if (is_redirection(str) && single_quote == 0 && double_quote == 0)
 		{
-			if (double_quote == 0)
-			{
-				if (single_quote == 0)
-					single_quote = 1;
-				else
-					single_quote = 0;
-			}
-		}
-		else if (*str == '>')
-		{
-			if (single_quote == 0 && double_quote == 0)
-			{
-				count = ft_strlen(str);
-				if (count > 2)
-				{
-					if (count == 3)
-						print_error_token(ERROR_3REDIRECTION_INPUT);
-					else if (count > 3)
-						print_error_token(ERROR_4PLUSREDIRECTION_INPUT);
-					return (ERROR);
-				}
-				else if (ft_strlen(next_str) == 0)
-				{
-					if (count == 1 || count == 2)
-						print_error_token(ERROR_REDIRECTION_INPUT);
-					else if (count == 3)
-						print_error_token(ERROR_3REDIRECTION_INPUT);
-					else if (count > 3)
-						print_error_token(ERROR_4PLUSREDIRECTION_INPUT);
-					return (ERROR);
-				}
-				else
-				{
-					next_str = remove_quotes(next_str);
-					prepare_redirection(proc, str, next_str);
-					return (1);
-				}
-			}
-		}
-		else if (*str == '<')
-		{
-			if (single_quote == 0 && double_quote == 0)
-			{
-				count = ft_strlen(str);
-				if (count > 2)
-				{
-					if (count == 3)
-						print_error_token(ERROR_4REDIRECTION_OUTPUT);
-					else if (count > 3)
-						print_error_token(ERROR_5PLUSREDIRECTION_OUTPUT);
-					data->exitcode = 2;
-					return (ERROR);
-				}
-				if (ft_strlen(next_str) == 0)
-				{
-					if (count == 1 || count == 2)
-						print_error_token(ERROR_REDIRECTION_OUTPUT);
-					else if (count == 3)
-						print_error_token(ERROR_4REDIRECTION_OUTPUT);
-					else if (count > 3)
-						print_error_token(ERROR_5PLUSREDIRECTION_OUTPUT);
-					data->exitcode = 2;
-					return (ERROR);
-				}
-				else
-				{
-					next_str = remove_quotes(next_str);
-					prepare_redirection(proc, str, next_str);
-					return (1);
-				}
-			}
+			if (check_syntax_redirection(str, next_str, proc) == -1)
+				return (ERROR);
+			else
+				return (1);
 		}
 		str++;
 	}
@@ -104,14 +43,19 @@ int	check_process(char **str, t_proc *proc, t_data *data)
 {
 	int	i;
 	int	size;
-	int	check = 0;
+	int	check;
+
+	check = 0;
 	i = 0;
 	size = find_size_input_array(str);
 	while (i < size)
 	{
-		check = redirection(str[i], str[i + 1], proc, data);
+		check = redirection(str[i], str[i + 1], proc);
 		if (check == -1)
+		{
+			data->exitcode = 2;
 			return (ERROR);
+		}
 		else if (check == 1)
 			i++;
 		i++;
