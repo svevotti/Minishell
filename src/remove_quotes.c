@@ -122,7 +122,6 @@ t_list	*get_clean_command_list(char **tokens)
 			token = remove_quotes(tokens[i]);
 			wrapped_token = ft_lstnew(token);
 			ft_lstadd_back(&wrapped_token_head, wrapped_token);
-			free(token);
 		}
 		i++;
 	}

@@ -157,7 +157,7 @@ int	get_array_pipes(char **process, t_data *data)
 		if (proc->cmd == NULL)
 			return (-1);
 		ft_lstadd_back(&data->procs, wrapped_proc);
-		free_array(proc->cmd);
+		//free_array(proc->cmd);
 		i++;
 	}
 	if (check_redirection(data) == -1)

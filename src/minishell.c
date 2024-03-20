@@ -53,11 +53,11 @@ void	restore_std(int fdin, int fdout)
 int	minishell(t_data *data)
 {
 	int	exitcode;
-	t_list *list;
+	// t_list *list;
 
-	list = data->procs;
-	printf("-----before execution\n");
-	print_proc_items(list);
+	// list = data->procs;
+	// printf("-----before execution\n");
+	// print_proc_items(list);
 	if (is_builtin(data->procs->content) && !data->procs->next)
 	{
 		data->exit = 1;
