@@ -15,7 +15,7 @@
 void	copy_str_without_quotes(char *new, char *str)
 {
 	int	single_quotes;
-	int double_quotes;
+	int	double_quotes;
 
 	single_quotes = 0;
 	double_quotes = 0;

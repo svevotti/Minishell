@@ -160,7 +160,7 @@ int		check_syntax_redirection(char *str, char *next_str, t_proc *proc);
 char	*remove_quotes(char *str);
 void	clean_up(t_list *list_proc);
 //utils.c
-int	find_len_str(char *str);
+int		find_len_str(char *str);
 
 //errors
 void	print_error_token(int check);

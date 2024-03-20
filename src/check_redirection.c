@@ -67,33 +67,47 @@ int	check_error_redirection(char *str, int type)
 	return (0);
 }
 
+int	check_redirection_input(char *str, char *next_str, t_proc *proc)
+{
+	if (check_error_redirection(str, RED_INPUT) == -1)
+		return (ERROR);
+	if (check_next_str(str, next_str, RED_INPUT) == -1)
+		return (ERROR);
+	else
+	{
+		next_str = remove_quotes(next_str);
+		prepare_redirection(proc, str, next_str);
+		free(next_str);
+	}
+	return (0);
+}
+
+int	check_redirection_output(char *str, char *next_str, t_proc *proc)
+{
+	if (check_error_redirection(str, RED_OUTPUT) == -1)
+		return (ERROR);
+	if (check_next_str(str, next_str, RED_OUTPUT) == -1)
+		return (ERROR);
+	else
+	{
+		next_str = remove_quotes(next_str);
+		prepare_redirection(proc, str, next_str);
+		free(next_str);
+	}
+	return (0);
+}
+
 int	check_syntax_redirection(char *str, char *next_str, t_proc *proc)
 {
 	if (*str == '>')
 	{
-		if (check_error_redirection(str, RED_INPUT) == -1)
+		if (check_redirection_input(str, next_str, proc) == -1)
 			return (ERROR);
-		if (check_next_str(str, next_str, RED_INPUT) == -1)
-			return (ERROR);
-		else
-		{
-			next_str = remove_quotes(next_str);
-			prepare_redirection(proc, str, next_str);
-			free(next_str);
-		}
 	}
 	else
 	{
-		if (check_error_redirection(str, RED_OUTPUT) == -1)
+		if (check_redirection_output(str, next_str, proc) == -1)
 			return (ERROR);
-		if (check_next_str(str, next_str, RED_OUTPUT) == -1)
-			return (ERROR);
-		else
-		{
-			next_str = remove_quotes(next_str);
-			prepare_redirection(proc, str, next_str);
-			free(next_str);
-		}
 	}
 	return (0);
 }

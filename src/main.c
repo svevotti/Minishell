@@ -20,7 +20,6 @@ int	g_sig;
 // $? invalid read of size 1
 // check number of quotes = even
 
-
 int	get_split_input(char *str, t_data *data);
 int	get_input(t_data *data);
 
@@ -47,12 +46,30 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
+int	check_quotes(char *str)
+{
+	int	single_quote;
+	int	double_quote;
+
+	single_quote = 0;
+	double_quote = 0;
+	while (*str != '\0')
+	{
+		if (*str == 34)
+			get_flag(&single_quote, &double_quote, *str);
+		else if (*str == 39)
+			get_flag(&single_quote, &double_quote, *str);
+		str++;
+	}
+	if (single_quote != 0 || double_quote != 0)
+		return (ERROR);
+	return (0);
+}
+
 int	get_input(t_data *data)
 {
 	char	*line;
 
-	int single_quote = 0;
-	int double_quote = 0;
 	line = readline("(=^･^=) ");
 	check_for_signal(data);
 	if (line == NULL)
@@ -61,21 +78,6 @@ int	get_input(t_data *data)
 		exit(data->exitcode);
 	}
 	add_history(line);
-	char *temp;
-	temp = line;
-	while (*temp != '\0')
-	{
-		if (*temp == 34)
-			get_flag(&single_quote, &double_quote, *temp);
-		else if (*temp == 39)
-			get_flag(&single_quote, &double_quote, *temp);
-		temp++;
-	}
-	if (single_quote != 0 || double_quote != 0)
-	{
-		free(line);
-		return (ERROR);
-	}
 	if (ft_strlen(line) > 0)
 	{
 		if (get_split_input(line, data) == -1)
@@ -97,6 +99,8 @@ int	get_split_input(char *str, t_data *data)
 	char	*expanded_input;
 	char	**array_processes;
 
+	if (check_quotes(str) != 0)
+		return (ERROR);
 	expanded_input = expand_input(str, data);
 	if (expanded_input == NULL)
 		return (ERROR);
