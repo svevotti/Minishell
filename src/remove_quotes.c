@@ -132,6 +132,8 @@ void	clean_up(t_list *list_proc)
 {
 	t_proc	*proc;
 
+	// printf("before removing quotes\n");
+	// print_proc_items(list_proc);
 	while (list_proc != NULL)
 	{
 		proc = list_proc->content;

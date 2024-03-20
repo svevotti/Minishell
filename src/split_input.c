@@ -63,7 +63,7 @@ int	count_len_word(char *str)
 				if (double_quotes == 0)
 					double_quotes = get_quote_flag(double_quotes);
 				else
-					single_quote = 0;
+					double_quotes = 0;
 			}
 		}
 		count++;
@@ -92,6 +92,7 @@ char	*get_single_str(char *str)
 	char	*temp;
 
 	size_string = find_len_token(str);
+	// printf("size strong %d\n", size_string);
 	if (size_string == -1)
 		return (NULL);
 	if (size_string == -1)
@@ -125,6 +126,7 @@ char	**split_tokens(char *str, t_data *data)
 	i = 0;
 	while (i < commands_nbr)
 	{
+		// printf("str %s\n", str);
 		while (*str == ' ' || *str == '\n' || *str == '\t')
 			str++;
 		single_str = get_single_str(str);
