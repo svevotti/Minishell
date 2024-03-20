@@ -33,7 +33,10 @@ char	*get_new_string(char *new_str, char *str, t_data *data, int flag)
 	char	*value_var;
 
 	temp = new_str;
-	while (*str != '\0')
+	len_word = 0;
+	int count = 0;
+	int size = find_size(str, data);
+	while (count < size)
 	{
 		if (*str == '$' && flag == 0 && check_name_variable(*(str + 1)) == 1)
 		{
@@ -43,12 +46,14 @@ char	*get_new_string(char *new_str, char *str, t_data *data, int flag)
 			while (*value_var != '\0')
 				*temp++ = *value_var++;
 			str += len_word;
+			count += len_word;
 		}
 		else
 		{
 			if (*str == 39)
 				flag = get_quote_flag(flag);
 			*temp++ = *str++;
+			count++;
 		}
 	}
 	*temp = '\0';
