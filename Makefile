@@ -55,7 +55,7 @@ SRCS	:=	./src/main.c \
 			./src/split_input_utils2.c \
 			./src/handle_env_var_utils.c \
 			./src/check_redirection.c \
-			./src/remove_quotes_utils.c
+			./src/remove_quotes_utils.c \
 			./src/signals.c
       
 OBJS	:= ${SRCS:.c=.o}
