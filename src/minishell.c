@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:40:16 by joschka           #+#    #+#             */
-/*   Updated: 2024/03/14 15:56:59 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/20 12:08:17 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	run_executor(t_data *data)
 	pid = fork();
 	if (pid == -1)
 		return (just_for_norm());
+	handle_signals_child(pid);
 	if (pid == 0)
 	{
 		status = executor(data, data->procs);

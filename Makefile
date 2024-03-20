@@ -6,7 +6,7 @@
 #    By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/20 14:49:17 by jbeck             #+#    #+#              #
-#    Updated: 2024/03/15 16:31:39 by jbeck            ###   ########.fr        #
+#    Updated: 2024/03/20 12:08:26 by jbeck            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ SRCS	:=	./src/main.c \
 			./src/split_processes.c \
 			./src/error_syntax_pipes.c \
 			./src/remove_quotes.c \
-			./src/prepare_redirections.c #./src/error_message_tokens.c ./src/error_message_tokens_utils.c
+			./src/signals.c \
+			./src/prepare_redirections.c #./src/error_message_tokens.c ./src/error_message_tokens_utils.c \
 			
 OBJS	:= ${SRCS:.c=.o}
 

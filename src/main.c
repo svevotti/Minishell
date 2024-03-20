@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smazzari <smazzari@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 13:35:02 by smazzari          #+#    #+#             */
-/*   Updated: 2024/03/14 13:35:03 by smazzari         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:54:44 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 #define SUCCESS 0
 #define EMPTY 1
+int	g_sig;
 
 int	get_split_input(char *str, t_data *data);
 int	get_input(t_data *data);
@@ -29,12 +30,18 @@ int	main(int argc, char **argv, char **envp)
 	initialize(argv, argc, &data, envp);
 	while (1)
 	{
+		if (pipe(data.exit_fd) == -1)
+			perror("pipe");
+		handle_signals_main();
 		if (get_input(&data) == SUCCESS)
 			data.exitcode = minishell(&data);
 		free_procs(data.procs);
 		data.procs = NULL;
 		free_array(data.input);
 		data.input = NULL;
+		close(data.exit_fd[1]);
+		read(data.exit_fd[0], &data.exitcode, sizeof(int));
+		close(data.exit_fd[0]);
 	}
 	return (0);
 }
@@ -44,6 +51,7 @@ int	get_input(t_data *data)
 	char	*line;
 
 	line = readline("(=^･^=) ");
+	check_for_signal(data);
 	if (!line)
 	{
 		free_env(data->env);

@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:32:21 by jbeck             #+#    #+#             */
-/*   Updated: 2024/03/15 16:34:33 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/20 12:08:38 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_data
 	int		exit;
 	int		exitcode;
 	int		flag_quotes;
+	int		exit_fd[2];
 }t_data;
 
 typedef struct s_heredoc
@@ -105,8 +106,7 @@ typedef struct s_heredoc
 
 //initialize program.c
 void	initialize(char **argv, char argc, t_data *data, char **envp);
-void	initialize_signals(void);
-void	sig_handler(int signum);
+
 //create env.c
 void	trans_env(t_data *data, char **envp);
 void	free_env(t_env *head);
@@ -229,5 +229,10 @@ char	*get_here_str(char *delimiter);
 void	init_doc(t_heredoc *doc);
 char	*ft_herejoin(char *str, char *join);
 char	*fill_str(char *line, char *str, char *join);
+
+//signals
+void	handle_signals_child(int pid);
+void	handle_signals_main(void);
+void	check_for_signal(t_data *data);
 
 #endif
