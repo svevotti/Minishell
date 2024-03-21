@@ -50,7 +50,7 @@ int	ft_strlen1(char *str)
 		if (check_name(*str) == 1)
 			len++;
 		else
-			break;
+			break ;
 		str++;
 	}
 	return (len);
