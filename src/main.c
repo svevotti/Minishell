@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 13:35:02 by smazzari          #+#    #+#             */
-/*   Updated: 2024/03/20 18:10:10 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/21 12:32:20 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	get_input(t_data *data)
 {
 	char	*line;
 
-	line = readline("(=^･^=) ");
+	line = readline("\x1b[36mMINISHELL--▸ \x1b[0m");
 	check_for_signal(data);
 	if (line == NULL)
 	{

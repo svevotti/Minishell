@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:32:21 by jbeck             #+#    #+#             */
-/*   Updated: 2024/03/21 11:16:18 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/21 12:32:51 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,6 @@
 # define UNSET	5
 # define CD		6
 # define EXIT	7
-
-# define ANSI_RESET		"\x1b[0m"
-# define ANSI_RED		"\x1b[31m"
-# define ANSI_GREEN		"\x1b[32m"
-# define ANSI_YELLOW	"\x1b[33m"
-# define ANSI_BLUE		"\x1b[34m"
-# define ANSI_MAGENT	"\x1b[35m"
-# define ANSI_CYAN		"\x1b[36m"
 
 # define TRUNC_OUTFILE 1
 # define APPEND_OUTFILE 2
@@ -166,7 +158,6 @@ int		find_len_str(char *str);
 //errors
 void	print_error_token(int check);
 int		check_syntax_pipes(char *str, t_data *data, int check);
-
 
 // builtin
 int		exec_builtin(t_proc *proc, t_data *data);
