@@ -19,12 +19,18 @@ int	get_quote_flag(int flag)
 	return (0);
 }
 
-int	is_slash(char *str)
+int	is_name(char *str)
 {
 	str++;
-	if (*str == 92 || *str == 47)
-		return (1);
-	return (0);
+	if (ft_isalpha(*str) == 1)
+		return (0);
+	if (ft_isdigit(*str) == 1)
+		return (0);
+	if (ft_strcmp(str, "_") == 0)
+		return (0);
+	if (*str == '?')
+		return (0);
+	return (1);
 }
 
 int	check_name(char c)
