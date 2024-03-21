@@ -30,12 +30,9 @@ void	copy_new_string(char *new_str, char *str, t_data *data, int flag)
 {
 	int		len_word;
 	char	*value_var;
-	char	*temp;
 	char	*tmp;
 
-	temp = new_str;
-	len_word = 0;
-	while (*str)
+	while (*str != '\0')
 	{
 		if (*str == '$' && flag == 0 && check_name_variable(*(str + 1)) == 1)
 		{
@@ -44,7 +41,7 @@ void	copy_new_string(char *new_str, char *str, t_data *data, int flag)
 				return ;
 			tmp = value_var;
 			while (*value_var != '\0')
-				*temp++ = *value_var++;
+				*new_str++ = *value_var++;
 			str += len_word;
 			free(tmp);
 		}
@@ -52,7 +49,7 @@ void	copy_new_string(char *new_str, char *str, t_data *data, int flag)
 		{
 			if (*str == 39)
 				flag = get_quote_flag(flag);
-			*temp++ = *str++;
+			*new_str++ = *str++;
 		}
 	}
 }

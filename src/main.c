@@ -38,7 +38,6 @@ int	main(int argc, char **argv, char **envp)
 			data.exitcode = minishell(&data);
 		free_procs(data.procs);
 		data.procs = NULL;
-
 		close(data.exit_fd[1]);
 		read(data.exit_fd[0], &data.exitcode, sizeof(int));
 		close(data.exit_fd[0]);

@@ -154,6 +154,8 @@ int		is_token(char *str);
 int		check_redirection(t_data *data);
 //check redirection.c
 int		check_syntax_redirection(char *str, char *next_str, t_proc *proc);
+//check file name.c
+int		check_file_name(char *str, int size);
 
 //clean up.c
 //remove quotes
