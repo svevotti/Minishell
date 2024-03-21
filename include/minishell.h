@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:32:21 by jbeck             #+#    #+#             */
-/*   Updated: 2024/03/20 12:42:59 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/21 11:16:18 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ typedef struct s_data
 {
 	t_env	*env;
 	t_list	*procs;
-	char	**input;
 	char	*line;
 	int		std_in;
 	int		std_out;
@@ -154,22 +153,20 @@ int		is_token(char *str);
 int		check_redirection(t_data *data);
 //check redirection.c
 int		check_syntax_redirection(char *str, char *next_str, t_proc *proc);
+//check file name.c
+int		check_file_name(char *str, int size);
 
 //clean up.c
 //remove quotes
 char	*remove_quotes(char *str);
 void	clean_up(t_list *list_proc);
 //utils.c
-int	find_len_str(char *str);
+int		find_len_str(char *str);
 
 //errors
 void	print_error_token(int check);
 int		check_syntax_pipes(char *str, t_data *data, int check);
 
-//print array
-void	print_array(char **str);
-void	print_3d_array(char ***str);
-void	print_proc_items(t_list *head);
 
 // builtin
 int		exec_builtin(t_proc *proc, t_data *data);
@@ -193,11 +190,8 @@ void	free_array(char **arr);
 void	free_data(t_data *data);
 
 // parse
-void	parse_cmds(t_data *data);
-void	fill_cmd_nodes(t_list *procs, t_data *data);
 t_proc	*init_cmd(int id);
 void	list_to_array(t_proc *proc);
-void	create_cmd_list(t_data *data);
 
 // env
 void	trans_env(t_data *data, char **envp);

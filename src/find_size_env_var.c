@@ -18,7 +18,6 @@ int	get_len_var(char *str, int *len_name_var, t_data *data)
 	char	*value_var;
 	int		len_var;
 
-	len_var = 0;
 	name_var = NULL;
 	if (*str == '?')
 	{
@@ -34,10 +33,11 @@ int	get_len_var(char *str, int *len_name_var, t_data *data)
 		if (name_var == NULL)
 			return (-1);
 		*len_name_var = ft_strlen(name_var);
-		value_var = getenv(name_var);
-		len_var = len_var + ft_strlen(value_var);
+		value_var = get_env_value(data->env, name_var);
+		len_var = ft_strlen(value_var);
 	}
 	free(name_var);
+	free(value_var);
 	return (len_var);
 }
 

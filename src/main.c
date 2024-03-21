@@ -19,7 +19,7 @@ int	g_sig;
 // /usr/local/sbin/: Is a directory
 // $? invalid read of size 1
 // check number of quotes = even
-
+// all handle and add line 48 at exec.c if ''
 
 int	get_split_input(char *str, t_data *data);
 int	get_input(t_data *data);
@@ -38,12 +38,30 @@ int	main(int argc, char **argv, char **envp)
 			data.exitcode = minishell(&data);
 		free_procs(data.procs);
 		data.procs = NULL;
-		free_array(data.input);
-		data.input = NULL;
 		close(data.exit_fd[1]);
 		read(data.exit_fd[0], &data.exitcode, sizeof(int));
 		close(data.exit_fd[0]);
 	}
+	return (0);
+}
+
+int	check_quotes(char *str)
+{
+	int	single_quote;
+	int	double_quote;
+
+	single_quote = 0;
+	double_quote = 0;
+	while (*str != '\0')
+	{
+		if (*str == 34)
+			get_flag(&single_quote, &double_quote, *str);
+		else if (*str == 39)
+			get_flag(&single_quote, &double_quote, *str);
+		str++;
+	}
+	if (single_quote != 0 || double_quote != 0)
+		return (ERROR);
 	return (0);
 }
 
@@ -53,12 +71,7 @@ int	get_input(t_data *data)
 
 	line = readline("(=^･^=) ");
 	check_for_signal(data);
-	// if (only whitespaces)
-	// {
-		// free(line);
-		// return (ERROR);
-	// }
-	if (!line)
+	if (line == NULL)
 	{
 		free_env(data->env);
 		exit(data->exitcode);
@@ -68,16 +81,17 @@ int	get_input(t_data *data)
 	{
 		if (get_split_input(line, data) == -1)
 		{
-			free_array(data->input);
-			data->input = NULL;
 			free(line);
 			return (ERROR);
 		}
 	}
 	else
+	{
+		free(line);
 		return (EMPTY);
+	}
 	free(line);
-	return (0);
+	return (SUCCESS);
 }
 
 int	get_split_input(char *str, t_data *data)
@@ -85,6 +99,8 @@ int	get_split_input(char *str, t_data *data)
 	char	*expanded_input;
 	char	**array_processes;
 
+	if (check_quotes(str) != 0)
+		return (ERROR);
 	expanded_input = expand_input(str, data);
 	if (expanded_input == NULL)
 		return (ERROR);

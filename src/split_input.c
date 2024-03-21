@@ -49,7 +49,6 @@ int	get_array_pipes(char **process, t_data *data)
 
 	size_array_tokens = find_size_input_array(process);
 	i = 0;
-	data->procs = NULL;
 	while (i < size_array_tokens)
 	{
 		proc = init_cmd(i);

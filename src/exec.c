@@ -37,7 +37,7 @@ char	*get_path(char *cmd, t_env *env)
 	char	**paths;
 	char	*cmdpath;
 
-	if (!var_exists("PATH", env))
+	if (ft_strlen(cmd) == 0 || !var_exists("PATH", env))
 		return (NULL);
 	while (ft_strncmp(env->str, "PATH=", 5) != 0)
 		env = env->next;

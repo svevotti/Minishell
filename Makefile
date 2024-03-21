@@ -6,19 +6,19 @@
 #    By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/20 14:49:17 by jbeck             #+#    #+#              #
-#    Updated: 2024/03/20 12:08:26 by jbeck            ###   ########.fr        #
+#    Updated: 2024/03/21 11:24:49 by jbeck            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:= minishell
 
-CFLAGS	:= -Wextra -Wall -Werror -g -I ./includes/ -I/opt/homebrew/opt/readline/include
+CFLAGS	:= -Wextra -Wall -Werror -g -I ./includes/
 
 LIBFT	:= ./libft
 
 LKLIBFT	:= -L $(LIBFT) -lft
 
-LIBS	:= $(LKLIBFT) -L/opt/homebrew/opt/readline/lib -lreadline
+LIBS	:= $(LKLIBFT) -lreadline
 SRCS	:=	./src/main.c \
 			./src/handle_env_var.c \
 			./src/trans_env.c \
@@ -47,7 +47,6 @@ SRCS	:=	./src/main.c \
 			./src/builtins/ft_unset.c \
 			./src/builtins/ft_cd.c \
 			./src/builtins/ft_exit.c \
-			./src/print_array.c \
 			./src/split_processes.c \
 			./src/error_syntax_pipes.c \
 			./src/remove_quotes.c \
@@ -56,7 +55,8 @@ SRCS	:=	./src/main.c \
 			./src/handle_env_var_utils.c \
 			./src/check_redirection.c \
 			./src/remove_quotes_utils.c \
-			./src/signals.c
+			./src/signals.c \
+			./src/check_next_file.c
       
 OBJS	:= ${SRCS:.c=.o}
 

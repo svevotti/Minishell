@@ -18,6 +18,8 @@ int	is_token(char *str)
 		return (1);
 	if (*str == '<')
 		return (1);
+	if (*str == '|')
+		return (1);
 	return (0);
 }
 

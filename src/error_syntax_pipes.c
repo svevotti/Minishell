@@ -56,18 +56,18 @@ int	check_first(char *str)
 	return (0);
 }
 
-int	check_last(char *str)
+int	check_last(char *str, int len)
 {
 	char	*temp;
 	int		pipe_number;
 
-	pipe_number = 0;
-	temp = str + ft_strlen(str) - 1;
-	while (*temp == ' ' || *temp == '\t' || *temp == '\n')
-		temp--;
-	if (*str != 34 || *str != 39)
+	if (len > 1)
 	{
-		if (*temp == '|')
+		pipe_number = 0;
+		temp = str + len - 1;
+		while (*temp == ' ' || *temp == '\t' || *temp == '\n')
+			temp--;
+		if (*temp == '|' && *str != 34 && *str != 39)
 		{
 			while (*temp == '|')
 			{
@@ -107,9 +107,12 @@ int	check_number(char *str)
 
 int	check_syntax_pipes(char *str, t_data *data, int check)
 {
+	int	len;
+
 	if (check == 1)
 	{
-		if (check_first(str) == -1 || check_last(str) == -1)
+		len = ft_strlen(str);
+		if (check_first(str) == -1 || check_last(str, len) == -1)
 		{
 			data->exitcode = 2;
 			return (ERROR);
