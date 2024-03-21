@@ -6,19 +6,19 @@
 #    By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/20 14:49:17 by jbeck             #+#    #+#              #
-#    Updated: 2024/03/21 11:16:44 by jbeck            ###   ########.fr        #
+#    Updated: 2024/03/21 11:24:49 by jbeck            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:= minishell
 
-CFLAGS	:= -Wextra -Wall -Werror -g -I ./includes/ -I/opt/homebrew/opt/readline/include
+CFLAGS	:= -Wextra -Wall -Werror -g -I ./includes/
 
 LIBFT	:= ./libft
 
 LKLIBFT	:= -L $(LIBFT) -lft
 
-LIBS	:= $(LKLIBFT) -L/opt/homebrew/opt/readline/lib -lreadline
+LIBS	:= $(LKLIBFT) -lreadline
 SRCS	:=	./src/main.c \
 			./src/handle_env_var.c \
 			./src/trans_env.c \
