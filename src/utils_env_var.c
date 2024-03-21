@@ -33,7 +33,7 @@ int	check_name(char c)
 		return (1);
 	if (ft_isdigit(c) == 1)
 		return (1);
-	if (strncmp(&c, "_", 1) == 0)
+	if (ft_strcmp(&c, "_") == 0)
 		return (1);
 	if (c == '?')
 		return (1);
