@@ -28,9 +28,10 @@ char	*get_str(char *str, t_data *data)
 
 void	copy_new_string(char *new_str, char *str, t_data *data, int flag)
 {
-	char	*temp;
 	int		len_word;
 	char	*value_var;
+	char	*temp;
+	char	*tmp;
 
 	temp = new_str;
 	len_word = 0;
@@ -41,9 +42,11 @@ void	copy_new_string(char *new_str, char *str, t_data *data, int flag)
 			value_var = get_value(++str, data, &len_word);
 			if (value_var == NULL)
 				return ;
+			tmp = value_var;
 			while (*value_var != '\0')
 				*temp++ = *value_var++;
 			str += len_word;
+			free(tmp);
 		}
 		else
 		{

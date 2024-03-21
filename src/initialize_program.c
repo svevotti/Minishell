@@ -18,7 +18,6 @@ void	initialize(char **argv, char argc, t_data *data, char **envp)
 	(void)argv;
 	trans_env(data, envp);
 	data->procs = NULL;
-	data->input = NULL;
 	data->exit = 0;
 	data->exitcode = 0;
 	data->std_in = dup(STDIN_FILENO);

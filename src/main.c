@@ -19,6 +19,7 @@ int	g_sig;
 // /usr/local/sbin/: Is a directory
 // $? invalid read of size 1
 // check number of quotes = even
+// all handle and add line 48 at exec.c if ''
 
 int	get_split_input(char *str, t_data *data);
 int	get_input(t_data *data);
@@ -37,8 +38,7 @@ int	main(int argc, char **argv, char **envp)
 			data.exitcode = minishell(&data);
 		free_procs(data.procs);
 		data.procs = NULL;
-		free_array(data.input);
-		data.input = NULL;
+
 		close(data.exit_fd[1]);
 		read(data.exit_fd[0], &data.exitcode, sizeof(int));
 		close(data.exit_fd[0]);
@@ -82,8 +82,6 @@ int	get_input(t_data *data)
 	{
 		if (get_split_input(line, data) == -1)
 		{
-			free_array(data->input);
-			data->input = NULL;
 			free(line);
 			return (ERROR);
 		}

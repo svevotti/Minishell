@@ -19,7 +19,7 @@ char	*get_env_value(t_env *head, char *key)
 	while (head != NULL)
 	{
 		if (ft_strcmp(head->key, key) == 0)
-			return (head->value);
+			return (ft_strdup(head->value));
 		head = head->next;
 	}
 	value = (char *)malloc(sizeof(char) + 1);

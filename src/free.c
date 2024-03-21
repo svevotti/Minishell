@@ -77,6 +77,5 @@ void	free_array(char **arr)
 void	free_data(t_data *data)
 {
 	free_procs(data->procs);
-	free_array(data->input);
 	free_env(data->env);
 }
