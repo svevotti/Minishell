@@ -114,7 +114,7 @@ void	trans_env(t_data *data, char **envp);
 void	free_env(t_env *head);
 //utils env var
 char	*find_name_var(char *str);
-int		check_name_variable(char c);
+int		check_name(char c);
 int		get_quote_flag(int flag);
 //utils trans env.c
 char	**get_item(char *str, char delimiter);
