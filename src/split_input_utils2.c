@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_input_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smazzari <smazzari@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:47:53 by smazzari          #+#    #+#             */
-/*   Updated: 2024/03/20 14:47:54 by smazzari         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:06:00 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	find_len_token(char *str)
 		count = count_len_word(str);
 	return (count);
 }
-//10 9 11 9 6 5
+
 char	*get_single_str(char *str)
 {
 	int		size_string;

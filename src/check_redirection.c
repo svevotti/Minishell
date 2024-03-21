@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:47:24 by smazzari          #+#    #+#             */
-/*   Updated: 2024/03/20 18:42:11 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/03/21 15:01:16 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	check_redirection_input(char *str, char *next_str, t_proc *proc)
 	if (check_error_redirection(str, RED_INPUT) == -1)
 		return (ERROR);
 	if (check_next_str(str, next_str, RED_INPUT) == -1)
-			return (ERROR);
+		return (ERROR);
 	else
 	{
 		if (check_file_name(next_str, ft_strlen(next_str)) == -1)
@@ -91,7 +91,7 @@ int	check_redirection_output(char *str, char *next_str, t_proc *proc)
 	if (check_error_redirection(str, RED_OUTPUT) == -1)
 		return (ERROR);
 	if (check_next_str(str, next_str, RED_OUTPUT) == -1)
-			return (ERROR);
+		return (ERROR);
 	else
 	{
 		next_str = remove_quotes(next_str);
