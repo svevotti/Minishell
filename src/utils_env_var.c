@@ -47,7 +47,10 @@ int	ft_strlen1(char *str)
 	len = 0;
 	while (*str != '\0')
 	{
-		len++;
+		if (check_name(*str) == 1)
+			len++;
+		else
+			break;
 		str++;
 	}
 	return (len);
@@ -66,7 +69,10 @@ char	*find_name_var(char *str)
 		return (NULL);
 	while (i < len)
 	{
-		name_var[i] = str[i];
+		if (check_name(*str) == 1)
+			name_var[i] = str[i];
+		else
+			break ;
 		i++;
 	}
 	name_var[i] = '\0';
