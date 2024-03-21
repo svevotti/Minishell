@@ -44,7 +44,9 @@ int	count_len_word(char *str)
 	double_quotes = 0;
 	while (*str != '\0')
 	{
-		if (is_white_space(str) == 1 && single_quote == 0 && double_quotes == 0)
+		printf("c %c\n", *str);
+		if ((is_white_space(str) == 1 || is_token(str) == 1)
+			&& single_quote == 0 && double_quotes == 0)
 			break ;
 		else if (*str == 39 || *str == 34)
 			get_flag(&single_quote, &double_quotes, *str);
@@ -74,6 +76,7 @@ char	*get_single_str(char *str)
 	char	*temp;
 
 	size_string = find_len_token(str);
+	printf("string size %d\n", size_string);
 	if (size_string == -1)
 		return (NULL);
 	if (size_string == -1)
