@@ -14,13 +14,6 @@
 
 int	g_sig;
 
-// todo: whitespaces, change getenv to check size of our env var,
-// (=^･^=) "$test"
-// /usr/local/sbin/: Is a directory
-// $? invalid read of size 1
-// check number of quotes = even
-// all handle and add line 48 at exec.c if ''
-
 int	get_split_input(char *str, t_data *data);
 int	get_input(t_data *data);
 

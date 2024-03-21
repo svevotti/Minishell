@@ -19,6 +19,14 @@ int	get_quote_flag(int flag)
 	return (0);
 }
 
+int	is_slash(char *str)
+{
+	str++;
+	if (*str == 92 || *str == 47)
+		return (1);
+	return (0);
+}
+
 int	check_name(char c)
 {
 	if (ft_isalpha(c) == 1)
@@ -39,10 +47,7 @@ int	ft_strlen1(char *str)
 	len = 0;
 	while (*str != '\0')
 	{
-		if (check_name(*str) == 1)
-			len++;
-		else
-			break ;
+		len++;
 		str++;
 	}
 	return (len);
@@ -61,10 +66,7 @@ char	*find_name_var(char *str)
 		return (NULL);
 	while (i < len)
 	{
-		if (check_name(str[i]) == 1)
-			name_var[i] = str[i];
-		else
-			break ;
+		name_var[i] = str[i];
 		i++;
 	}
 	name_var[i] = '\0';

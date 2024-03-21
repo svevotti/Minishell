@@ -34,7 +34,7 @@ void	copy_new_string(char *new_str, char *str, t_data *data, int flag)
 
 	while (*str != '\0')
 	{
-		if (*str == '$' && flag == 0 && check_name(*(str + 1)) == 1)
+		if (*str == '$' && flag == 0 && is_slash(str) == 0)
 		{
 			value_var = get_value(++str, data, &len_word);
 			if (value_var == NULL)

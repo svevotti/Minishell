@@ -51,7 +51,7 @@ int	find_size(char *str, t_data *data)
 	quote_flag = 0;
 	while (*str != '\0')
 	{
-		if (*str == '$' && quote_flag == 0 && check_name(*(str + 1) == 1))
+		if (*str == '$' && quote_flag == 0 && is_slash(str) == 0)
 		{
 			total_len += get_len_var(str + 1, &len_name_var, data);
 			if (total_len == -1)

@@ -116,6 +116,7 @@ void	free_env(t_env *head);
 char	*find_name_var(char *str);
 int		check_name(char c);
 int		get_quote_flag(int flag);
+int		is_slash(char *str);
 //utils trans env.c
 char	**get_item(char *str, char delimiter);
 
@@ -166,7 +167,6 @@ int		find_len_str(char *str);
 //errors
 void	print_error_token(int check);
 int		check_syntax_pipes(char *str, t_data *data, int check);
-
 
 // builtin
 int		exec_builtin(t_proc *proc, t_data *data);
