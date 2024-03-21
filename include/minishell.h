@@ -108,7 +108,7 @@ void	free_env(t_env *head);
 char	*find_name_var(char *str);
 int		check_name(char c);
 int		get_quote_flag(int flag);
-int		is_slash(char *str);
+int		is_name(char *str);
 //utils trans env.c
 char	**get_item(char *str, char delimiter);
 
