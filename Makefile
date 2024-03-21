@@ -6,7 +6,7 @@
 #    By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/20 14:49:17 by jbeck             #+#    #+#              #
-#    Updated: 2024/03/20 12:08:26 by jbeck            ###   ########.fr        #
+#    Updated: 2024/03/21 11:16:44 by jbeck            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,6 @@ SRCS	:=	./src/main.c \
 			./src/builtins/ft_unset.c \
 			./src/builtins/ft_cd.c \
 			./src/builtins/ft_exit.c \
-			./src/print_array.c \
 			./src/split_processes.c \
 			./src/error_syntax_pipes.c \
 			./src/remove_quotes.c \
