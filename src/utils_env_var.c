@@ -19,7 +19,7 @@ int	get_quote_flag(int flag)
 	return (0);
 }
 
-int	check_name_variable(char c)
+int	check_name(char c)
 {
 	if (ft_isalpha(c) == 1)
 		return (1);
@@ -39,7 +39,7 @@ int	ft_strlen1(char *str)
 	len = 0;
 	while (*str != '\0')
 	{
-		if (check_name_variable(*str) == 1)
+		if (check_name(*str) == 1)
 			len++;
 		else
 			break ;
@@ -61,7 +61,7 @@ char	*find_name_var(char *str)
 		return (NULL);
 	while (i < len)
 	{
-		if (check_name_variable(str[i]) == 1)
+		if (check_name(str[i]) == 1)
 			name_var[i] = str[i];
 		else
 			break ;
