@@ -12,6 +12,8 @@
 
 NAME	:= minishell
 
+CC		:= cc
+
 CFLAGS	:= -Wextra -Wall -Werror -g -I ./includes/
 
 LIBFT	:= ./libft
